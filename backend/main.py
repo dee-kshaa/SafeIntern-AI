@@ -125,8 +125,8 @@ def rule_based_analysis(text: str) -> dict:
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
-    has_official_email = bool(re.search(r'[a-zA-Z0-9._%+-]{1,64}@(?!gmail\b|yahoo\b|hotmail\b|outlook\b)[a-zA-Z0-9-]{1,63}(?:\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6}', text))
-    has_website = bool(re.search(r'https?://(?!t\.me|wa\.me)[a-zA-Z0-9-]{1,63}(?:\.[a-zA-Z0-9-]{1,63})*\.[a-zA-Z]{2,6}', text))
+    has_official_email = bool(re.search(r'[a-zA-Z0-9._%+-]{1,64}@(?!gmail\b|yahoo\b|hotmail\b|outlook\b)[a-zA-Z0-9-]{1,63}(?:\.[a-zA-Z0-9-]{1,63}){0,5}\.[a-zA-Z]{2,6}', text))
+    has_website = bool(re.search(r'https?://(?!t\.me|wa\.me)[a-zA-Z0-9-]{1,63}(?:\.[a-zA-Z0-9-]{1,63}){0,5}\.[a-zA-Z]{2,6}', text))
 
     if (telegram_mention or whatsapp_mention) and not has_official_email and not has_website:
         flags.append("Only informal contact (Telegram/WhatsApp) with no official website or email")
