@@ -22,9 +22,10 @@ app.add_middleware(
 
 REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
-SIGNAL_FLAG_WEIGHT = 2
 
 # Keywords requesting identity proofs — a major data-harvesting red flag
+# NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
+# found in scam messages targeting Indian students.
 IDENTITY_PROOF_KEYWORDS = [
     "aadhaar", "aadhar", "pan card", "pan number", "passport copy", "passport number",
     "id proof", "id card", "driving licence", "driving license", "voter id", "birth certificate",
@@ -341,7 +342,9 @@ def rule_based_analysis(text: str) -> dict:
     if language_credibility < 50:
         base_probability += 15
     heuristic_probability = min(base_probability + len(flags) * HEURISTIC_FLAG_WEIGHT, 99)
-    signal_probability = min(scam_signal_score + len(flags) * SIGNAL_FLAG_WEIGHT, 99)
+    # signal_probability is derived purely from accumulated pattern scores to avoid
+    # double-counting flags (which are already used in heuristic_probability).
+    signal_probability = min(scam_signal_score, 99)
     scam_probability = max(heuristic_probability, signal_probability)
     risk_level = risk_level_from_probability(scam_probability)
 
