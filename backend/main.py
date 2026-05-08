@@ -159,8 +159,21 @@ def rule_based_analysis(text: str) -> dict:
     phishing_keywords = ["verify your details", "click here", "login to claim", "confirm your account", "update your information", "verify now"]
     suspicious_domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]
     unrealistic_pay = ["10 lakh", "1 crore", "₹1,00,000", "₹50,000 per month", "earn 50000", "earn 1 lakh"]
-    fake_internship_claims = ["work from home", "wfh", "part time", "data entry", "no interview", "no experience", "guaranteed placement", "direct selection", "easy money", "earn daily", "dm for details", "message me directly"]
+    fake_internship_claims = {
+        "work from home": "remote_lure",
+        "wfh": "remote_lure",
+        "data entry": "low-effort-role",
+        "no interview": "no-screening",
+        "no experience": "no-screening",
+        "guaranteed placement": "guaranteed-selection",
+        "direct selection": "guaranteed-selection",
+        "easy money": "easy-income",
+        "earn daily": "easy-income",
+        "dm for details": "off-platform-contact",
+        "message me directly": "off-platform-contact",
+    }
     scam_signal_score = 0
+    matched_fake_lure_concepts = set()
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -213,12 +226,14 @@ def rule_based_analysis(text: str) -> dict:
             language_credibility = max(language_credibility - 20, 10)
             scam_signal_score += 15
 
-    for kw in fake_internship_claims:
+    for kw, concept in fake_internship_claims.items():
         if kw in text_lower:
             flags.append(f"Common fake internship lure detected: '{kw}'")
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 12, 10)
-            scam_signal_score += 10
+            if concept not in matched_fake_lure_concepts:
+                scam_signal_score += 10
+                matched_fake_lure_concepts.add(concept)
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
@@ -232,16 +247,16 @@ def rule_based_analysis(text: str) -> dict:
         company_presence = max(company_presence - 30, 10)
         scam_signal_score += 20
 
-    scam_probability = 0
+    base_probability = 0
     if payment_risk > 50:
-        scam_probability += 40
+        base_probability += 40
     if recruiter_authenticity < 50:
-        scam_probability += 25
+        base_probability += 25
     if company_presence < 50:
-        scam_probability += 20
+        base_probability += 20
     if language_credibility < 50:
-        scam_probability += 15
-    heuristic_probability = min(scam_probability + len(flags) * 3, 99)
+        base_probability += 15
+    heuristic_probability = min(base_probability + len(flags) * 3, 99)
     signal_probability = min(scam_signal_score + len(flags) * 2, 99)
     scam_probability = max(heuristic_probability, signal_probability)
     risk_level = risk_level_from_probability(scam_probability)
