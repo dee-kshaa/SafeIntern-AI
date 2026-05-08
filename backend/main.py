@@ -22,6 +22,8 @@ app.add_middleware(
 
 REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
+# Configurable model: override with OLLAMA_MODEL env var if needed (e.g. "gemma3", "mistral")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
 
 # Keywords requesting identity proofs — a major data-harvesting red flag
 # NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
@@ -113,6 +115,68 @@ SOFTWARE_LICENSE_KEYWORDS = {
     "app fee": "download-fee",
 }
 
+# Check-cashing / wire-back schemes (Phase 5 red flag)
+CHECK_CASHING_KEYWORDS = {
+    "deposit the check": "check-cashing",
+    "cash the check": "check-cashing",
+    "cashier's check": "check-cashing",
+    "money order": "money-order",
+    "wire money back": "wire-back",
+    "send back the difference": "wire-back",
+    "western union": "money-transfer",
+    "moneygram": "money-transfer",
+    "zelle": "money-transfer",
+    "wire transfer": "wire-back",
+}
+
+# Vague or low-effort job descriptions (Phase 3)
+VAGUE_JOB_KEYWORDS = {
+    "earn online": "vague-role",
+    "earn from home": "vague-role",
+    "work from anywhere": "vague-role",
+    "click ads": "vague-task",
+    "fill surveys": "vague-task",
+    "complete surveys": "vague-task",
+    "watch videos": "vague-task",
+    "data collection": "vague-task",
+    "simple tasks": "vague-task",
+    "online typing": "vague-task",
+    "copy paste work": "vague-task",
+    "no skills required": "no-skills",
+    "anyone can do": "no-skills",
+    "no qualification required": "no-skills",
+    "flexible timing": "vague-role",
+    "part time online": "vague-role",
+}
+
+# Text-only or absent interview process (Phase 4)
+TEXT_ONLY_INTERVIEW_KEYWORDS = {
+    "interview on whatsapp": "text-interview",
+    "interview via whatsapp": "text-interview",
+    "interview via chat": "text-interview",
+    "interview on chat": "text-interview",
+    "chat interview": "text-interview",
+    "no video interview": "no-video",
+    "no video call": "no-video",
+    "selected based on resume": "no-screening",
+    "no need for interview": "no-screening",
+    "skip the interview": "no-screening",
+    "shortlisted directly": "no-screening",
+}
+
+# Global sensitive information (SSN, EIN etc.) — Phase 1 / Phase 6
+GLOBAL_SENSITIVE_INFO_KEYWORDS = {
+    "social security number": "ssn",
+    "social security": "ssn",
+    "ssn": "ssn",
+    "tax id number": "tax-id",
+    "tax identification": "tax-id",
+    "ein number": "tax-id",
+    "national insurance number": "national-id",
+    "national insurance": "national-id",
+    "national id": "national-id",
+}
+
 FAKE_INTERNSHIP_CLAIMS = {
     "work from home": "remote_lure",
     "wfh": "remote_lure",
@@ -136,6 +200,44 @@ def load_reports():
 def save_reports(reports):
     with open(REPORTS_FILE, "w") as f:
         json.dump(reports, f, indent=2)
+
+def extract_company_and_domain(text: str):
+    """Return (company_name, email_domain) heuristically extracted from text."""
+    email_match = re.search(r'[a-zA-Z0-9._%+-]+@([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})', text)
+    domain = email_match.group(1) if email_match else None
+
+    company_patterns = [
+        r'([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\s+(?:pvt|ltd|llc|inc|corp|company|technologies|solutions|services)',
+        r'([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\s+is\s+(?:hiring|looking)',
+        r'(?:from|at|by|team)\s+([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)',
+        r'([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\s+internship',
+    ]
+    company = None
+    for pattern in company_patterns:
+        match = re.search(pattern, text)
+        if match:
+            company = match.group(1).strip()
+            break
+    return company, domain
+
+def build_suggested_searches(company: Optional[str], domain: Optional[str]) -> List[str]:
+    """Build a list of verification search queries based on extracted company/domain."""
+    searches = []
+    if company:
+        searches.append(f'"{company}" scam OR fake internship')
+        searches.append(f'"{company}" reviews site:glassdoor.com OR site:indeed.com')
+        searches.append(f'"{company}" official LinkedIn company page')
+    if domain:
+        searches.append(f'WHOIS lookup for domain: {domain} (check registration date)')
+    if company:
+        searches.append(f'site:reddit.com/r/scams "{company}"')
+    if not searches:
+        searches = [
+            "Search company name + 'scam' on Google",
+            "Check company on LinkedIn",
+            "Verify company on Glassdoor or Indeed",
+        ]
+    return searches
 
 class AnalyzeRequest(BaseModel):
     text: str
@@ -278,6 +380,13 @@ def rule_based_analysis(text: str) -> dict:
     scam_signal_score = 0
     matched_fake_lure_concepts = set()
     data_harvesting_risk = 0
+    # Phase-tracking booleans for verification_checklist
+    urgency_found = False
+    personal_email_found = False
+    unrealistic_pay_found = False
+    vague_job_found = False
+    text_only_interview_found = False
+    check_cashing_found = False
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -302,6 +411,7 @@ def rule_based_analysis(text: str) -> dict:
 
     for kw in urgency_keywords:
         if kw in text_lower:
+            urgency_found = True
             flags.append(f"Urgency tactic detected: '{kw}'")
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 20, 10)
@@ -309,6 +419,7 @@ def rule_based_analysis(text: str) -> dict:
 
     for domain in suspicious_domains:
         if domain in text_lower:
+            personal_email_found = True
             flags.append(f"Suspicious email domain: '{domain}' used for official communication")
             risky_phrases.append(domain)
             recruiter_authenticity = max(recruiter_authenticity - 30, 10)
@@ -325,6 +436,7 @@ def rule_based_analysis(text: str) -> dict:
 
     for kw in unrealistic_pay:
         if kw in text_lower:
+            unrealistic_pay_found = True
             flags.append(f"Unrealistic compensation claim: '{kw}'")
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 20, 10)
@@ -383,6 +495,53 @@ def rule_based_analysis(text: str) -> dict:
             if concept not in matched_software_concepts:
                 scam_signal_score += 20
                 matched_software_concepts.add(concept)
+
+    matched_check_cashing_concepts: set = set()
+    for kw, concept in CHECK_CASHING_KEYWORDS.items():
+        if kw in text_lower:
+            check_cashing_found = True
+            flags.append(f"Check-cashing or money-transfer scheme: '{kw}'")
+            risky_phrases.append(kw)
+            payment_risk = min(payment_risk + 35, 95)
+            language_credibility = max(language_credibility - 15, 10)
+            if concept not in matched_check_cashing_concepts:
+                scam_signal_score += 35
+                matched_check_cashing_concepts.add(concept)
+
+    matched_vague_job_concepts: set = set()
+    for kw, concept in VAGUE_JOB_KEYWORDS.items():
+        if kw in text_lower:
+            vague_job_found = True
+            flags.append(f"Vague job description indicator: '{kw}'")
+            risky_phrases.append(kw)
+            language_credibility = max(language_credibility - 10, 10)
+            company_presence = max(company_presence - 10, 10)
+            if concept not in matched_vague_job_concepts:
+                scam_signal_score += 8
+                matched_vague_job_concepts.add(concept)
+
+    matched_text_interview_concepts: set = set()
+    for kw, concept in TEXT_ONLY_INTERVIEW_KEYWORDS.items():
+        if kw in text_lower:
+            text_only_interview_found = True
+            flags.append(f"No proper interview process: '{kw}'")
+            risky_phrases.append(kw)
+            recruiter_authenticity = max(recruiter_authenticity - 15, 10)
+            language_credibility = max(language_credibility - 10, 10)
+            if concept not in matched_text_interview_concepts:
+                scam_signal_score += 10
+                matched_text_interview_concepts.add(concept)
+
+    matched_global_sensitive_concepts: set = set()
+    for kw, concept in GLOBAL_SENSITIVE_INFO_KEYWORDS.items():
+        if kw in text_lower:
+            flags.append(f"Request for sensitive government ID/tax info: '{kw}'")
+            risky_phrases.append(kw)
+            recruiter_authenticity = max(recruiter_authenticity - 25, 10)
+            data_harvesting_risk += 25
+            if concept not in matched_global_sensitive_concepts:
+                scam_signal_score += 20
+                matched_global_sensitive_concepts.add(concept)
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
