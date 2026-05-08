@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 import httpx
 import json
 import os
@@ -63,6 +63,87 @@ def highlight_text(text: str, risky_phrases: List[str]) -> str:
         )
     return highlighted
 
+def clamp(value: Any, minimum: int = 0, maximum: int = 100) -> int:
+    try:
+        return max(minimum, min(int(value), maximum))
+    except (TypeError, ValueError):
+        return minimum
+
+def risk_level_from_probability(probability: int) -> str:
+    if probability >= 75:
+        return "Critical Risk"
+    if probability >= 50:
+        return "High Risk"
+    if probability >= 25:
+        return "Suspicious"
+    return "Safe"
+
+def summary_from_probability(probability: int) -> str:
+    if probability < 20:
+        return "This listing appears to be legitimate. Standard safety precautions are still advised."
+    if probability < 50:
+        return "This listing shows some suspicious patterns. Exercise caution and verify the company independently."
+    if probability < 75:
+        return "This listing has multiple high-risk indicators. Strong possibility of a scam - do not pay any money."
+    return "CRITICAL: This listing has extremely high scam probability. Do not engage, do not pay, report immediately."
+
+def merge_analysis_results(text: str, rule_result: Dict[str, Any], llm_result: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    if not llm_result:
+        return rule_result
+
+    llm_probability = clamp(llm_result.get("scam_probability"), 0, 100)
+    merged_probability = max(rule_result.get("scam_probability", 0), llm_probability)
+
+    rule_tb = rule_result.get("trust_breakdown", {})
+    llm_tb = llm_result.get("trust_breakdown", {})
+
+    merged_trust_breakdown = {
+        "payment_risk": max(clamp(rule_tb.get("payment_risk"), 0, 100), clamp(llm_tb.get("payment_risk"), 0, 100)),
+        "recruiter_authenticity": min(clamp(rule_tb.get("recruiter_authenticity"), 0, 100), clamp(llm_tb.get("recruiter_authenticity"), 0, 100)),
+        "company_presence": min(clamp(rule_tb.get("company_presence"), 0, 100), clamp(llm_tb.get("company_presence"), 0, 100)),
+        "language_credibility": min(clamp(rule_tb.get("language_credibility"), 0, 100), clamp(llm_tb.get("language_credibility"), 0, 100)),
+    }
+
+    merged_flags = []
+    for source_flags in [rule_result.get("flags", []), llm_result.get("flags", [])]:
+        for flag in source_flags:
+            if isinstance(flag, str) and flag not in merged_flags:
+                merged_flags.append(flag)
+    if not merged_flags:
+        merged_flags = ["No major red flags detected"]
+
+    merged_recommendations = []
+    for source_recs in [rule_result.get("recommendations", []), llm_result.get("recommendations", [])]:
+        for rec in source_recs:
+            if isinstance(rec, str) and rec not in merged_recommendations:
+                merged_recommendations.append(rec)
+
+    merged_explanations = []
+    seen_explanation_titles = set()
+    for source_explanations in [rule_result.get("explanations", []), llm_result.get("explanations", [])]:
+        for exp in source_explanations:
+            if not isinstance(exp, dict):
+                continue
+            title = exp.get("title", "")
+            if title and title not in seen_explanation_titles:
+                merged_explanations.append(exp)
+                seen_explanation_titles.add(title)
+
+    risk_level = risk_level_from_probability(merged_probability)
+    summary = summary_from_probability(merged_probability)
+    highlighted_text = rule_result.get("highlighted_text") or llm_result.get("highlighted_text") or text
+
+    return {
+        "scam_probability": merged_probability,
+        "risk_level": risk_level,
+        "flags": merged_flags,
+        "highlighted_text": highlighted_text,
+        "explanations": merged_explanations,
+        "recommendations": merged_recommendations,
+        "trust_breakdown": merged_trust_breakdown,
+        "summary": summary,
+    }
+
 def rule_based_analysis(text: str) -> dict:
     text_lower = text.lower()
     flags = []
@@ -78,12 +159,15 @@ def rule_based_analysis(text: str) -> dict:
     phishing_keywords = ["verify your details", "click here", "login to claim", "confirm your account", "update your information", "verify now"]
     suspicious_domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]
     unrealistic_pay = ["10 lakh", "1 crore", "₹1,00,000", "₹50,000 per month", "earn 50000", "earn 1 lakh"]
+    fake_internship_claims = ["work from home", "wfh", "part time", "data entry", "no interview", "no experience", "guaranteed placement", "direct selection", "easy money", "earn daily", "dm for details", "message me directly"]
+    scam_signal_score = 0
 
     for kw in payment_keywords:
         if kw in text_lower:
             flags.append(f"Payment keyword detected: '{kw}'")
             risky_phrases.append(kw)
             payment_risk = min(payment_risk + 30, 95)
+            scam_signal_score += 25
 
     for kw in cert_keywords:
         if kw in text_lower:
@@ -91,17 +175,20 @@ def rule_based_analysis(text: str) -> dict:
             risky_phrases.append(kw)
             payment_risk = min(payment_risk + 20, 95)
             language_credibility = max(language_credibility - 20, 10)
+            scam_signal_score += 20
 
     if "₹" in text or "inr" in text_lower:
         flags.append("Indian Rupee currency symbol found - possible money request")
         risky_phrases.append("₹")
         payment_risk = min(payment_risk + 15, 95)
+        scam_signal_score += 10
 
     for kw in urgency_keywords:
         if kw in text_lower:
             flags.append(f"Urgency tactic detected: '{kw}'")
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 20, 10)
+            scam_signal_score += 8
 
     for domain in suspicious_domains:
         if domain in text_lower:
@@ -109,6 +196,7 @@ def rule_based_analysis(text: str) -> dict:
             risky_phrases.append(domain)
             recruiter_authenticity = max(recruiter_authenticity - 30, 10)
             company_presence = max(company_presence - 25, 10)
+            scam_signal_score += 15
 
     for kw in phishing_keywords:
         if kw in text_lower:
@@ -116,12 +204,21 @@ def rule_based_analysis(text: str) -> dict:
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 25, 10)
             recruiter_authenticity = max(recruiter_authenticity - 20, 10)
+            scam_signal_score += 20
 
     for kw in unrealistic_pay:
         if kw in text_lower:
             flags.append(f"Unrealistic compensation claim: '{kw}'")
             risky_phrases.append(kw)
             language_credibility = max(language_credibility - 20, 10)
+            scam_signal_score += 15
+
+    for kw in fake_internship_claims:
+        if kw in text_lower:
+            flags.append(f"Common fake internship lure detected: '{kw}'")
+            risky_phrases.append(kw)
+            language_credibility = max(language_credibility - 12, 10)
+            scam_signal_score += 10
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
@@ -133,6 +230,7 @@ def rule_based_analysis(text: str) -> dict:
         risky_phrases.extend([kw for kw in ["telegram", "whatsapp", "t.me"] if kw in text_lower])
         recruiter_authenticity = max(recruiter_authenticity - 35, 10)
         company_presence = max(company_presence - 30, 10)
+        scam_signal_score += 20
 
     scam_probability = 0
     if payment_risk > 50:
@@ -143,16 +241,10 @@ def rule_based_analysis(text: str) -> dict:
         scam_probability += 20
     if language_credibility < 50:
         scam_probability += 15
-    scam_probability = min(scam_probability + len(flags) * 3, 99)
-
-    if scam_probability >= 75:
-        risk_level = "Critical Risk"
-    elif scam_probability >= 50:
-        risk_level = "High Risk"
-    elif scam_probability >= 25:
-        risk_level = "Suspicious"
-    else:
-        risk_level = "Safe"
+    heuristic_probability = min(scam_probability + len(flags) * 3, 99)
+    signal_probability = min(scam_signal_score + len(flags) * 2, 99)
+    scam_probability = max(heuristic_probability, signal_probability)
+    risk_level = risk_level_from_probability(scam_probability)
 
     explanations = []
     if payment_risk > 50:
@@ -190,14 +282,7 @@ def rule_based_analysis(text: str) -> dict:
     if payment_risk > 50:
         recommendations.insert(0, "IMMEDIATELY stop communication - this appears to be a money scam")
 
-    if scam_probability < 20:
-        summary = "This listing appears to be legitimate. Standard safety precautions are still advised."
-    elif scam_probability < 50:
-        summary = "This listing shows some suspicious patterns. Exercise caution and verify the company independently."
-    elif scam_probability < 75:
-        summary = "This listing has multiple high-risk indicators. Strong possibility of a scam - do not pay any money."
-    else:
-        summary = "CRITICAL: This listing has extremely high scam probability. Do not engage, do not pay, report immediately."
+    summary = summary_from_probability(scam_probability)
 
     highlighted = highlight_text(text, list(set(risky_phrases)))
 
@@ -258,11 +343,9 @@ async def analyze_text(request: AnalyzeRequest):
     if not request.text.strip():
         raise HTTPException(status_code=400, detail="Text cannot be empty")
     
-    result = await analyze_with_ollama(request.text)
-    if result is None:
-        result = rule_based_analysis(request.text)
-    
-    return result
+    rule_result = rule_based_analysis(request.text)
+    llm_result = await analyze_with_ollama(request.text)
+    return merge_analysis_results(request.text, rule_result, llm_result)
 
 @app.post("/api/analyze/image")
 async def analyze_image(file: UploadFile = File(...)):
@@ -277,10 +360,10 @@ async def analyze_image(file: UploadFile = File(...)):
         if not extracted_text.strip():
             raise HTTPException(status_code=400, detail="No text could be extracted from the image")
         
-        result = await analyze_with_ollama(extracted_text)
-        if result is None:
-            result = rule_based_analysis(extracted_text)
-        
+        rule_result = rule_based_analysis(extracted_text)
+        llm_result = await analyze_with_ollama(extracted_text)
+        result = merge_analysis_results(extracted_text, rule_result, llm_result)
+
         result["extracted_text"] = extracted_text
         return result
     except ImportError:
