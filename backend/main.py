@@ -23,6 +23,41 @@ app.add_middleware(
 REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
 SIGNAL_FLAG_WEIGHT = 2
+
+# Keywords requesting identity proofs — a major data-harvesting red flag
+IDENTITY_PROOF_KEYWORDS = [
+    "aadhaar", "aadhar", "pan card", "pan number", "passport copy", "passport number",
+    "id proof", "id card", "driving licence", "driving license", "voter id", "birth certificate",
+    "identity proof", "upload documents", "send documents", "submit id", "attach id",
+    "selfie with id", "photo id", "government id",
+]
+
+# Keywords requesting financial/banking details
+FINANCIAL_DETAILS_KEYWORDS = [
+    "bank account number", "account number", "bank details", "bank account",
+    "ifsc code", "ifsc", "routing number", "sort code",
+    "credit card number", "debit card number", "card number", "card details",
+    "cvv", "expiry date", "net banking", "internet banking", "banking credentials",
+    "otp", "one time password", "pin number",
+    "upi id", "google pay", "phonepe", "paytm details",
+]
+
+# Keywords harvesting contact info under the guise of onboarding
+CONTACT_HARVESTING_KEYWORDS = [
+    "share your mobile", "send your mobile", "provide your mobile",
+    "share your phone number", "send your phone number", "your phone number",
+    "share your whatsapp", "whatsapp number", "contact number",
+    "alternative email", "alternate email", "personal email address",
+    "emergency contact details", "next of kin", "residential address",
+]
+
+# Fee keywords specifically around software / tools
+SOFTWARE_LICENSE_KEYWORDS = [
+    "software license fee", "license fee", "buy software", "purchase software",
+    "software purchase", "tool fee", "software tool", "purchase license",
+    "download fee", "app fee", "access fee", "system access fee",
+]
+
 FAKE_INTERNSHIP_CLAIMS = {
     "work from home": "remote_lure",
     "wfh": "remote_lure",
@@ -170,12 +205,24 @@ def rule_based_analysis(text: str) -> dict:
 
     payment_keywords = ["pay", "fee", "deposit", "registration fee", "processing fee", "wallet", "upi", "payment", "transfer money", "send money", "advance payment", "refundable deposit"]
     cert_keywords = ["certificate", "certification program", "paid training", "training fee"]
-    urgency_keywords = ["limited seats", "act now", "urgent", "immediately", "last chance", "within 24 hours", "hurry", "today only", "expires soon", "don't miss"]
+    urgency_keywords = [
+        "limited seats", "act now", "urgent", "immediately", "last chance",
+        "within 24 hours", "hurry", "today only", "expires soon", "don't miss",
+        "join immediately", "join now", "start today", "start immediately",
+        "accept immediately", "accept now", "respond immediately", "reply immediately",
+        "offer expires", "seats are filling", "apply now or miss",
+    ]
     phishing_keywords = ["verify your details", "click here", "login to claim", "confirm your account", "update your information", "verify now"]
     suspicious_domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]
-    unrealistic_pay = ["10 lakh", "1 crore", "₹1,00,000", "₹50,000 per month", "earn 50000", "earn 1 lakh"]
+    unrealistic_pay = [
+        "10 lakh", "1 crore", "₹1,00,000", "₹50,000 per month", "earn 50000", "earn 1 lakh",
+        "earn ₹", "₹10,000 daily", "₹5,000 daily", "per day earning", "daily payout",
+        "weekly salary", "instant salary", "salary credited daily",
+        "50000 monthly", "100000 monthly",
+    ]
     scam_signal_score = 0
     matched_fake_lure_concepts = set()
+    data_harvesting_risk = 0
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -237,6 +284,39 @@ def rule_based_analysis(text: str) -> dict:
                 scam_signal_score += 10
                 matched_fake_lure_concepts.add(concept)
 
+    for kw in IDENTITY_PROOF_KEYWORDS:
+        if kw in text_lower:
+            flags.append(f"Request for identity proof/document: '{kw}'")
+            risky_phrases.append(kw)
+            recruiter_authenticity = max(recruiter_authenticity - 25, 10)
+            data_harvesting_risk += 25
+            scam_signal_score += 20
+
+    for kw in FINANCIAL_DETAILS_KEYWORDS:
+        if kw in text_lower:
+            flags.append(f"Request for financial/banking details: '{kw}'")
+            risky_phrases.append(kw)
+            payment_risk = min(payment_risk + 30, 95)
+            recruiter_authenticity = max(recruiter_authenticity - 30, 10)
+            data_harvesting_risk += 30
+            scam_signal_score += 30
+
+    for kw in CONTACT_HARVESTING_KEYWORDS:
+        if kw in text_lower:
+            flags.append(f"Unsolicited contact-info request: '{kw}'")
+            risky_phrases.append(kw)
+            recruiter_authenticity = max(recruiter_authenticity - 15, 10)
+            data_harvesting_risk += 15
+            scam_signal_score += 12
+
+    for kw in SOFTWARE_LICENSE_KEYWORDS:
+        if kw in text_lower:
+            flags.append(f"Software/license fee request: '{kw}'")
+            risky_phrases.append(kw)
+            payment_risk = min(payment_risk + 25, 95)
+            language_credibility = max(language_credibility - 15, 10)
+            scam_signal_score += 20
+
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
     has_official_email = bool(re.search(r'[a-zA-Z0-9._%+-]{1,64}@(?!gmail\b|yahoo\b|hotmail\b|outlook\b)[a-zA-Z0-9-]{1,63}(?:\.[a-zA-Z0-9-]{1,63}){0,5}\.[a-zA-Z]{2,6}', text))
@@ -252,6 +332,8 @@ def rule_based_analysis(text: str) -> dict:
     base_probability = 0
     if payment_risk > 50:
         base_probability += 40
+    if data_harvesting_risk >= 25:
+        base_probability += 30
     if recruiter_authenticity < 50:
         base_probability += 25
     if company_presence < 50:
@@ -268,6 +350,12 @@ def rule_based_analysis(text: str) -> dict:
         explanations.append({
             "title": "Requests Payment or Fees",
             "description": "Legitimate internships never ask candidates to pay fees, deposits, or registration charges. This is a major red flag.",
+            "severity": "high"
+        })
+    if data_harvesting_risk >= 25:
+        explanations.append({
+            "title": "Data Harvesting Attempt",
+            "description": "This message asks for sensitive personal information such as identity proofs (Aadhaar, PAN, passport), financial/banking details, or unnecessary contact information. Sharing these with an unverified recruiter risks identity theft and financial fraud.",
             "severity": "high"
         })
     if recruiter_authenticity < 50:
@@ -291,6 +379,7 @@ def rule_based_analysis(text: str) -> dict:
 
     recommendations = [
         "Never pay any fee to secure an internship or job",
+        "Never share Aadhaar, PAN, passport, or bank account details with an unverified recruiter",
         "Verify the company on LinkedIn and official government portals",
         "Only communicate through official company email domains",
         "Check for a verified company website before proceeding",
@@ -298,6 +387,8 @@ def rule_based_analysis(text: str) -> dict:
     ]
     if payment_risk > 50:
         recommendations.insert(0, "IMMEDIATELY stop communication - this appears to be a money scam")
+    if data_harvesting_risk >= 25:
+        recommendations.insert(0, "Do NOT share any personal documents or financial details — this appears to be a data theft scam")
 
     summary = summary_from_probability(scam_probability)
 
@@ -340,6 +431,18 @@ Analyze the following text and return a JSON response with exactly this structur
   }},
   "summary": "<brief summary>"
 }}
+
+Key red flags to detect:
+- Requests for upfront payment, registration/training/software-license fees, or any money transfer.
+- Communication from personal email addresses (Gmail, Yahoo, Hotmail) instead of official company domains.
+- Requests for sensitive documents: Aadhaar, PAN, passport, ID card, driving licence, voter ID.
+- Requests for financial/banking details: bank account number, IFSC code, credit/debit card details, CVV, OTP, net banking credentials.
+- Unsolicited harvesting of contact info: mobile number, WhatsApp number, alternative email address.
+- Urgency tactics: limited seats, join immediately, respond within 24 hours, offer expires today.
+- Unrealistically high stipends or salaries for minimal work.
+- Only informal contact channels (WhatsApp, Telegram) with no official website or email.
+- Claims of guaranteed placement, no interview, no experience needed.
+- Misspelled company names or domains.
 
 Text to analyze:
 {text}
