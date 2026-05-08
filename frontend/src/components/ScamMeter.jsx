@@ -1,0 +1,59 @@
+import { useEffect, useState } from 'react';
+
+export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
+  const [animated, setAnimated] = useState(0);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimated(probability), 100);
+    return () => clearTimeout(timer);
+  }, [probability]);
+
+  const radius = 80;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (animated / 100) * circumference;
+
+  const getColor = (prob) => {
+    if (prob < 25) return '#22c55e';
+    if (prob < 50) return '#f59e0b';
+    if (prob < 75) return '#f97316';
+    return '#ef4444';
+  };
+
+  const color = getColor(probability);
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative">
+        <svg width="200" height="200" viewBox="0 0 200 200" className="-rotate-90">
+          <circle
+            cx="100" cy="100" r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth="12"
+          />
+          <circle
+            cx="100" cy="100" r={radius}
+            fill="none"
+            stroke={color}
+            strokeWidth="12"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            style={{
+              transition: 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.5s ease',
+              filter: `drop-shadow(0 0 8px ${color})`,
+            }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-4xl font-bold text-white">{animated}%</span>
+          <span className="text-xs text-white/60 mt-1">Scam Risk</span>
+        </div>
+      </div>
+      <div className="text-center">
+        <div className="text-sm text-white/60 mb-1">Risk Assessment</div>
+        <div className="font-bold text-lg" style={{ color }}>{riskLevel}</div>
+      </div>
+    </div>
+  );
+}
