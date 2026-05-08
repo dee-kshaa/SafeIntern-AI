@@ -21,6 +21,21 @@ app.add_middleware(
 )
 
 REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
+HEURISTIC_FLAG_WEIGHT = 3
+SIGNAL_FLAG_WEIGHT = 2
+FAKE_INTERNSHIP_CLAIMS = {
+    "work from home": "remote_lure",
+    "wfh": "remote_lure",
+    "data entry": "low-effort-role",
+    "no interview": "no-screening",
+    "no experience": "no-screening",
+    "guaranteed placement": "guaranteed-selection",
+    "direct selection": "guaranteed-selection",
+    "easy money": "easy-income",
+    "earn daily": "easy-income",
+    "dm for details": "off-platform-contact",
+    "message me directly": "off-platform-contact",
+}
 
 def load_reports():
     if os.path.exists(REPORTS_FILE):
@@ -159,19 +174,6 @@ def rule_based_analysis(text: str) -> dict:
     phishing_keywords = ["verify your details", "click here", "login to claim", "confirm your account", "update your information", "verify now"]
     suspicious_domains = ["gmail.com", "yahoo.com", "hotmail.com", "outlook.com"]
     unrealistic_pay = ["10 lakh", "1 crore", "₹1,00,000", "₹50,000 per month", "earn 50000", "earn 1 lakh"]
-    fake_internship_claims = {
-        "work from home": "remote_lure",
-        "wfh": "remote_lure",
-        "data entry": "low-effort-role",
-        "no interview": "no-screening",
-        "no experience": "no-screening",
-        "guaranteed placement": "guaranteed-selection",
-        "direct selection": "guaranteed-selection",
-        "easy money": "easy-income",
-        "earn daily": "easy-income",
-        "dm for details": "off-platform-contact",
-        "message me directly": "off-platform-contact",
-    }
     scam_signal_score = 0
     matched_fake_lure_concepts = set()
 
@@ -226,7 +228,7 @@ def rule_based_analysis(text: str) -> dict:
             language_credibility = max(language_credibility - 20, 10)
             scam_signal_score += 15
 
-    for kw, concept in fake_internship_claims.items():
+    for kw, concept in FAKE_INTERNSHIP_CLAIMS.items():
         if kw in text_lower:
             flags.append(f"Common fake internship lure detected: '{kw}'")
             risky_phrases.append(kw)
@@ -256,8 +258,8 @@ def rule_based_analysis(text: str) -> dict:
         base_probability += 20
     if language_credibility < 50:
         base_probability += 15
-    heuristic_probability = min(base_probability + len(flags) * 3, 99)
-    signal_probability = min(scam_signal_score + len(flags) * 2, 99)
+    heuristic_probability = min(base_probability + len(flags) * HEURISTIC_FLAG_WEIGHT, 99)
+    signal_probability = min(scam_signal_score + len(flags) * SIGNAL_FLAG_WEIGHT, 99)
     scam_probability = max(heuristic_probability, signal_probability)
     risk_level = risk_level_from_probability(scam_probability)
 
