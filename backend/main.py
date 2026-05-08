@@ -177,6 +177,21 @@ GLOBAL_SENSITIVE_INFO_KEYWORDS = {
     "national id": "national-id",
 }
 
+# Process red flags: immediate joining and missing formal hiring docs
+PROCESS_RED_FLAG_KEYWORDS = {
+    "join immediately": "immediate-start",
+    "start immediately": "immediate-start",
+    "start today": "immediate-start",
+    "join today": "immediate-start",
+    "immediate joining": "immediate-start",
+    "same day joining": "immediate-start",
+    "no offer letter": "no-docs",
+    "offer letter later": "no-docs",
+    "contract will be shared later": "no-docs",
+    "no contract needed": "no-docs",
+    "without paperwork": "no-docs",
+}
+
 FAKE_INTERNSHIP_CLAIMS = {
     "work from home": "remote_lure",
     "wfh": "remote_lure",
@@ -542,6 +557,19 @@ def rule_based_analysis(text: str) -> dict:
             if concept not in matched_global_sensitive_concepts:
                 scam_signal_score += 20
                 matched_global_sensitive_concepts.add(concept)
+
+    matched_process_red_flag_concepts: set = set()
+    for kw, concept in PROCESS_RED_FLAG_KEYWORDS.items():
+        if kw in text_lower:
+            flags.append(f"Suspicious hiring process indicator: '{kw}'")
+            risky_phrases.append(kw)
+            recruiter_authenticity = max(recruiter_authenticity - 15, 10)
+            language_credibility = max(language_credibility - 10, 10)
+            if concept == "immediate-start":
+                urgency_found = True
+            if concept not in matched_process_red_flag_concepts:
+                scam_signal_score += 10
+                matched_process_red_flag_concepts.add(concept)
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
