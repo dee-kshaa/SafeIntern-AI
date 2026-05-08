@@ -26,38 +26,92 @@ HEURISTIC_FLAG_WEIGHT = 3
 # Keywords requesting identity proofs — a major data-harvesting red flag
 # NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
 # found in scam messages targeting Indian students.
-IDENTITY_PROOF_KEYWORDS = [
-    "aadhaar", "aadhar", "pan card", "pan number", "passport copy", "passport number",
-    "id proof", "id card", "driving licence", "driving license", "voter id", "birth certificate",
-    "identity proof", "upload documents", "send documents", "submit id", "attach id",
-    "selfie with id", "photo id", "government id",
-]
+# Keys are phrases to match; values are concept group names for deduplication.
+IDENTITY_PROOF_KEYWORDS = {
+    "aadhaar": "id-aadhaar",
+    "aadhar": "id-aadhaar",
+    "pan card": "id-pan",
+    "pan number": "id-pan",
+    "passport copy": "id-passport",
+    "passport number": "id-passport",
+    "id proof": "id-generic",
+    "id card": "id-generic",
+    "identity proof": "id-generic",
+    "selfie with id": "id-generic",
+    "photo id": "id-generic",
+    "government id": "id-generic",
+    "driving licence": "id-dl",
+    "driving license": "id-dl",
+    "voter id": "id-voter",
+    "birth certificate": "id-birth",
+    "upload documents": "doc-submission",
+    "send documents": "doc-submission",
+    "submit id": "doc-submission",
+    "attach id": "doc-submission",
+}
 
-# Keywords requesting financial/banking details
-FINANCIAL_DETAILS_KEYWORDS = [
-    "bank account number", "account number", "bank details", "bank account",
-    "ifsc code", "ifsc", "routing number", "sort code",
-    "credit card number", "debit card number", "card number", "card details",
-    "cvv", "expiry date", "net banking", "internet banking", "banking credentials",
-    "otp", "one time password", "pin number",
-    "upi id", "google pay", "phonepe", "paytm details",
-]
+# Keys are phrases to match; values are concept group names for deduplication.
+FINANCIAL_DETAILS_KEYWORDS = {
+    "bank account number": "bank-account",
+    "account number": "bank-account",
+    "bank details": "bank-account",
+    "bank account": "bank-account",
+    "ifsc code": "bank-routing",
+    "ifsc": "bank-routing",
+    "routing number": "bank-routing",
+    "sort code": "bank-routing",
+    "credit card number": "card-details",
+    "debit card number": "card-details",
+    "card number": "card-details",
+    "card details": "card-details",
+    "cvv": "card-security",
+    "expiry date": "card-security",
+    "net banking": "net-banking",
+    "internet banking": "net-banking",
+    "banking credentials": "net-banking",
+    "otp": "auth-code",
+    "one time password": "auth-code",
+    "pin number": "auth-code",
+    "upi id": "upi-details",
+    "google pay": "upi-details",
+    "phonepe": "upi-details",
+    "paytm details": "upi-details",
+}
 
-# Keywords harvesting contact info under the guise of onboarding
-CONTACT_HARVESTING_KEYWORDS = [
-    "share your mobile", "send your mobile", "provide your mobile",
-    "share your phone number", "send your phone number", "your phone number",
-    "share your whatsapp", "whatsapp number", "contact number",
-    "alternative email", "alternate email", "personal email address",
-    "emergency contact details", "next of kin", "residential address",
-]
+# Keys are phrases to match; values are concept group names for deduplication.
+CONTACT_HARVESTING_KEYWORDS = {
+    "share your mobile": "mobile-contact",
+    "send your mobile": "mobile-contact",
+    "provide your mobile": "mobile-contact",
+    "share your phone number": "mobile-contact",
+    "send your phone number": "mobile-contact",
+    "your phone number": "mobile-contact",
+    "share your whatsapp": "mobile-contact",
+    "whatsapp number": "mobile-contact",
+    "contact number": "mobile-contact",
+    "alternative email": "alt-email",
+    "alternate email": "alt-email",
+    "personal email address": "alt-email",
+    "emergency contact details": "personal-data",
+    "next of kin": "personal-data",
+    "residential address": "personal-data",
+}
 
-# Fee keywords specifically around software / tools
-SOFTWARE_LICENSE_KEYWORDS = [
-    "software license fee", "license fee", "buy software", "purchase software",
-    "software purchase", "tool fee", "software tool", "purchase license",
-    "download fee", "app fee", "access fee", "system access fee",
-]
+# Keys are phrases to match; values are concept group names for deduplication.
+SOFTWARE_LICENSE_KEYWORDS = {
+    "software license fee": "software-purchase",
+    "license fee": "software-purchase",
+    "buy software": "software-purchase",
+    "purchase software": "software-purchase",
+    "software purchase": "software-purchase",
+    "purchase license": "software-purchase",
+    "software tool": "software-purchase",
+    "tool fee": "access-fee",
+    "access fee": "access-fee",
+    "system access fee": "access-fee",
+    "download fee": "download-fee",
+    "app fee": "download-fee",
+}
 
 FAKE_INTERNSHIP_CLAIMS = {
     "work from home": "remote_lure",
@@ -240,8 +294,8 @@ def rule_based_analysis(text: str) -> dict:
             language_credibility = max(language_credibility - 20, 10)
             scam_signal_score += 20
 
-    if "₹" in text or "inr" in text_lower:
-        flags.append("Indian Rupee currency symbol found - possible money request")
+    if "₹" in text or "inr" in text_lower or bool(re.search(r'\brs\.?\s*\d', text_lower)):
+        flags.append("Indian Rupee currency symbol/abbreviation found - possible money request")
         risky_phrases.append("₹")
         payment_risk = min(payment_risk + 15, 95)
         scam_signal_score += 10
@@ -285,38 +339,50 @@ def rule_based_analysis(text: str) -> dict:
                 scam_signal_score += 10
                 matched_fake_lure_concepts.add(concept)
 
-    for kw in IDENTITY_PROOF_KEYWORDS:
+    matched_identity_concepts: set = set()
+    for kw, concept in IDENTITY_PROOF_KEYWORDS.items():
         if kw in text_lower:
             flags.append(f"Request for identity proof/document: '{kw}'")
             risky_phrases.append(kw)
             recruiter_authenticity = max(recruiter_authenticity - 25, 10)
             data_harvesting_risk += 25
-            scam_signal_score += 20
+            if concept not in matched_identity_concepts:
+                scam_signal_score += 20
+                matched_identity_concepts.add(concept)
 
-    for kw in FINANCIAL_DETAILS_KEYWORDS:
+    matched_financial_concepts: set = set()
+    for kw, concept in FINANCIAL_DETAILS_KEYWORDS.items():
         if kw in text_lower:
             flags.append(f"Request for financial/banking details: '{kw}'")
             risky_phrases.append(kw)
             payment_risk = min(payment_risk + 30, 95)
             recruiter_authenticity = max(recruiter_authenticity - 30, 10)
             data_harvesting_risk += 30
-            scam_signal_score += 30
+            if concept not in matched_financial_concepts:
+                scam_signal_score += 30
+                matched_financial_concepts.add(concept)
 
-    for kw in CONTACT_HARVESTING_KEYWORDS:
+    matched_contact_concepts: set = set()
+    for kw, concept in CONTACT_HARVESTING_KEYWORDS.items():
         if kw in text_lower:
             flags.append(f"Unsolicited contact-info request: '{kw}'")
             risky_phrases.append(kw)
             recruiter_authenticity = max(recruiter_authenticity - 15, 10)
             data_harvesting_risk += 15
-            scam_signal_score += 12
+            if concept not in matched_contact_concepts:
+                scam_signal_score += 12
+                matched_contact_concepts.add(concept)
 
-    for kw in SOFTWARE_LICENSE_KEYWORDS:
+    matched_software_concepts: set = set()
+    for kw, concept in SOFTWARE_LICENSE_KEYWORDS.items():
         if kw in text_lower:
             flags.append(f"Software/license fee request: '{kw}'")
             risky_phrases.append(kw)
             payment_risk = min(payment_risk + 25, 95)
             language_credibility = max(language_credibility - 15, 10)
-            scam_signal_score += 20
+            if concept not in matched_software_concepts:
+                scam_signal_score += 20
+                matched_software_concepts.add(concept)
 
     telegram_mention = "telegram" in text_lower or "t.me" in text_lower
     whatsapp_mention = "whatsapp" in text_lower
@@ -342,8 +408,10 @@ def rule_based_analysis(text: str) -> dict:
     if language_credibility < 50:
         base_probability += 15
     heuristic_probability = min(base_probability + len(flags) * HEURISTIC_FLAG_WEIGHT, 99)
-    # signal_probability is derived purely from accumulated pattern scores to avoid
-    # double-counting flags (which are already used in heuristic_probability).
+    # heuristic_probability activates only when aggregate indicators cross risk thresholds
+    # (e.g. payment_risk > 50 → +40pts).  signal_probability is a raw cumulative keyword
+    # score that catches texts with many individual hits even when no single threshold fires.
+    # Taking max() ensures neither path can mask the other — the more conservative estimate wins.
     signal_probability = min(scam_signal_score, 99)
     scam_probability = max(heuristic_probability, signal_probability)
     risk_level = risk_level_from_probability(scam_probability)
