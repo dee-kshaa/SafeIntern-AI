@@ -426,7 +426,7 @@ def rule_based_analysis(text: str) -> dict:
     if data_harvesting_risk >= 25:
         explanations.append({
             "title": "Data Harvesting Attempt",
-            "description": "This message asks for sensitive personal information such as identity proofs (Aadhaar, PAN, passport), financial/banking details, or unnecessary contact information. Sharing these with an unverified recruiter risks identity theft and financial fraud.",
+            "description": "This message asks for sensitive personal information such as identity proofs (Aadhaar, PAN, and passport), financial/banking details, or unnecessary contact information. Sharing these with an unverified recruiter risks identity theft and financial fraud.",
             "severity": "high"
         })
     if recruiter_authenticity < 50:
