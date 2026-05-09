@@ -46,6 +46,7 @@ SEMANTIC_AUTHENTICITY_PENALTY = 12
 SEMANTIC_COMPANY_PENALTY = 10
 SEMANTIC_LANGUAGE_PENALTY = 12
 HIGH_SEVERITY_SEMANTIC_THRESHOLD = 0.7
+MIN_TRUST_SCORE = 10
 
 # Curated fictional scam templates used as semantic anchors for FAISS similarity.
 # Add new entries only when they represent distinct scam tactics (fee request, urgency,
@@ -523,17 +524,16 @@ def rule_based_analysis(text: str) -> dict:
     if semantic_signal:
         similarity = semantic_signal["best_similarity"]
         flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
-        boost_floor = min(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
-        boost_ceiling = max(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
+        boost_floor, boost_ceiling = sorted((MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST))
         semantic_score_boost = clamp(
             int(similarity * boost_ceiling),
             boost_floor,
             boost_ceiling,
         )
         scam_signal_score += semantic_score_boost
-        recruiter_authenticity = max(recruiter_authenticity - SEMANTIC_AUTHENTICITY_PENALTY, 10)
-        company_presence = max(company_presence - SEMANTIC_COMPANY_PENALTY, 10)
-        language_credibility = max(language_credibility - SEMANTIC_LANGUAGE_PENALTY, 10)
+        recruiter_authenticity = max(recruiter_authenticity - SEMANTIC_AUTHENTICITY_PENALTY, MIN_TRUST_SCORE)
+        company_presence = max(company_presence - SEMANTIC_COMPANY_PENALTY, MIN_TRUST_SCORE)
+        language_credibility = max(language_credibility - SEMANTIC_LANGUAGE_PENALTY, MIN_TRUST_SCORE)
 
     for kw in payment_keywords:
         if kw in text_lower:
