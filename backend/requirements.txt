@@ -6,3 +6,5 @@ pillow==12.2.0
 pytesseract==0.3.10
 python-dotenv==1.0.1
 pydantic==2.7.1
+sentence-transformers==3.0.1
+faiss-cpu==1.8.0

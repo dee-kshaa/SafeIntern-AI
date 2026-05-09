@@ -10,6 +10,17 @@ import uuid
 from datetime import datetime
 import io
 
+try:
+    import numpy as np
+    import faiss
+    from sentence_transformers import SentenceTransformer
+    SEMANTIC_MATCHING_AVAILABLE = True
+except Exception:
+    np = None
+    faiss = None
+    SentenceTransformer = None
+    SEMANTIC_MATCHING_AVAILABLE = False
+
 app = FastAPI(title="SafeIntern AI API")
 
 app.add_middleware(
@@ -24,6 +35,21 @@ REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
 # Configurable model: override with OLLAMA_MODEL env var if needed (e.g. "gemma3", "mistral")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
+SEMANTIC_MODEL_NAME = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
+SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
+
+SEMANTIC_SCAM_EXAMPLES = [
+    "No interview required. Pay a refundable onboarding fee now to confirm internship slot.",
+    "Urgent hiring for partner projects. Register immediately on this site or your seat is cancelled.",
+    "Before onboarding, purchase a mandatory certification kit and reply yes to continue.",
+    "You are automatically selected with high stipend and free trip. Share Aadhaar, PAN, bank details, and OTP.",
+    "Transfer a refundable security deposit for verification and keep this hiring process confidential.",
+    "Guaranteed placement at top companies after paying for certification. No coding required.",
+]
+
+semantic_model = None
+semantic_index = None
+semantic_examples = []
 
 # Keywords requesting identity proofs — a major data-harvesting red flag
 # NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
@@ -205,6 +231,80 @@ FAKE_INTERNSHIP_CLAIMS = {
     "dm for details": "off-platform-contact",
     "message me directly": "off-platform-contact",
 }
+
+def initialize_semantic_scam_index() -> None:
+    global semantic_model, semantic_index, semantic_examples
+    if not SEMANTIC_MATCHING_AVAILABLE:
+        return
+    if semantic_model is not None and semantic_index is not None:
+        return
+
+    try:
+        semantic_model = SentenceTransformer(SEMANTIC_MODEL_NAME)
+        embeddings = semantic_model.encode(
+            SEMANTIC_SCAM_EXAMPLES,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+        )
+        embeddings = embeddings.astype("float32")
+        semantic_index = faiss.IndexFlatIP(embeddings.shape[1])
+        semantic_index.add(embeddings)
+        semantic_examples = SEMANTIC_SCAM_EXAMPLES
+    except Exception:
+        semantic_model = None
+        semantic_index = None
+        semantic_examples = []
+
+
+def semantic_scam_similarity(text: str) -> Optional[Dict[str, Any]]:
+    if not SEMANTIC_MATCHING_AVAILABLE:
+        return None
+    if not text or len(text.strip()) < 20:
+        return None
+
+    initialize_semantic_scam_index()
+    if semantic_model is None or semantic_index is None:
+        return None
+
+    try:
+        query_embedding = semantic_model.encode(
+            [text],
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+        ).astype("float32")
+        scores, indices = semantic_index.search(query_embedding, min(3, len(semantic_examples)))
+    except Exception:
+        return None
+
+    if scores.size == 0:
+        return None
+
+    best_similarity = float(scores[0][0])
+    if best_similarity < SEMANTIC_MATCH_THRESHOLD:
+        return None
+
+    matches = []
+    for score, idx in zip(scores[0], indices[0]):
+        similarity = float(score)
+        if similarity < SEMANTIC_MATCH_THRESHOLD or idx < 0 or idx >= len(semantic_examples):
+            continue
+        matches.append(
+            {
+                "similarity": round(similarity, 3),
+                "example": semantic_examples[idx],
+            }
+        )
+
+    if not matches:
+        return None
+
+    return {
+        "best_similarity": round(best_similarity, 3),
+        "matches": matches,
+    }
+
+
+initialize_semantic_scam_index()
 
 def load_reports():
     if os.path.exists(REPORTS_FILE):
@@ -402,6 +502,15 @@ def rule_based_analysis(text: str) -> dict:
     vague_job_found = False
     text_only_interview_found = False
     check_cashing_found = False
+
+    semantic_signal = semantic_scam_similarity(text)
+    if semantic_signal:
+        similarity = semantic_signal["best_similarity"]
+        flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
+        scam_signal_score += min(30, max(12, int(similarity * 30)))
+        recruiter_authenticity = max(recruiter_authenticity - 12, 10)
+        company_presence = max(company_presence - 10, 10)
+        language_credibility = max(language_credibility - 12, 10)
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -634,6 +743,12 @@ def rule_based_analysis(text: str) -> dict:
             "description": "The text uses urgency tactics, unrealistic promises, or phishing language commonly found in scam postings.",
             "severity": "medium"
         })
+    if semantic_signal:
+        explanations.append({
+            "title": "Semantic Similarity to Known Scam Messages",
+            "description": "This text is semantically similar to known fake internship and recruiter scam patterns, even when exact keywords differ.",
+            "severity": "high" if semantic_signal["best_similarity"] >= 0.7 else "medium"
+        })
 
     recommendations = [
         "Never pay any fee to secure an internship or job",
@@ -647,6 +762,8 @@ def rule_based_analysis(text: str) -> dict:
         recommendations.insert(0, "IMMEDIATELY stop communication - this appears to be a money scam")
     if data_harvesting_risk >= 25:
         recommendations.insert(0, "Do NOT share any personal documents or financial details — this appears to be a data theft scam")
+    if semantic_signal:
+        recommendations.insert(0, "Treat this posting as potentially fraudulent and independently verify recruiter identity before any response")
 
     summary = summary_from_probability(scam_probability)
 
