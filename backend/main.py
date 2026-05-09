@@ -128,3 +128,7 @@ async def delete_report(report_id: str):
 @app.get("/")
 async def root():
     return {"message": "SafeIntern AI API is running"}
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
