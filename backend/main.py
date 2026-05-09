@@ -16,7 +16,7 @@ try:
     import faiss
     from sentence_transformers import SentenceTransformer
     SEMANTIC_MATCHING_AVAILABLE = True
-except Exception:
+except (ImportError, ModuleNotFoundError):
     np = None
     faiss = None
     SentenceTransformer = None
