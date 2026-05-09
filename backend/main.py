@@ -36,7 +36,7 @@ REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
 # Configurable model: override with OLLAMA_MODEL env var if needed (e.g. "gemma3", "mistral")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
-SEMANTIC_MODEL_NAME = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
+SEMANTIC_MODEL = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
 SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
 MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
 MIN_SEMANTIC_SCORE_BOOST = 12
@@ -47,6 +47,9 @@ SEMANTIC_COMPANY_PENALTY = 10
 SEMANTIC_LANGUAGE_PENALTY = 12
 HIGH_SEVERITY_SEMANTIC_THRESHOLD = 0.7
 MIN_TRUST_SCORE = 10
+SEMANTIC_SCORE_BOOST_LOWER, SEMANTIC_SCORE_BOOST_UPPER = sorted(
+    (MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
+)
 
 # Curated fictional scam templates used as semantic anchors for FAISS similarity.
 # Add new entries only when they represent distinct scam tactics (fee request, urgency,
@@ -254,7 +257,7 @@ def initialize_semantic_scam_index() -> None:
         return
 
     try:
-        semantic_model = SentenceTransformer(SEMANTIC_MODEL_NAME)
+        semantic_model = SentenceTransformer(SEMANTIC_MODEL)
         embeddings = semantic_model.encode(
             SEMANTIC_SCAM_EXAMPLES,
             convert_to_numpy=True,
@@ -524,13 +527,13 @@ def rule_based_analysis(text: str) -> dict:
     if semantic_signal:
         similarity = semantic_signal["best_similarity"]
         flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
-        boost_floor, boost_ceiling = sorted((MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST))
         semantic_score_boost = clamp(
-            int(similarity * boost_ceiling),
-            boost_floor,
-            boost_ceiling,
+            int(similarity * SEMANTIC_SCORE_BOOST_UPPER),
+            SEMANTIC_SCORE_BOOST_LOWER,
+            SEMANTIC_SCORE_BOOST_UPPER,
         )
         scam_signal_score += semantic_score_boost
+        # Semantically similar scam text most directly undermines recruiter authenticity and language quality.
         recruiter_authenticity = max(recruiter_authenticity - SEMANTIC_AUTHENTICITY_PENALTY, MIN_TRUST_SCORE)
         company_presence = max(company_presence - SEMANTIC_COMPANY_PENALTY, MIN_TRUST_SCORE)
         language_credibility = max(language_credibility - SEMANTIC_LANGUAGE_PENALTY, MIN_TRUST_SCORE)
