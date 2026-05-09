@@ -9,6 +9,18 @@ import re
 import uuid
 from datetime import datetime
 import io
+import logging
+
+try:
+    import numpy as np
+    import faiss
+    from sentence_transformers import SentenceTransformer
+    SEMANTIC_MATCHING_AVAILABLE = True
+except (ImportError, ModuleNotFoundError):
+    np = None
+    faiss = None
+    SentenceTransformer = None
+    SEMANTIC_MATCHING_AVAILABLE = False
 
 app = FastAPI(title="SafeIntern AI API")
 
@@ -24,6 +36,37 @@ REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 HEURISTIC_FLAG_WEIGHT = 3
 # Configurable model: override with OLLAMA_MODEL env var if needed (e.g. "gemma3", "mistral")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
+SEMANTIC_MODEL = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
+SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
+MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
+MIN_SEMANTIC_SCORE_BOOST = 12
+MAX_SEMANTIC_SCORE_BOOST = 30
+TOP_K_SEMANTIC_MATCHES = 3
+SEMANTIC_AUTHENTICITY_PENALTY = 12
+SEMANTIC_COMPANY_PENALTY = 10
+SEMANTIC_LANGUAGE_PENALTY = 12
+HIGH_SEVERITY_SEMANTIC_THRESHOLD = 0.7
+MIN_TRUST_SCORE = 10
+SEMANTIC_SCORE_BOOST_LOWER, SEMANTIC_SCORE_BOOST_UPPER = sorted(
+    (MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
+)
+
+# Curated fictional scam templates used as semantic anchors for FAISS similarity.
+# Add new entries only when they represent distinct scam tactics (fee request, urgency,
+# guaranteed placement, document/OTP harvesting, or confidential transfer requests).
+SEMANTIC_SCAM_EXAMPLES = [
+    "No interview required. Pay a refundable onboarding fee now to confirm internship slot.",
+    "Urgent hiring for partner projects. Register immediately on this site or your seat is cancelled.",
+    "Before onboarding, purchase a mandatory certification kit and reply yes to continue.",
+    "You are automatically selected with high stipend and free trip. Share Aadhaar, PAN, bank details, and OTP.",
+    "Transfer a refundable security deposit for verification and keep this hiring process confidential.",
+    "Guaranteed placement at top companies after paying for certification. No coding required.",
+]
+
+semantic_model = None
+semantic_index = None
+semantic_examples = []
+logger = logging.getLogger(__name__)
 
 # Keywords requesting identity proofs — a major data-harvesting red flag
 # NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
@@ -205,6 +248,83 @@ FAKE_INTERNSHIP_CLAIMS = {
     "dm for details": "off-platform-contact",
     "message me directly": "off-platform-contact",
 }
+
+def initialize_semantic_scam_index() -> None:
+    global semantic_model, semantic_index, semantic_examples
+    if not SEMANTIC_MATCHING_AVAILABLE:
+        return
+    if semantic_model is not None and semantic_index is not None:
+        return
+
+    try:
+        semantic_model = SentenceTransformer(SEMANTIC_MODEL)
+        embeddings = semantic_model.encode(
+            SEMANTIC_SCAM_EXAMPLES,
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+        )
+        embeddings = embeddings.astype("float32")
+        semantic_index = faiss.IndexFlatIP(embeddings.shape[1])
+        semantic_index.add(embeddings)
+        semantic_examples = SEMANTIC_SCAM_EXAMPLES
+    except Exception as exc:
+        logger.warning("Semantic scam index initialization failed: %s", exc)
+        semantic_model = None
+        semantic_index = None
+        semantic_examples = []
+
+
+def semantic_scam_similarity(text: str) -> Optional[Dict[str, Any]]:
+    if not SEMANTIC_MATCHING_AVAILABLE:
+        return None
+    if not text or len(text.strip()) < MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS:
+        return None
+
+    initialize_semantic_scam_index()
+    if semantic_model is None or semantic_index is None:
+        return None
+
+    try:
+        query_embedding = semantic_model.encode(
+            [text],
+            convert_to_numpy=True,
+            normalize_embeddings=True,
+        ).astype("float32")
+        top_k = min(TOP_K_SEMANTIC_MATCHES, len(semantic_examples))
+        scores, indices = semantic_index.search(query_embedding, top_k)
+    except Exception as exc:
+        logger.warning("Semantic similarity scoring failed: %s", exc)
+        return None
+
+    if scores.size == 0:
+        return None
+
+    best_similarity = float(scores[0][0])
+    if best_similarity < SEMANTIC_MATCH_THRESHOLD:
+        return None
+
+    matches = []
+    for score, idx in zip(scores[0], indices[0]):
+        similarity = float(score)
+        if similarity < SEMANTIC_MATCH_THRESHOLD or idx < 0 or idx >= len(semantic_examples):
+            continue
+        matches.append(
+            {
+                "similarity": round(similarity, 3),
+                "example": semantic_examples[idx],
+            }
+        )
+
+    if not matches:
+        return None
+
+    return {
+        "best_similarity": round(best_similarity, 3),
+        "matches": matches,
+    }
+
+
+initialize_semantic_scam_index()
 
 def load_reports():
     if os.path.exists(REPORTS_FILE):
@@ -402,6 +522,21 @@ def rule_based_analysis(text: str) -> dict:
     vague_job_found = False
     text_only_interview_found = False
     check_cashing_found = False
+
+    semantic_signal = semantic_scam_similarity(text)
+    if semantic_signal:
+        similarity = semantic_signal["best_similarity"]
+        flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
+        semantic_score_boost = clamp(
+            int(similarity * SEMANTIC_SCORE_BOOST_UPPER),
+            SEMANTIC_SCORE_BOOST_LOWER,
+            SEMANTIC_SCORE_BOOST_UPPER,
+        )
+        scam_signal_score += semantic_score_boost
+        # Semantically similar scam text most directly undermines recruiter authenticity and language quality.
+        recruiter_authenticity = max(recruiter_authenticity - SEMANTIC_AUTHENTICITY_PENALTY, MIN_TRUST_SCORE)
+        company_presence = max(company_presence - SEMANTIC_COMPANY_PENALTY, MIN_TRUST_SCORE)
+        language_credibility = max(language_credibility - SEMANTIC_LANGUAGE_PENALTY, MIN_TRUST_SCORE)
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -634,6 +769,12 @@ def rule_based_analysis(text: str) -> dict:
             "description": "The text uses urgency tactics, unrealistic promises, or phishing language commonly found in scam postings.",
             "severity": "medium"
         })
+    if semantic_signal:
+        explanations.append({
+            "title": "Semantic Similarity to Known Scam Messages",
+            "description": "This text is semantically similar to known fake internship and recruiter scam patterns, even when exact keywords differ.",
+            "severity": "high" if semantic_signal["best_similarity"] >= HIGH_SEVERITY_SEMANTIC_THRESHOLD else "medium"
+        })
 
     recommendations = [
         "Never pay any fee to secure an internship or job",
@@ -647,6 +788,8 @@ def rule_based_analysis(text: str) -> dict:
         recommendations.insert(0, "IMMEDIATELY stop communication - this appears to be a money scam")
     if data_harvesting_risk >= 25:
         recommendations.insert(0, "Do NOT share any personal documents or financial details — this appears to be a data theft scam")
+    if semantic_signal:
+        recommendations.insert(0, "Treat this posting as potentially fraudulent and independently verify recruiter identity before any response")
 
     summary = summary_from_probability(scam_probability)
 
