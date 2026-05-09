@@ -41,6 +41,7 @@ SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
 MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
 MIN_SEMANTIC_SCORE_BOOST = 12
 MAX_SEMANTIC_SCORE_BOOST = 30
+TOP_K_SEMANTIC_MATCHES = 3
 
 SEMANTIC_SCAM_EXAMPLES = [
     "No interview required. Pay a refundable onboarding fee now to confirm internship slot.",
@@ -278,7 +279,8 @@ def semantic_scam_similarity(text: str) -> Optional[Dict[str, Any]]:
             convert_to_numpy=True,
             normalize_embeddings=True,
         ).astype("float32")
-        scores, indices = semantic_index.search(query_embedding, min(3, len(semantic_examples)))
+        top_k = min(TOP_K_SEMANTIC_MATCHES, len(semantic_examples))
+        scores, indices = semantic_index.search(query_embedding, top_k)
     except Exception as exc:
         logger.warning("Semantic similarity scoring failed: %s", exc)
         return None
@@ -514,9 +516,11 @@ def rule_based_analysis(text: str) -> dict:
     if semantic_signal:
         similarity = semantic_signal["best_similarity"]
         flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
+        boost_floor = min(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
+        boost_ceiling = max(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
         semantic_score_boost = min(
-            MAX_SEMANTIC_SCORE_BOOST,
-            max(MIN_SEMANTIC_SCORE_BOOST, int(similarity * MAX_SEMANTIC_SCORE_BOOST)),
+            boost_ceiling,
+            max(boost_floor, int(similarity * boost_ceiling)),
         )
         scam_signal_score += semantic_score_boost
         recruiter_authenticity = max(recruiter_authenticity - 12, 10)
