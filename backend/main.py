@@ -9,6 +9,7 @@ import re
 import uuid
 from datetime import datetime
 import io
+import logging
 
 try:
     import numpy as np
@@ -37,6 +38,9 @@ HEURISTIC_FLAG_WEIGHT = 3
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
 SEMANTIC_MODEL_NAME = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
 SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
+MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
+MIN_SEMANTIC_SCORE_BOOST = 12
+MAX_SEMANTIC_SCORE_BOOST = 30
 
 SEMANTIC_SCAM_EXAMPLES = [
     "No interview required. Pay a refundable onboarding fee now to confirm internship slot.",
@@ -50,6 +54,7 @@ SEMANTIC_SCAM_EXAMPLES = [
 semantic_model = None
 semantic_index = None
 semantic_examples = []
+logger = logging.getLogger(__name__)
 
 # Keywords requesting identity proofs — a major data-harvesting red flag
 # NOTE: "aadhar" (single 'a') is intentionally included as a common misspelling
@@ -250,7 +255,8 @@ def initialize_semantic_scam_index() -> None:
         semantic_index = faiss.IndexFlatIP(embeddings.shape[1])
         semantic_index.add(embeddings)
         semantic_examples = SEMANTIC_SCAM_EXAMPLES
-    except Exception:
+    except Exception as exc:
+        logger.warning("Semantic scam index initialization failed: %s", exc)
         semantic_model = None
         semantic_index = None
         semantic_examples = []
@@ -259,7 +265,7 @@ def initialize_semantic_scam_index() -> None:
 def semantic_scam_similarity(text: str) -> Optional[Dict[str, Any]]:
     if not SEMANTIC_MATCHING_AVAILABLE:
         return None
-    if not text or len(text.strip()) < 20:
+    if not text or len(text.strip()) < MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS:
         return None
 
     initialize_semantic_scam_index()
@@ -273,7 +279,8 @@ def semantic_scam_similarity(text: str) -> Optional[Dict[str, Any]]:
             normalize_embeddings=True,
         ).astype("float32")
         scores, indices = semantic_index.search(query_embedding, min(3, len(semantic_examples)))
-    except Exception:
+    except Exception as exc:
+        logger.warning("Semantic similarity scoring failed: %s", exc)
         return None
 
     if scores.size == 0:
@@ -507,7 +514,11 @@ def rule_based_analysis(text: str) -> dict:
     if semantic_signal:
         similarity = semantic_signal["best_similarity"]
         flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
-        scam_signal_score += min(30, max(12, int(similarity * 30)))
+        semantic_score_boost = min(
+            MAX_SEMANTIC_SCORE_BOOST,
+            max(MIN_SEMANTIC_SCORE_BOOST, int(similarity * MAX_SEMANTIC_SCORE_BOOST)),
+        )
+        scam_signal_score += semantic_score_boost
         recruiter_authenticity = max(recruiter_authenticity - 12, 10)
         company_presence = max(company_presence - 10, 10)
         language_credibility = max(language_credibility - 12, 10)
