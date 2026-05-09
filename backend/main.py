@@ -42,7 +42,14 @@ MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
 MIN_SEMANTIC_SCORE_BOOST = 12
 MAX_SEMANTIC_SCORE_BOOST = 30
 TOP_K_SEMANTIC_MATCHES = 3
+SEMANTIC_AUTHENTICITY_PENALTY = 12
+SEMANTIC_COMPANY_PENALTY = 10
+SEMANTIC_LANGUAGE_PENALTY = 12
+HIGH_SEVERITY_SEMANTIC_THRESHOLD = 0.7
 
+# Curated fictional scam templates used as semantic anchors for FAISS similarity.
+# Add new entries only when they represent distinct scam tactics (fee request, urgency,
+# guaranteed placement, document/OTP harvesting, or confidential transfer requests).
 SEMANTIC_SCAM_EXAMPLES = [
     "No interview required. Pay a refundable onboarding fee now to confirm internship slot.",
     "Urgent hiring for partner projects. Register immediately on this site or your seat is cancelled.",
@@ -518,14 +525,15 @@ def rule_based_analysis(text: str) -> dict:
         flags.append(f"Semantic match to known scam pattern (similarity: {similarity})")
         boost_floor = min(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
         boost_ceiling = max(MIN_SEMANTIC_SCORE_BOOST, MAX_SEMANTIC_SCORE_BOOST)
-        semantic_score_boost = min(
+        semantic_score_boost = clamp(
+            int(similarity * boost_ceiling),
+            boost_floor,
             boost_ceiling,
-            max(boost_floor, int(similarity * boost_ceiling)),
         )
         scam_signal_score += semantic_score_boost
-        recruiter_authenticity = max(recruiter_authenticity - 12, 10)
-        company_presence = max(company_presence - 10, 10)
-        language_credibility = max(language_credibility - 12, 10)
+        recruiter_authenticity = max(recruiter_authenticity - SEMANTIC_AUTHENTICITY_PENALTY, 10)
+        company_presence = max(company_presence - SEMANTIC_COMPANY_PENALTY, 10)
+        language_credibility = max(language_credibility - SEMANTIC_LANGUAGE_PENALTY, 10)
 
     for kw in payment_keywords:
         if kw in text_lower:
@@ -762,7 +770,7 @@ def rule_based_analysis(text: str) -> dict:
         explanations.append({
             "title": "Semantic Similarity to Known Scam Messages",
             "description": "This text is semantically similar to known fake internship and recruiter scam patterns, even when exact keywords differ.",
-            "severity": "high" if semantic_signal["best_similarity"] >= 0.7 else "medium"
+            "severity": "high" if semantic_signal["best_similarity"] >= HIGH_SEVERITY_SEMANTIC_THRESHOLD else "medium"
         })
 
     recommendations = [
