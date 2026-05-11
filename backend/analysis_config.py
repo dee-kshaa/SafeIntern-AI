@@ -110,6 +110,15 @@ FAKE_HR_PATTERNS = [
     "guaranteed placement",
 ]
 
+SUSPICIOUS_PHRASE_PATTERNS = [
+    "registration fee",
+    "guaranteed placement",
+    "no interview required",
+    "share OTP",
+    "limited seats",
+    "urgent payment",
+]
+
 MISSPELLING_PATTERNS = [
     "interveiw",
     "seletion",

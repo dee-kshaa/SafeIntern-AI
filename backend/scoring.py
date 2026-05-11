@@ -157,6 +157,7 @@ def score_analysis(text: str, entities: Dict[str, Any], verification: Dict[str, 
     urgency_phrases = entities.get("urgency_phrases", [])
     interview_claims = entities.get("interview_process_claims", [])
     fake_hr_phrases = entities.get("fake_hr_phrases", [])
+    suspicious_phrases = entities.get("suspicious_phrases", [])
     communication_channels = set(entities.get("communication_channels", []))
     salary_mentions = entities.get("salary_mentions", [])
     recruiter_email = entities.get("recruiter_email")
@@ -428,6 +429,7 @@ def score_analysis(text: str, entities: Dict[str, Any], verification: Dict[str, 
         ]
     )
 
+    highlight_terms.extend(suspicious_phrases)
     highlighted_text = highlight_text(text, highlight_terms)
     verified_trust_count = len(trust_indicators)
 
@@ -445,6 +447,7 @@ def score_analysis(text: str, entities: Dict[str, Any], verification: Dict[str, 
         },
         "trust_indicators": trust_indicators,
         "highlighted_text": highlighted_text,
+        "suspicious_phrases": list(dict.fromkeys(suspicious_phrases)),
         "verified_trust_count": verified_trust_count,
         "severe_red_flags": severe_red_flags,
         "detected_scam_reasons": [entry["title"] for entry in score_breakdown if entry["weight"] > 0],

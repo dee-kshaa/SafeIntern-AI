@@ -29,6 +29,36 @@ def _build_summary(classification: str, verification_status: str, reasons: list[
     return "Multiple trust indicators were verified and the weighted risk score stayed low, so this looks comparatively safer."
 
 
+def _build_ai_explanation(
+    scoring: Dict[str, Any],
+    extracted: Dict[str, Any],
+    summary: str,
+    classification: str,
+) -> Dict[str, Any]:
+    reasons: list[str] = []
+
+    if extracted.get("payment_requests"):
+        reasons.append("Requests upfront payment")
+    if extracted.get("urgency_phrases"):
+        reasons.append("Uses urgency tactics")
+    if any(item.get("title") == "Compensation looks unrealistic for an internship" for item in scoring["score_breakdown"]):
+        reasons.append("Promises unrealistic stipend")
+    if extracted.get("sensitive_info_requests"):
+        reasons.append("Requests sensitive information")
+
+    if not reasons:
+        reasons = scoring.get("detected_scam_reasons", [])[:4]
+    if not reasons:
+        reasons = ["No major scam indicators were detected."]
+
+    return {
+        "title": "AI Explanation",
+        "summary": summary,
+        "classification_context": classification,
+        "reasons": reasons,
+    }
+
+
 async def analyze_text_content(text: str, source: str = "text") -> Dict[str, Any]:
     extracted = extract_structured_entities(text)
     verification = await verify_entities(extracted)
@@ -70,16 +100,21 @@ async def analyze_text_content(text: str, source: str = "text") -> Dict[str, Any
     if reasoning:
         recommendations.extend(reasoning.get("recommendations", []))
 
+    ai_explanation = _build_ai_explanation(scoring, extracted, summary, classification)
+
     return {
         "classification": classification,
         "scam_probability": final_score,
+        "scam_confidence_score": final_score,
         "risk_meter": final_score,
         "risk_level": classification,
         "confidence_score": clamp(confidence),
         "summary": summary,
         "flags": scoring["flags"],
         "detected_scam_reasons": scoring["detected_scam_reasons"],
+        "suspicious_phrases": scoring["suspicious_phrases"],
         "highlighted_text": scoring["highlighted_text"],
+        "ai_explanation": ai_explanation,
         "explanations": explanations,
         "recommendations": list(dict.fromkeys(recommendations)),
         "trust_breakdown": scoring["trust_breakdown"],

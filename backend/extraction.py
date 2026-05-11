@@ -12,6 +12,7 @@ from analysis_config import (
     FAKE_HR_PATTERNS,
     INTERVIEW_PATTERNS,
     PAYMENT_PATTERNS,
+    SUSPICIOUS_PHRASE_PATTERNS,
     SENSITIVE_INFO_PATTERNS,
     URGENCY_PATTERNS,
 )
@@ -46,7 +47,7 @@ def dedupe(values: Iterable[str]) -> List[str]:
 
 
 def _collect_matches(text_lower: str, patterns: Iterable[str]) -> List[str]:
-    return dedupe(pattern for pattern in patterns if pattern in text_lower)
+    return dedupe(pattern for pattern in patterns if pattern.lower() in text_lower)
 
 
 def _candidate_tokens(text: str) -> List[str]:
@@ -135,6 +136,7 @@ def extract_structured_entities(text: str) -> Dict[str, Any]:
         "communication_channels": dedupe(communication_channels),
         "sensitive_info_requests": _collect_matches(text_lower, SENSITIVE_INFO_PATTERNS),
         "fake_hr_phrases": _collect_matches(text_lower, FAKE_HR_PATTERNS),
+        "suspicious_phrases": _collect_matches(text_lower, SUSPICIOUS_PHRASE_PATTERNS),
     }
 
 
