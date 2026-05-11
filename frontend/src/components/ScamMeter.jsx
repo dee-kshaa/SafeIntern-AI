@@ -5,15 +5,16 @@ const SUSPICIOUS_THRESHOLD = 55;
 
 export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
   const [animated, setAnimated] = useState(0);
+  const normalizedProbability = Math.max(0, Math.min(100, Number(probability) || 0));
   const normalizedRiskLevel =
     riskLevel === 'Safe' ? 'Genuine' :
     ['High Risk', 'Critical Risk'].includes(riskLevel) ? 'Likely Scam' :
     riskLevel || 'Suspicious';
   
   useEffect(() => {
-    const timer = setTimeout(() => setAnimated(probability), 100);
+    const timer = setTimeout(() => setAnimated(normalizedProbability), 100);
     return () => clearTimeout(timer);
-  }, [probability]);
+  }, [normalizedProbability]);
 
   const radius = 80;
   const circumference = 2 * Math.PI * radius;
@@ -25,10 +26,10 @@ export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
     return '#ef4444';
   };
 
-  const color = getColor(probability);
+  const color = getColor(normalizedProbability);
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-5 w-full">
       <div className="relative">
         <svg width="200" height="200" viewBox="0 0 200 200" className="-rotate-90">
           <circle
@@ -59,6 +60,18 @@ export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
       <div className="text-center">
         <div className="text-sm text-white/60 mb-1">Risk Assessment</div>
         <div className="font-bold text-lg" style={{ color }}>{normalizedRiskLevel}</div>
+      </div>
+      <div className="w-full max-w-sm">
+        <div className="flex items-center justify-between text-xs text-white/60 mb-1.5">
+          <span>Fraud Confidence</span>
+          <span>{animated}%</span>
+        </div>
+        <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out"
+            style={{ width: `${animated}%`, backgroundColor: color }}
+          />
+        </div>
       </div>
     </div>
   );

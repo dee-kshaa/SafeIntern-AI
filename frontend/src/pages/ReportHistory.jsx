@@ -137,7 +137,10 @@ export default function ReportHistory() {
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-2 uppercase tracking-wide">Explanations</h3>
-                <ExplainabilityPanel explanations={selected.analysis?.explanations || []} />
+                <ExplainabilityPanel
+                  explanations={selected.analysis?.explanations || []}
+                  aiExplanation={selected.analysis?.ai_explanation}
+                />
               </div>
               <div>
                 <h3 className="text-sm font-semibold text-white/60 mb-2 uppercase tracking-wide">Flags</h3>

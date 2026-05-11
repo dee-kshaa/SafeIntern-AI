@@ -202,7 +202,7 @@ export default function ScamAnalyzer() {
             {/* Scam Meter */}
               <div className="glass-card p-6 flex flex-col items-center">
                 <h2 className="text-lg font-bold text-white mb-6 self-start">Scam Probability</h2>
-                <ScamMeter probability={result.scam_probability} riskLevel={normalizedRiskLevel} />
+                <ScamMeter probability={result.scam_confidence_score ?? result.scam_probability} riskLevel={normalizedRiskLevel} />
               </div>
 
             {/* Trust Breakdown */}
@@ -228,10 +228,32 @@ export default function ScamAnalyzer() {
             </div>
 
             {/* Why Suspicious */}
-            <div className="glass-card p-6">
-              <h2 className="text-lg font-bold text-white mb-4">Why Is This Suspicious?</h2>
-              <ExplainabilityPanel explanations={result.explanations || []} />
+              <div className="glass-card p-6">
+                <h2 className="text-lg font-bold text-white mb-4">Why Is This Suspicious?</h2>
+                <ExplainabilityPanel
+                  explanations={result.explanations || []}
+                  aiExplanation={result.ai_explanation}
+                />
+              </div>
             </div>
+
+          {/* Suspicious Phrases */}
+          <div className="glass-card p-6">
+            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-warning" />
+              Suspicious Phrases ({result.suspicious_phrases?.length || 0})
+            </h2>
+            {result.suspicious_phrases?.length ? (
+              <div className="flex flex-wrap gap-2">
+                {result.suspicious_phrases.map((phrase, i) => (
+                  <span key={i} className="px-3 py-1.5 rounded-full bg-warning/15 border border-warning/30 text-warning text-xs font-semibold">
+                    {phrase}
+                  </span>
+                ))}
+              </div>
+            ) : (
+              <p className="text-white/50 text-sm">No explicit suspicious phrases detected from the configured keyword set.</p>
+            )}
           </div>
 
           {/* Highlighted Text */}
