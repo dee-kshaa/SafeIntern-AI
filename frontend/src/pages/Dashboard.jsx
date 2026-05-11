@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, AlertTriangle, CheckCircle, TrendingUp, Search, FileText } from 'lucide-react';
+import { AlertTriangle, CheckCircle, TrendingUp, Search, FileText } from 'lucide-react';
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import StatCard from '../components/StatCard';
 import RiskBadge from '../components/RiskBadge';
 import { analyzeText, getReports } from '../services/api';
 
 const RISK_COLORS = {
-  'Safe': '#22c55e',
+  'Genuine': '#22c55e',
   'Suspicious': '#f59e0b',
-  'High Risk': '#f97316',
-  'Critical Risk': '#ef4444',
+  'Likely Scam': '#ef4444',
 };
+
+const normalizeRiskLevel = (level) => (
+  level === 'Safe' ? 'Genuine' :
+  ['High Risk', 'Critical Risk'].includes(level) ? 'Likely Scam' :
+  level || 'Suspicious'
+);
 
 export default function Dashboard() {
   const [reports, setReports] = useState([]);
@@ -37,15 +42,15 @@ export default function Dashboard() {
   };
 
   const totalScans = reports.length;
-  const scamsDetected = reports.filter(r => ['High Risk', 'Critical Risk'].includes(r.analysis?.risk_level)).length;
-  const safeListings = reports.filter(r => r.analysis?.risk_level === 'Safe').length;
+  const scamsDetected = reports.filter(r => normalizeRiskLevel(r.analysis?.risk_level) === 'Likely Scam').length;
+  const safeListings = reports.filter(r => normalizeRiskLevel(r.analysis?.risk_level) === 'Genuine').length;
   const avgRisk = reports.length > 0
     ? Math.round(reports.reduce((acc, r) => acc + (r.analysis?.scam_probability || 0), 0) / reports.length)
     : 0;
 
   const riskDistribution = Object.entries(
     reports.reduce((acc, r) => {
-      const level = r.analysis?.risk_level || 'Safe';
+      const level = normalizeRiskLevel(r.analysis?.risk_level);
       acc[level] = (acc[level] || 0) + 1;
       return acc;
     }, {})
@@ -163,7 +168,7 @@ export default function Dashboard() {
           <div className="space-y-3">
             {reports.slice(0, 5).map((report) => (
               <div key={report.id} className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
-                <RiskBadge level={report.analysis?.risk_level || 'Safe'} />
+                <RiskBadge level={normalizeRiskLevel(report.analysis?.risk_level)} />
                 <div className="flex-1 min-w-0">
                   <p className="text-white/80 text-sm truncate">{report.text}</p>
                   <p className="text-white/40 text-xs">{new Date(report.created_at).toLocaleDateString()}</p>

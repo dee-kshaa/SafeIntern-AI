@@ -26,9 +26,19 @@ export default function ScamAnalyzer() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'] },
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'],
+      'application/pdf': ['.pdf'],
+      'message/rfc822': ['.eml'],
+      'text/plain': ['.txt'],
+    },
     maxFiles: 1,
   });
+
+  const normalizedRiskLevel =
+    result?.risk_level === 'Safe' ? 'Genuine' :
+    ['High Risk', 'Critical Risk'].includes(result?.risk_level) ? 'Likely Scam' :
+    result?.risk_level;
 
   const handleAnalyze = async () => {
     setError('');
@@ -41,8 +51,8 @@ export default function ScamAnalyzer() {
         if (!text.trim()) { setError('Please enter some text to analyze.'); setAnalyzing(false); return; }
         data = await analyzeText(text, 'text');
       } else {
-        if (!uploadedFile) { setError('Please upload an image.'); setAnalyzing(false); return; }
-        data = await analyzeImage(uploadedFile);
+          if (!uploadedFile) { setError('Please upload a screenshot, PDF, or email file.'); setAnalyzing(false); return; }
+          data = await analyzeImage(uploadedFile);
       }
       setResult(data);
     } catch (err) {
@@ -89,7 +99,7 @@ export default function ScamAnalyzer() {
               activeTab === 'image' ? 'bg-primary text-white shadow-lg' : 'text-white/60 hover:text-white'
             }`}
           >
-            <Upload className="w-4 h-4" /> Upload Image
+              <Upload className="w-4 h-4" /> Upload File
           </button>
         </div>
 
@@ -116,8 +126,8 @@ export default function ScamAnalyzer() {
               </div>
             ) : (
               <div>
-                <p className="text-white/60 mb-1">{isDragActive ? 'Drop the image here' : 'Drag & drop a screenshot here'}</p>
-                <p className="text-white/40 text-sm">or click to browse &bull; PNG, JPG, JPEG supported</p>
+                <p className="text-white/60 mb-1">{isDragActive ? 'Drop the file here' : 'Drag & drop a screenshot, PDF, or email file here'}</p>
+                <p className="text-white/40 text-sm">or click to browse &bull; PNG, JPG, PDF, EML, TXT supported</p>
               </div>
             )}
           </div>
@@ -157,19 +167,18 @@ export default function ScamAnalyzer() {
         <div className="space-y-6 animate-fade-in">
           {/* Summary Banner */}
           <div className={`glass-card p-6 border-l-4 ${
-            result.risk_level === 'Safe' ? 'border-success' :
-            result.risk_level === 'Suspicious' ? 'border-warning' :
-            result.risk_level === 'High Risk' ? 'border-orange-500' : 'border-danger'
+            normalizedRiskLevel === 'Genuine' ? 'border-success' :
+            normalizedRiskLevel === 'Suspicious' ? 'border-warning' : 'border-danger'
           }`}>
             <div className="flex items-start justify-between flex-wrap gap-4">
               <div className="flex items-center gap-4">
-                {result.risk_level === 'Safe' ? (
+                {normalizedRiskLevel === 'Genuine' ? (
                   <CheckCircle className="w-10 h-10 text-success flex-shrink-0" />
                 ) : (
                   <AlertTriangle className="w-10 h-10 text-danger flex-shrink-0" />
                 )}
                 <div>
-                  <RiskBadge level={result.risk_level} size="lg" />
+                  <RiskBadge level={normalizedRiskLevel} size="lg" />
                   <p className="text-white/80 text-sm mt-2 max-w-2xl">{result.summary}</p>
                 </div>
               </div>
@@ -191,10 +200,10 @@ export default function ScamAnalyzer() {
           {/* Main Results Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Scam Meter */}
-            <div className="glass-card p-6 flex flex-col items-center">
-              <h2 className="text-lg font-bold text-white mb-6 self-start">Scam Probability</h2>
-              <ScamMeter probability={result.scam_probability} riskLevel={result.risk_level} />
-            </div>
+              <div className="glass-card p-6 flex flex-col items-center">
+                <h2 className="text-lg font-bold text-white mb-6 self-start">Scam Probability</h2>
+                <ScamMeter probability={result.scam_probability} riskLevel={normalizedRiskLevel} />
+              </div>
 
             {/* Trust Breakdown */}
             <div className="glass-card p-6">
