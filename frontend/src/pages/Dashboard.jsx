@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, AlertTriangle, CheckCircle, TrendingUp, Search, FileText } from 'lucide-react';
+import { AlertTriangle, CheckCircle, TrendingUp, Search, FileText } from 'lucide-react';
 import { RadarChart, Radar, PolarGrid, PolarAngleAxis, ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 import StatCard from '../components/StatCard';
 import RiskBadge from '../components/RiskBadge';
