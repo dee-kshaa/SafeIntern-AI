@@ -5,7 +5,12 @@ import TrustBreakdown from '../components/TrustBreakdown';
 import ExplainabilityPanel from '../components/ExplainabilityPanel';
 import { getReports, deleteReport } from '../services/api';
 
-const RISK_LEVELS = ['All', 'Safe', 'Suspicious', 'High Risk', 'Critical Risk'];
+const RISK_LEVELS = ['All', 'Genuine', 'Suspicious', 'Likely Scam'];
+const normalizeRiskLevel = (level) => (
+  level === 'Safe' ? 'Genuine' :
+  ['High Risk', 'Critical Risk'].includes(level) ? 'Likely Scam' :
+  level || 'Suspicious'
+);
 
 export default function ReportHistory() {
   const [reports, setReports] = useState([]);
@@ -26,7 +31,7 @@ export default function ReportHistory() {
 
   const filtered = reports.filter(r => {
     const matchSearch = !search || r.text.toLowerCase().includes(search.toLowerCase());
-    const matchLevel = filterLevel === 'All' || r.analysis?.risk_level === filterLevel;
+    const matchLevel = filterLevel === 'All' || normalizeRiskLevel(r.analysis?.risk_level) === filterLevel;
     return matchSearch && matchLevel;
   });
 
@@ -76,7 +81,7 @@ export default function ReportHistory() {
           {filtered.map((report) => (
             <div key={report.id} className="glass-card p-4 hover:border-white/20 transition-all group">
               <div className="flex items-center gap-4 flex-wrap">
-                <RiskBadge level={report.analysis?.risk_level || 'Safe'} />
+                <RiskBadge level={normalizeRiskLevel(report.analysis?.risk_level)} />
                 <div className="flex-1 min-w-0">
                   <p className="text-white/80 text-sm truncate">{report.text}</p>
                   <p className="text-white/40 text-xs mt-1">
@@ -109,7 +114,7 @@ export default function ReportHistory() {
           <div className="glass-card max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <RiskBadge level={selected.analysis?.risk_level} size="lg" />
+                <RiskBadge level={normalizeRiskLevel(selected.analysis?.risk_level)} size="lg" />
                 <span className="text-white/60 text-sm">{selected.analysis?.scam_probability}% risk</span>
               </div>
               <button onClick={() => setSelected(null)} className="p-2 rounded-lg hover:bg-white/10 text-white/60">
