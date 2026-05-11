@@ -69,6 +69,11 @@ export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
         <div className="h-2.5 rounded-full bg-white/10 overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-1000 ease-out"
+            role="progressbar"
+            aria-label="Fraud confidence score"
+            aria-valuenow={animated}
+            aria-valuemin={0}
+            aria-valuemax={100}
             style={{ width: `${animated}%`, backgroundColor: color }}
           />
         </div>

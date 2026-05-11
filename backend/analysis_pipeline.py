@@ -106,7 +106,6 @@ async def analyze_text_content(text: str, source: str = "text") -> Dict[str, Any
         "classification": classification,
         "scam_probability": final_score,
         "scam_confidence_score": final_score,
-        "scam_confidence_percentage": f"{final_score}%",
         "risk_meter": final_score,
         "risk_level": classification,
         "confidence_score": clamp(confidence),

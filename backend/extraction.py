@@ -47,7 +47,7 @@ def dedupe(values: Iterable[str]) -> List[str]:
 
 
 def _collect_matches(text_lower: str, patterns: Iterable[str]) -> List[str]:
-    return dedupe(pattern for pattern in patterns if pattern in text_lower)
+    return dedupe(pattern for pattern in patterns if pattern.lower() in text_lower)
 
 
 def _candidate_tokens(text: str) -> List[str]:

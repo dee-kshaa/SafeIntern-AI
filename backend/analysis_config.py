@@ -114,7 +114,7 @@ SUSPICIOUS_PHRASE_PATTERNS = [
     "registration fee",
     "guaranteed placement",
     "no interview required",
-    "share otp",
+    "share OTP",
     "limited seats",
     "urgent payment",
 ]

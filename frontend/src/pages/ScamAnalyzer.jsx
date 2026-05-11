@@ -252,7 +252,7 @@ export default function ScamAnalyzer() {
                 ))}
               </div>
             ) : (
-              <p className="text-white/50 text-sm">No explicit suspicious phrases detected from the configured keyword set.</p>
+              <p className="text-white/50 text-sm">No suspicious phrases detected.</p>
             )}
           </div>
 
