@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+const GENUINE_THRESHOLD = 25;
+const SUSPICIOUS_THRESHOLD = 55;
+
 export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
   const [animated, setAnimated] = useState(0);
   const normalizedRiskLevel =
@@ -17,8 +20,8 @@ export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
   const strokeDashoffset = circumference - (animated / 100) * circumference;
 
   const getColor = (prob) => {
-    if (prob <= 25) return '#22c55e';
-    if (prob <= 55) return '#f59e0b';
+    if (prob <= GENUINE_THRESHOLD) return '#22c55e';
+    if (prob <= SUSPICIOUS_THRESHOLD) return '#f59e0b';
     return '#ef4444';
   };
 

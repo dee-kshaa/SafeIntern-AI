@@ -8,6 +8,7 @@ from verification import verify_entities
 
 GENUINE_THRESHOLD = 25
 SUSPICIOUS_THRESHOLD = 55
+MIN_LLM_CONFIDENCE_FOR_ADJUSTMENT = 40
 
 
 def _classification_from_score(score: int) -> str:
@@ -38,7 +39,7 @@ async def analyze_text_content(text: str, source: str = "text") -> Dict[str, Any
     if reasoning:
         llm_adjustment = reasoning.get("risk_score_adjustment", 0)
         llm_confidence = reasoning.get("confidence", 0)
-        weighted_adjustment = round(llm_adjustment * max(llm_confidence, 40) / 100)
+        weighted_adjustment = round(llm_adjustment * max(llm_confidence, MIN_LLM_CONFIDENCE_FOR_ADJUSTMENT) / 100)
         final_score = clamp(final_score + weighted_adjustment, 0, 100)
         if reasoning.get("classification_candidate") == "Likely Scam" and scoring["risk_score"] >= 40:
             final_score = max(final_score, 56)

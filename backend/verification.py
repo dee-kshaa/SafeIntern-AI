@@ -3,7 +3,7 @@ import socket
 from datetime import datetime, timezone
 from html import unescape
 from typing import Any, Dict, List, Optional
-from urllib.parse import parse_qs, quote_plus, unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 import httpx
 
@@ -59,7 +59,8 @@ def _decode_duckduckgo_link(href: str) -> str:
     if href.startswith("//"):
         href = f"https:{href}"
     parsed = urlparse(href)
-    if "duckduckgo.com" in parsed.netloc:
+    host = _clean_domain(parsed.netloc)
+    if host == "duckduckgo.com" or (host and host.endswith(".duckduckgo.com")):
         target = parse_qs(parsed.query).get("uddg", [""])[0]
         if target:
             return unquote(target)
@@ -94,9 +95,13 @@ async def _duckduckgo_search(client: httpx.AsyncClient, query: str) -> List[Dict
 
 
 async def _domain_age_days(client: httpx.AsyncClient, domain: str) -> Optional[int]:
-    response = await client.get(RDAP_ENDPOINT.format(domain=domain), headers=REQUEST_HEADERS)
-    response.raise_for_status()
-    payload = response.json()
+    try:
+        response = await client.get(RDAP_ENDPOINT.format(domain=domain), headers=REQUEST_HEADERS)
+        response.raise_for_status()
+        payload = response.json()
+    except Exception:
+        return None
+
     for event in payload.get("events", []):
         action = (event.get("eventAction") or "").lower()
         if action in {"registration", "registered", "creation", "created"}:
@@ -106,6 +111,10 @@ async def _domain_age_days(client: httpx.AsyncClient, domain: str) -> Optional[i
             created_at = datetime.fromisoformat(event_date.replace("Z", "+00:00"))
             return max((datetime.now(timezone.utc) - created_at).days, 0)
     return None
+
+
+def _host_matches(host: str, expected: str) -> bool:
+    return host == expected or host.endswith(f".{expected}")
 
 
 def _resolve_domain(domain: str) -> bool:
@@ -192,7 +201,7 @@ async def verify_entities(entities: Dict[str, Any]) -> Dict[str, Any]:
                     continue
 
                 if search_name == "linkedin":
-                    linkedin_match = next((item for item in results if "linkedin.com" in item["host"]), None)
+                    linkedin_match = next((item for item in results if _host_matches(item["host"], "linkedin.com")), None)
                     if linkedin_match:
                         detail = f"LinkedIn company profile surfaced in search results ({linkedin_match['url']})"
                         trust_indicators.append(detail)

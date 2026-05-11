@@ -1,6 +1,7 @@
 import io
 import os
 import re
+import string
 from email import policy
 from email.parser import BytesParser
 from html import escape
@@ -15,19 +16,18 @@ from analysis_config import (
     URGENCY_PATTERNS,
 )
 
-EMAIL_REGEX = re.compile(r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}")
 PHONE_REGEX = re.compile(r"(?:\+?\d{1,3}[\s-]?)?(?:\(?\d{3,5}\)?[\s-]?)?\d{3,5}[\s-]?\d{4,6}")
 URL_REGEX = re.compile(r"https?://[^\s<>'\"]+|www\.[^\s<>'\"]+")
 SALARY_REGEX = re.compile(
     r"(?:₹|rs\.?|inr|usd|\$)\s?[\d,]+(?:\s?(?:per\s?(?:month|week|day)|/month|/week|/day|stipend|salary))?",
     re.IGNORECASE,
 )
-DOMAIN_REGEX = re.compile(r"(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}")
 
 IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
 PDF_EXTENSIONS = {".pdf"}
 EMAIL_EXTENSIONS = {".eml", ".msg"}
 TEXT_EXTENSIONS = {".txt", ".md"}
+TOKEN_STRIP_CHARS = string.whitespace + string.punctuation.replace("@", "").replace(".", "").replace("-", "")
 
 
 def dedupe(values: Iterable[str]) -> List[str]:
@@ -49,6 +49,39 @@ def _collect_matches(text_lower: str, patterns: Iterable[str]) -> List[str]:
     return dedupe(pattern for pattern in patterns if pattern in text_lower)
 
 
+def _candidate_tokens(text: str) -> List[str]:
+    return [token.strip(TOKEN_STRIP_CHARS) for token in text.replace("\n", " ").split()]
+
+
+def _looks_like_domain(token: str) -> bool:
+    if not token or "." not in token or token.startswith((".", "-")) or token.endswith((".", "-")):
+        return False
+    labels = token.lower().split(".")
+    if len(labels) < 2 or len(labels[-1]) < 2 or not labels[-1].isalpha():
+        return False
+    return all(label and all(character.isalnum() or character == "-" for character in label) for label in labels)
+
+
+def _extract_emails_and_domains(text: str) -> tuple[List[str], List[str]]:
+    emails: List[str] = []
+    domains: List[str] = []
+    for raw_token in _candidate_tokens(text):
+        token = raw_token.lower().removeprefix("mailto:")
+        if token.startswith(("http://", "https://", "www.")):
+            continue
+        if token.count("@") == 1:
+            local_part, domain = token.split("@", 1)
+            if local_part and _looks_like_domain(domain):
+                allowed_local = all(character.isalnum() or character in "._%+-" for character in local_part)
+                if allowed_local:
+                    emails.append(token)
+                    domains.append(domain)
+            continue
+        if _looks_like_domain(token):
+            domains.append(token.lstrip("www."))
+    return dedupe(emails), dedupe(domains)
+
+
 def extract_company_name(text: str) -> Optional[str]:
     company_patterns = [
         r"([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)?)\s+(?:pvt|ltd|llc|inc|corp|company|technologies|solutions|services)",
@@ -65,25 +98,17 @@ def extract_company_name(text: str) -> Optional[str]:
 
 def extract_structured_entities(text: str) -> Dict[str, Any]:
     text_lower = text.lower()
-    emails = dedupe(EMAIL_REGEX.findall(text))
+    emails, domains = _extract_emails_and_domains(text)
     urls = dedupe(URL_REGEX.findall(text))
     phone_numbers = dedupe(
         value for value in PHONE_REGEX.findall(text) if len(re.sub(r"\D", "", value)) >= 10
     )
     compensation = dedupe(SALARY_REGEX.findall(text))
 
-    domains = []
-    for email in emails:
-        domains.append(email.split("@", 1)[1])
     for url in urls:
         parsed = urlparse(url if url.startswith("http") else f"https://{url}")
         if parsed.netloc:
             domains.append(parsed.netloc.lower().lstrip("www."))
-    for match in DOMAIN_REGEX.finditer(text):
-        end_index = match.end()
-        if end_index < len(text) and text[end_index] == "@":
-            continue
-        domains.append(match.group())
 
     communication_channels = []
     if "whatsapp" in text_lower or "wa.me" in text_lower:
