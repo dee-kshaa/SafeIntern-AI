@@ -85,7 +85,7 @@ export default {
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
         pulseGlow: {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(142,36,170,0.4)' },
+          '0%, 100%': { boxShadow: 'var(--shadow-glow-primary)' },
           '50%': { boxShadow: '0 0 40px rgba(200,77,161,0.8)' },
         },
         float: {

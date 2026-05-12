@@ -21,13 +21,13 @@ export default function ScamMeter({ probability = 0, riskLevel = 'Safe' }) {
   const strokeDashoffset = circumference - (animated / 100) * circumference;
 
   // Use CSS variables for fraud confidence colors (theme-aware)
-  const getColorVar = (prob) => {
+  const getColor = (prob) => {
     if (prob <= GENUINE_THRESHOLD) return 'var(--safe)';
     if (prob <= SUSPICIOUS_THRESHOLD) return 'var(--suspicious)';
     return 'var(--fraudulent)';
   };
 
-  const colorVar = getColorVar(normalizedProbability);
+  const colorVar = getColor(normalizedProbability);
 
   return (
     <div className="flex flex-col items-center gap-5 w-full">

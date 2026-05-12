@@ -7,7 +7,7 @@ const metrics = [
   { key: 'language_credibility', label: 'Language Credibility', invertColor: false },
 ];
 
-function getBarColorVar(value, invert) {
+function getTrustBarColor(value, invert) {
   const adjusted = invert ? (100 - value) : value;
   if (adjusted >= 70) return 'var(--safe)';
   if (adjusted >= 40) return 'var(--suspicious)';
@@ -28,7 +28,7 @@ export default function TrustBreakdown({ data }) {
     <div className="space-y-4">
       {metrics.map((metric) => {
         const value = data[metric.key] ?? 50;
-        const colorVar = getBarColorVar(value, metric.invertColor);
+        const colorVar = getTrustBarColor(value, metric.invertColor);
         return (
           <div key={metric.key}>
             <div className="flex justify-between items-center mb-2">

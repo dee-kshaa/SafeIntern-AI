@@ -154,10 +154,6 @@ body {
 .glow-primary:hover {
   box-shadow: var(--shadow-glow-primary), 0 8px 32px rgba(0,0,0,0.2);
 }
-/* legacy alias */
-.glow-indigo { box-shadow: var(--shadow-glow-primary); }
-.glow-indigo:hover { box-shadow: var(--shadow-glow-primary), 0 8px 32px rgba(0,0,0,0.2); }
-
 .glow-cyan  { box-shadow: 0 0 20px var(--glow-safe); }
 .glow-red   { box-shadow: 0 0 20px var(--glow-danger); }
 .glow-green { box-shadow: 0 0 20px var(--glow-safe); }
@@ -223,7 +219,7 @@ mark.risk-medium {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.12));
+  background: linear-gradient(135deg, transparent 20%, rgba(255,255,255,0.18));
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -271,4 +267,14 @@ mark.risk-medium {
 .transition-theme {
   transition: background-color 0.3s ease, border-color 0.3s ease,
               color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.chat-chip {
+  background: var(--bg-input);
+  color: var(--text-muted);
+}
+.chat-chip:hover {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  color: var(--color-primary);
 }

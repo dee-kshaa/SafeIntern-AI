@@ -128,16 +128,8 @@ export default function ChatAssistant() {
               <button
                 key={chip}
                 onClick={() => sendMessage(chip)}
-                className="text-xs px-2 py-1 rounded-full transition-all duration-200"
-                style={{ background: 'var(--bg-input)', color: 'var(--text-muted)', border: '1px solid var(--border-color)' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 15%, transparent)';
-                  e.currentTarget.style.color = 'var(--color-primary)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'var(--bg-input)';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                }}
+                className="chat-chip text-xs px-2 py-1 rounded-full transition-all duration-200"
+                style={{ border: '1px solid var(--border-color)' }}
               >
                 {chip}
               </button>
