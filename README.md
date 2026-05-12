@@ -56,6 +56,10 @@ SafeIntern-AI uses a full-stack architecture designed for fast, explainable frau
    python -m venv .venv
    source .venv/bin/activate
    ```
+   Windows (PowerShell):
+   ```powershell
+   .venv\Scripts\Activate.ps1
+   ```
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
