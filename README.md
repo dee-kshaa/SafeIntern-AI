@@ -49,7 +49,7 @@ SafeIntern-AI uses a full-stack architecture designed for fast, explainable frau
 
 1. Open a terminal in the backend directory:
    ```bash
-   cd /home/runner/work/SafeIntern-AI/SafeIntern-AI/backend
+   cd backend
    ```
 2. Create and activate a virtual environment (recommended):
    ```bash
@@ -69,7 +69,7 @@ SafeIntern-AI uses a full-stack architecture designed for fast, explainable frau
 
 1. Open a second terminal in the frontend directory:
    ```bash
-   cd /home/runner/work/SafeIntern-AI/SafeIntern-AI/frontend
+   cd frontend
    ```
 2. Install dependencies:
    ```bash
