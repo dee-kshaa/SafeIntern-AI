@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext';
+import ThemeProvider from './contexts/ThemeProvider';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
@@ -29,4 +29,3 @@ function App() {
 }
 
 export default App;
-

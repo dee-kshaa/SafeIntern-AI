@@ -1,8 +1,7 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ThemeContext } from './theme-context';
 
-const ThemeContext = createContext(null);
-
-export function ThemeProvider({ children }) {
+export default function ThemeProvider({ children }) {
   const [isDark, setIsDark] = useState(() => {
     const stored = localStorage.getItem('si-theme');
     if (stored !== null) return stored === 'dark';
@@ -11,11 +10,8 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
+    if (isDark) root.classList.add('dark');
+    else root.classList.remove('dark');
     localStorage.setItem('si-theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
@@ -26,10 +22,4 @@ export function ThemeProvider({ children }) {
       {children}
     </ThemeContext.Provider>
   );
-}
-
-export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error('useTheme must be used within ThemeProvider');
-  return ctx;
 }

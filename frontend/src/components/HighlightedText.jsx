@@ -8,9 +8,13 @@ export default function HighlightedText({ html, plainText }) {
   });
 
   return (
-    <div className="p-4 rounded-xl bg-white/5 border border-white/10 max-h-60 overflow-y-auto">
+    <div
+      className="p-4 rounded-xl max-h-60 overflow-y-auto transition-theme"
+      style={{ background: 'var(--bg-input)', border: '1px solid var(--border-color)' }}
+    >
       <p
-        className="text-white/80 text-sm leading-relaxed whitespace-pre-wrap"
+        className="text-sm leading-relaxed whitespace-pre-wrap"
+        style={{ color: 'var(--text-secondary)' }}
         dangerouslySetInnerHTML={{ __html: safe }}
       />
     </div>

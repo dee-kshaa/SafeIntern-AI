@@ -1,21 +1,18 @@
 export default function StatCard({ title, value, subtitle, icon: Icon, color = 'primary', trend }) {
   const colorStyles = {
-    primary: { color: 'var(--color-primary)', bg: isDark => isDark ? 'rgba(142,36,170,0.2)' : 'rgba(102,85,118,0.12)' },
-    success: { color: 'var(--safe)', bg: isDark => isDark ? 'rgba(45,212,191,0.15)' : 'rgba(13,148,136,0.1)' },
-    danger:  { color: 'var(--fraudulent)', bg: isDark => isDark ? 'rgba(244,63,94,0.15)' : 'rgba(225,29,72,0.1)' },
-    warning: { color: 'var(--suspicious)', bg: isDark => isDark ? 'rgba(251,146,60,0.15)' : 'rgba(234,88,12,0.1)' },
-    accent:  { color: 'var(--color-accent)', bg: isDark => isDark ? 'rgba(200,77,161,0.15)' : 'rgba(196,169,168,0.15)' },
+    primary: { color: 'var(--color-primary)', bg: 'color-mix(in srgb, var(--color-primary) 14%, transparent)' },
+    success: { color: 'var(--safe)', bg: 'color-mix(in srgb, var(--safe) 14%, transparent)' },
+    danger: { color: 'var(--fraudulent)', bg: 'color-mix(in srgb, var(--fraudulent) 14%, transparent)' },
+    warning: { color: 'var(--suspicious)', bg: 'color-mix(in srgb, var(--suspicious) 14%, transparent)' },
+    accent: { color: 'var(--color-accent)', bg: 'color-mix(in srgb, var(--color-accent) 18%, transparent)' },
   };
 
   const cs = colorStyles[color] || colorStyles.primary;
 
   return (
-    <div className="glass-card p-6 hover-lift transition-theme group cursor-default">
+    <div className="glass-card p-6 hover-lift transition-theme group cursor-default animate-fade-in">
       <div className="flex items-start justify-between mb-4">
-        <div
-          className="p-3 rounded-xl transition-transform group-hover:scale-110"
-          style={{ background: 'rgba(var(--color-primary-rgb, 142,36,170), 0.15)', color: cs.color }}
-        >
+        <div className="p-3 rounded-xl transition-transform group-hover:scale-110" style={{ background: cs.bg }}>
           <Icon className="w-6 h-6" style={{ color: cs.color }} />
         </div>
         {trend !== undefined && (
@@ -23,8 +20,8 @@ export default function StatCard({ title, value, subtitle, icon: Icon, color = '
             className="text-xs font-medium px-2 py-1 rounded-full"
             style={
               trend >= 0
-                ? { background: 'rgba(45,212,191,0.15)', color: 'var(--safe)' }
-                : { background: 'rgba(244,63,94,0.15)', color: 'var(--fraudulent)' }
+                ? { background: 'color-mix(in srgb, var(--safe) 15%, transparent)', color: 'var(--safe)' }
+                : { background: 'color-mix(in srgb, var(--fraudulent) 15%, transparent)', color: 'var(--fraudulent)' }
             }
           >
             {trend >= 0 ? '+' : ''}{trend}%
@@ -37,4 +34,3 @@ export default function StatCard({ title, value, subtitle, icon: Icon, color = '
     </div>
   );
 }
-
