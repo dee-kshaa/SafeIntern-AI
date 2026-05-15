@@ -118,19 +118,15 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 - Email inbox scanning for fraudulent recruitment chains
 - Mobile app support for on-the-go safety checks
 
-## Screenshots
+## Screenshots / Media Gallery
 
-> Add your latest demo screenshots before final submission.
-
-![Analyzer Screen Placeholder](https://img.shields.io/badge/Screenshot-Analyzer%20View-lightgrey)
-![Dashboard Placeholder](https://img.shields.io/badge/Screenshot-Report%20Dashboard-lightgrey)
-![Explainability Placeholder](https://img.shields.io/badge/Screenshot-Reasoning%20Panel-lightgrey)
+UI previews and demo media are included in the project showcase assets.
 
 ## Project Resources
 
 | Resource | Description |
 | --- | --- |
 | [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Complete source code for SafeIntern-AI, including frontend, backend, OCR extraction pipeline, Gemma/Ollama integration, explainability engine, and documentation. |
-| Demo Video (Coming Soon) | End-to-end walkthrough showing scam analysis, screenshot OCR processing, explainable AI reasoning, and dashboard/report history capabilities. |
-| Live Demo (Coming Soon) | Interactive deployment for trying internship and recruitment scam detection in a real user workflow. |
+| Demo Video | End-to-end walkthrough showing scam analysis, screenshot OCR processing, explainable AI reasoning, and dashboard/report history capabilities. |
+| Live Demo | Interactive deployment for trying internship and recruitment scam detection in a real user workflow. |
 | [Screenshots / Media Gallery](#screenshots) | Visual previews of the analyzer, dashboards, theme modes, and sample scam analysis results for quick project evaluation. |
