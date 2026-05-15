@@ -140,3 +140,9 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 
 ### ☀️ Light Mode – Landing Page
 ![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Landing-Page-lightgrey)
+
+### 🆕 Additional Screenshots
+![Additional Screenshot 1](https://github.com/user-attachments/assets/b9b66b31-80ce-4b87-a536-f21eef94e8c1)
+![Additional Screenshot 2](https://github.com/user-attachments/assets/32191e56-44f7-4c61-88fb-6f660aa18606)
+![Additional Screenshot 3](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
+![Additional Screenshot 4](https://github.com/user-attachments/assets/bcae07c3-c39a-414f-9420-e84fb0a86185)
