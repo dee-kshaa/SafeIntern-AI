@@ -128,6 +128,8 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 
 ### 🌙 Dark Mode – Reports & Risk Tracking
 ![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/266a3688-b091-4210-82c6-14ac26435cf0)
+![Dark Mode – Reports & Risk Tracking (Filter View)](https://github.com/user-attachments/assets/b9b66b31-80ce-4b87-a536-f21eef94e8c1)
+![Dark Mode – Reports & Risk Tracking (List View)](https://github.com/user-attachments/assets/bcae07c3-c39a-414f-9420-e84fb0a86185)
 
 ### 🌙 Dark Mode – About & Tech Stack
 ![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/35829edb-6b98-4726-932f-0e8f312ddbaf)
@@ -136,13 +138,7 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 ![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/54e69028-60a9-4328-9634-493d2e6fefb7)
 
 ### ☀️ Light Mode – Quick Scam Scanner
-![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Quick-Scam-Scanner-lightgrey)
+![Light Mode – Quick Scam Scanner](https://github.com/user-attachments/assets/32191e56-44f7-4c61-88fb-6f660aa18606)
 
 ### ☀️ Light Mode – Landing Page
-![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Landing-Page-lightgrey)
-
-### 🆕 Additional Screenshots
-![Additional Screenshot 1](https://github.com/user-attachments/assets/b9b66b31-80ce-4b87-a536-f21eef94e8c1)
-![Additional Screenshot 2](https://github.com/user-attachments/assets/32191e56-44f7-4c61-88fb-6f660aa18606)
-![Additional Screenshot 3](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
-![Additional Screenshot 4](https://github.com/user-attachments/assets/bcae07c3-c39a-414f-9420-e84fb0a86185)
+![Light Mode – Landing Page](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
