@@ -118,9 +118,30 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 - Email inbox scanning for fraudulent recruitment chains
 - Mobile app support for on-the-go safety checks
 
-## Screenshots / Media Gallery
+## 📸 Screenshots
 
-UI previews and demo media are included in the project showcase assets.
+### 🌙 Dark Mode – AI Scam Detection Dashboard
+![Dark Mode – AI Scam Detection Dashboard](https://github.com/user-attachments/assets/271cebe9-ff58-40a1-841e-719d3b942215)
+
+### 🌙 Dark Mode – Internship Scam Analyzer
+![Dark Mode – Internship Scam Analyzer](https://github.com/user-attachments/assets/1148d625-55ff-475e-b059-7aabaf8c25b5)
+
+### 🌙 Dark Mode – Reports & Risk Tracking
+![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/266a3688-b091-4210-82c6-14ac26435cf0)
+![Dark Mode – Reports & Risk Tracking (Filter View)](https://github.com/user-attachments/assets/b9b66b31-80ce-4b87-a536-f21eef94e8c1)
+![Dark Mode – Reports & Risk Tracking (List View)](https://github.com/user-attachments/assets/bcae07c3-c39a-414f-9420-e84fb0a86185)
+
+### 🌙 Dark Mode – About & Tech Stack
+![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/35829edb-6b98-4726-932f-0e8f312ddbaf)
+
+### ☀️ Light Mode – Dashboard Overview
+![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/54e69028-60a9-4328-9634-493d2e6fefb7)
+
+### ☀️ Light Mode – Quick Scam Scanner
+![Light Mode – Quick Scam Scanner](https://github.com/user-attachments/assets/32191e56-44f7-4c61-88fb-6f660aa18606)
+
+### ☀️ Light Mode – Landing Page
+![Light Mode – Landing Page](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
 
 ## Project Resources
 
@@ -129,4 +150,4 @@ UI previews and demo media are included in the project showcase assets.
 | [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Complete source code for SafeIntern-AI, including frontend, backend, OCR extraction pipeline, Gemma/Ollama integration, explainability engine, and documentation. |
 | Demo Video (TBD) | End-to-end walkthrough showing scam analysis, screenshot OCR processing, explainable AI reasoning, and dashboard/report history capabilities. |
 | Live Demo (TBD) | Interactive deployment for trying internship and recruitment scam detection in a real user workflow. |
-| [Screenshots / Media Gallery](#screenshots--media-gallery) | Visual previews of the analyzer, dashboards, theme modes, and sample scam analysis results for quick project evaluation. |
+| [Screenshots / Media Gallery](#screenshots) | Visual previews of the analyzer, dashboards, theme modes, and sample scam analysis results for quick project evaluation. |
