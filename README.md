@@ -118,24 +118,25 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 - Email inbox scanning for fraudulent recruitment chains
 - Mobile app support for on-the-go safety checks
 
-## Project Preview
+## 📸 Screenshots
 
-| Dark Mode – AI Scam Detection Dashboard | Dark Mode – Internship Scam Analyzer |
-|---|---|
-| ![Dark Mode – AI Scam Detection Dashboard](https://github.com/user-attachments/assets/b428a706-e13e-4431-89f5-8c5f67cfce49) | ![Dark Mode – Internship Scam Analyzer](https://github.com/user-attachments/assets/82c7255d-31b4-4f1b-9445-482d5d2a3472) |
-| _Scam analysis flow with confidence scoring and risk-first decision support._ | _Explainability engine highlights why a posting is flagged and what to review next._ |
+### 🌙 Dark Mode – AI Scam Detection Dashboard
+![Dark Mode – AI Scam Detection Dashboard](https://github.com/user-attachments/assets/271cebe9-ff58-40a1-841e-719d3b942215)
 
-| Dark Mode – Reports & Risk Tracking | Dark Mode – About & Tech Stack |
-|---|---|
-| ![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/f555282d-806d-4921-bc00-78029323e5ce) | ![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/c1611b6b-5d9d-4397-ac4d-45f5e8271c5f) |
-| _Dashboard analytics centralize history, trends, and confidence scoring across reports._ | _Dual-theme UI keeps the product modern and accessible across viewing preferences._ |
+### 🌙 Dark Mode – Internship Scam Analyzer
+![Dark Mode – Internship Scam Analyzer](https://github.com/user-attachments/assets/1148d625-55ff-475e-b059-7aabaf8c25b5)
 
-| Light Mode – Dashboard Overview | Light Mode – Quick Scam Scanner |
-|---|---|
-| ![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/954a5541-7556-448a-826b-fd1b2e836e2a) | ![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Quick-Scam-Scanner-lightgrey) |
-| _At-a-glance dashboard analytics for report filtering, status tracking, and fast triage._ | _OCR screenshot analysis and quick-check flow for rapid internship scam validation._ |
+### 🌙 Dark Mode – Reports & Risk Tracking
+![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/266a3688-b091-4210-82c6-14ac26435cf0)
 
-| Light Mode – Landing Page |
-|---|
-| ![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Landing-Page-lightgrey) |
-| _Clean startup-style onboarding surface introducing SafeIntern-AI’s explainable protection workflow._ |
+### 🌙 Dark Mode – About & Tech Stack
+![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/35829edb-6b98-4726-932f-0e8f312ddbaf)
+
+### ☀️ Light Mode – Dashboard Overview
+![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/54e69028-60a9-4328-9634-493d2e6fefb7)
+
+### ☀️ Light Mode – Quick Scam Scanner
+![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Quick-Scam-Scanner-lightgrey)
+
+### ☀️ Light Mode – Landing Page
+![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Landing-Page-lightgrey)
