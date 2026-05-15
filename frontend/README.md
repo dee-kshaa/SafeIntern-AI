@@ -14,3 +14,12 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Project Resources
+
+| Resource | Description |
+| --- | --- |
+| [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Primary project repository containing the full SafeIntern-AI codebase, architecture, and setup documentation. |
+| [Demo Video](#) | Product walkthrough for judges/reviewers demonstrating the complete scam-analysis flow and explainability outputs. |
+| [Live Demo](#) | Publicly accessible deployment used to test the platform behavior and user interface interactively. |
+| [Screenshots / Media Gallery](../README.md#screenshots) | Curated interface snapshots highlighting analysis screens, dashboard visuals, and risk reasoning outputs. |
