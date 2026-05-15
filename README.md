@@ -118,10 +118,24 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 - Email inbox scanning for fraudulent recruitment chains
 - Mobile app support for on-the-go safety checks
 
-## Screenshots
+## Project Preview
 
-> Add your latest demo screenshots before final submission.
+| Dark Mode – AI Scam Detection Dashboard | Dark Mode – Internship Scam Analyzer |
+|---|---|
+| ![Dark Mode – AI Scam Detection Dashboard](https://github.com/user-attachments/assets/b428a706-e13e-4431-89f5-8c5f67cfce49) | ![Dark Mode – Internship Scam Analyzer](https://github.com/user-attachments/assets/82c7255d-31b4-4f1b-9445-482d5d2a3472) |
+| _Scam analysis flow with confidence scoring and risk-first decision support._ | _Explainability engine highlights why a posting is flagged and what to review next._ |
 
-![Analyzer Screen Placeholder](https://img.shields.io/badge/Screenshot-Analyzer%20View-lightgrey)
-![Dashboard Placeholder](https://img.shields.io/badge/Screenshot-Report%20Dashboard-lightgrey)
-![Explainability Placeholder](https://img.shields.io/badge/Screenshot-Reasoning%20Panel-lightgrey)
+| Dark Mode – Reports & Risk Tracking | Dark Mode – About & Tech Stack |
+|---|---|
+| ![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/f555282d-806d-4921-bc00-78029323e5ce) | ![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/c1611b6b-5d9d-4397-ac4d-45f5e8271c5f) |
+| _Dashboard analytics centralize history, trends, and confidence scoring across reports._ | _Dual-theme UI keeps the product modern and accessible across viewing preferences._ |
+
+| Light Mode – Dashboard Overview | Light Mode – Quick Scam Scanner |
+|---|---|
+| ![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/954a5541-7556-448a-826b-fd1b2e836e2a) | ![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light%20Mode%20Quick%20Scam%20Scanner-lightgrey) |
+| _At-a-glance dashboard analytics for report filtering, status tracking, and fast triage._ | _OCR screenshot analysis and quick-check flow for rapid internship scam validation._ |
+
+| Light Mode – Landing Page |
+|---|
+| ![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light%20Mode%20Landing%20Page-lightgrey) |
+| _Clean startup-style onboarding surface introducing SafeIntern-AI’s explainable protection workflow._ |
