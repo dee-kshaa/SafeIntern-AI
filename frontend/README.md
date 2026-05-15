@@ -20,6 +20,6 @@ If you are developing a production application, we recommend using TypeScript wi
 | Resource | Description |
 | --- | --- |
 | [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Primary project repository containing the full SafeIntern-AI codebase, architecture, and setup documentation. |
-| Demo Video | Product walkthrough for judges/reviewers demonstrating the complete scam-analysis flow and explainability outputs. |
-| Live Demo | Publicly accessible deployment used to test the platform behavior and user interface interactively. |
-| [Screenshots / Media Gallery](../README.md#screenshots) | Curated interface snapshots highlighting analysis screens, dashboard visuals, and risk reasoning outputs. |
+| Demo Video (TBD) | Product walkthrough for judges/reviewers demonstrating the complete scam-analysis flow and explainability outputs. |
+| Live Demo (TBD) | Publicly accessible deployment used to test the platform behavior and user interface interactively. |
+| [Screenshots / Media Gallery](../README.md#screenshots--media-gallery) | Curated interface snapshots highlighting analysis screens, dashboard visuals, and risk reasoning outputs. |
