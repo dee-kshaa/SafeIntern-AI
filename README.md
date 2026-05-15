@@ -132,10 +132,10 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 
 | Light Mode – Dashboard Overview | Light Mode – Quick Scam Scanner |
 |---|---|
-| ![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/954a5541-7556-448a-826b-fd1b2e836e2a) | ![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light%20Mode%20Quick%20Scam%20Scanner-lightgrey) |
+| ![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/954a5541-7556-448a-826b-fd1b2e836e2a) | ![Light Mode – Quick Scam Scanner (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Quick-Scam-Scanner-lightgrey) |
 | _At-a-glance dashboard analytics for report filtering, status tracking, and fast triage._ | _OCR screenshot analysis and quick-check flow for rapid internship scam validation._ |
 
 | Light Mode – Landing Page |
 |---|
-| ![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light%20Mode%20Landing%20Page-lightgrey) |
+| ![Light Mode – Landing Page (placeholder)](https://img.shields.io/badge/Screenshot-Light-Mode-Landing-Page-lightgrey) |
 | _Clean startup-style onboarding surface introducing SafeIntern-AI’s explainable protection workflow._ |
