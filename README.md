@@ -142,3 +142,11 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 
 ### ☀️ Light Mode – Landing Page
 ![Light Mode – Landing Page](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
+## Project Resources
+
+| Resource | Description |
+| --- | --- |
+| [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Complete source code for SafeIntern-AI, including frontend, backend, OCR extraction pipeline, Gemma/Ollama integration, explainability engine, and documentation. |
+| Demo Video (TBD) | End-to-end walkthrough showing scam analysis, screenshot OCR processing, explainable AI reasoning, and dashboard/report history capabilities. |
+| Live Demo (TBD) | Interactive deployment for trying internship and recruitment scam detection in a real user workflow. |
+| Screenshots section (below) | Visual previews of the analyzer, dashboards, theme modes, and sample scam analysis results for quick project evaluation. |
