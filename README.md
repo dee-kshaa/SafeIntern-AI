@@ -142,7 +142,6 @@ This project aligns strongly with the Gemma 4 Good Hackathon themes:
 
 ### ☀️ Light Mode – Landing Page
 ![Light Mode – Landing Page](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
-
 ## Project Resources
 
 | Resource | Description |
