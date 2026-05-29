@@ -1,152 +1,113 @@
 # SafeIntern-AI
 
-![Hackathon](https://img.shields.io/badge/Gemma%204%20Good-Hackathon-blueviolet)
-![AI-Powered Fraud Analysis](https://img.shields.io/badge/AI-Powered%20Fraud%20Analysis-Enabled-2ea44f)
-![Explainable Scam Intelligence](https://img.shields.io/badge/Explainable%20Scam%20Intelligence-Active-1f6feb)
+SafeIntern-AI helps students evaluate internship and job messages for scam risk using a hybrid pipeline: deterministic fraud checks, external verification signals, and LLM-assisted reasoning.
 
-SafeIntern-AI is an AI-powered safety platform built to protect students and early-career applicants from fake internship and job scams.
+This repository is prepared for showcase/demo usage and focuses on explainability, maintainability, and transparent limitations.
 
-## Project Introduction
+## Why this project
+Internship scams often include upfront fee requests, fake recruiter identities, urgency pressure, and data-theft prompts. SafeIntern-AI provides:
+- **Risk classification**: Genuine / Suspicious / Likely Scam
+- **Explainable output**: score breakdown, extracted red flags, and recommendations
+- **Multi-input support**: text, screenshots (OCR), PDFs, and email files
+- **Verification signals**: domain checks, website availability, and public profile/review discovery
 
-Internship and entry-level job scams are growing rapidly across social media, messaging apps, and fake career portals. Many students are pressured to pay “registration fees,” share sensitive documents, or trust fraudulent recruiters offering unrealistic opportunities.
+## Core Features
+- FastAPI backend for analysis and report history
+- React frontend for scanner, dashboard, and explanations
+- Ollama-backed Gemma reasoning support
+- Structured extraction for payment, urgency, interview, and sensitive-data indicators
+- Trust/risk breakdown and highlighted suspicious phrases
 
-The damage is serious: students lose money, confidence, time, and access to legitimate opportunities. SafeIntern-AI addresses this by analyzing suspicious job/internship content, estimating scam risk, and clearly explaining *why* an offer may be dangerous.
+## Repository Structure
+- `/backend` - FastAPI API, extraction, scoring, verification, reasoning
+- `/frontend` - React + Vite UI
+- `/ARCHITECTURE.md` - end-to-end architecture and data flow
+- `/DEMO_SCRIPT.md` - 3-minute showcase speaking script
 
-## Features
+## Quick Start
 
-- **AI Scam Detection** for internship and job postings
-- **Scam Confidence Scoring** with clear risk probability
-- **Suspicious Phrase Highlighting** for red-flag language
-- **Explainability / Reasoning Engine** to justify results
-- **Screenshot OCR Support** for image-based scam messages
-- **Report History Dashboard** for tracked past analyses
-- **Responsive Dual-Theme UI** (light/dark)
-- **Privacy-Focused Local AI Analysis** via Ollama-compatible setup
+### 1) Backend
+```bash
+cd /tmp/workspace/dee-kshaa/SafeIntern-AI/backend
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+cp .env.example .env
+python main.py
+```
 
-## AI & Platform Architecture
+### 2) Frontend
+```bash
+cd /tmp/workspace/dee-kshaa/SafeIntern-AI/frontend
+npm install
+cp .env.example .env
+npm run dev
+```
 
-SafeIntern-AI uses a full-stack architecture designed for fast, explainable fraud analysis:
+## Configuration (Environment Variables)
 
-- **Frontend Experience Layer**: React + Vite with TailwindCSS for a fast, responsive interface and clean interaction flow.
-- **Backend Intelligence Layer**: FastAPI service for analysis APIs, scoring orchestration, and report persistence.
-- **LLM Reasoning Layer**: Gemma 3 served through Ollama for explainable AI-driven scam reasoning.
-- **Visualization Layer**: Recharts-powered dashboard components for risk trends and safety insights.
-- **Extraction Layer**: Pytesseract OCR for converting screenshot text into analyzable content.
+### Backend (`/backend/.env`)
+- `API_HOST` (default: `0.0.0.0`)
+- `API_PORT` (default: `8000`)
+- `CORS_ORIGINS` (comma-separated)
+- `OLLAMA_URL`
+- `OLLAMA_MODEL`
+- `SEMANTIC_MODEL_NAME`
+- `SEMANTIC_MATCH_THRESHOLD`
+- `MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS`
+- `MIN_SEMANTIC_SCORE_BOOST`
+- `MAX_SEMANTIC_SCORE_BOOST`
+- `TOP_K_SEMANTIC_MATCHES`
 
-## Tech Stack
+### Frontend (`/frontend/.env`)
+- `VITE_API_BASE_URL` (default: `http://localhost:8000`)
 
-| Layer | Technology |
-|---|---|
-| Frontend | React + Vite, TailwindCSS |
-| Backend | FastAPI |
-| AI Model Serving | Gemma 3 via Ollama |
-| Data Visualization | Recharts |
-| OCR | Pytesseract |
+## Example Inputs and Expected Output Style
 
-## Installation & Setup
+### Example A: Scam-like message
+**Input**
+> Congratulations candidate! You are selected for a paid internship. Pay a refundable registration fee of ₹2,999 today to confirm your seat. No interview required. Share Aadhaar and bank details on WhatsApp now.
 
-### Backend (FastAPI)
+**Expected output (representative)**
+- `classification`: **Likely Scam**
+- `risk_level`: **Likely Scam**
+- `scam_probability`: high (typically > 70)
+- `detected_scam_reasons` includes fee request, no interview, sensitive-data request, urgency/chat-only behavior
+- `recommendations` includes "do not pay", "do not share IDs/OTP", "verify company independently"
 
-1. Open a terminal in the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment (recommended):
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   ```
-   Windows (PowerShell):
-   ```powershell
-   .venv\Scripts\Activate.ps1
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the backend API:
-   ```bash
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
+### Example B: Likely legitimate message
+**Input**
+> Summer Software Intern at Acme Technologies. Apply through careers.acmetech.com. Stipend ₹20,000/month. Selection includes coding test and two interviews. Contact: internships@acmetech.com
 
-### Frontend (Vite + React)
+**Expected output (representative)**
+- `classification`: **Genuine** or **Suspicious** (depends on verification signal availability)
+- `scam_probability`: low-to-moderate
+- `trust_indicators` may include official domain/email consistency and profile/review presence
+- `recommendations` still ask the user to verify independently before sharing sensitive documents
 
-1. Open a second terminal in the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+> Note: Outputs are probabilistic/risk-oriented and intended for decision support, not final legal judgment.
 
-## Usage Instructions
+## Known Limitations
+- Verification checks rely on public web/network availability and may fail in restricted or offline environments.
+- OCR quality depends on image clarity and language quality.
+- Company extraction from free-form text can miss edge cases.
+- LLM reasoning quality depends on model availability and prompt adherence.
+- Risk labels are advisory and should not replace institutional/career-cell verification.
 
-1. Paste suspicious internship/job text into the analyzer.
-2. Upload screenshots or files when scam details are image-based.
-3. Run analysis to view scam probability and risk level.
-4. Review highlighted suspicious phrases and explanation insights.
-5. Save and review results in the report history dashboard.
+## Future Scope
+- Add multilingual and region-specific scam pattern support.
+- Add calibrated evaluation dataset and publish reproducible benchmark metrics.
+- Add recruiter/domain allowlist and institutional verification connectors.
+- Add richer audit trails for moderation and analyst workflows.
+- Add deployment-ready observability and rate-limiting/security hardening.
 
-## Why This Matters
+## Build & Verification
+- Frontend lint: `cd frontend && npm run lint`
+- Frontend build: `cd frontend && npm run build`
+- Backend tests: `python -m unittest discover -s backend -p 'test*.py'`
+- CI workflow: `.github/workflows/build-verification.yml`
 
-SafeIntern-AI supports:
+## Showcase Assets
+- Architecture document: [ARCHITECTURE.md](./ARCHITECTURE.md)
+- Demo script: [DEMO_SCRIPT.md](./DEMO_SCRIPT.md)
 
-- **Student Safety** by reducing exposure to financial and identity fraud
-- **Digital Trust** in online recruitment ecosystems
-- **AI for Social Good** through practical, real-world harm prevention
-- **Recruitment Fraud Prevention** at early stages of candidate engagement
-
-## Hackathon Alignment
-
-This project aligns strongly with the Gemma 4 Good Hackathon themes:
-
-- **Safety & Trust**: focuses on detecting recruitment fraud before harm occurs.
-- **Digital Equity & Inclusivity**: helps students who may lack access to formal verification channels.
-- **Local AI with Ollama**: enables privacy-conscious and locally controlled analysis workflows.
-- **Explainable AI Systems**: provides transparent reasoning, not just black-box scores.
-
-## Future Improvements
-
-- Browser extension for one-click internship page scanning
-- Multilingual scam detection for regional and global users
-- Recruiter verification workflows and trust signals
-- Email inbox scanning for fraudulent recruitment chains
-- Mobile app support for on-the-go safety checks
-
-## 📸 Screenshots
-
-### 🌙 Dark Mode – AI Scam Detection Dashboard
-![Dark Mode – AI Scam Detection Dashboard](https://github.com/user-attachments/assets/271cebe9-ff58-40a1-841e-719d3b942215)
-
-### 🌙 Dark Mode – Internship Scam Analyzer
-![Dark Mode – Internship Scam Analyzer](https://github.com/user-attachments/assets/1148d625-55ff-475e-b059-7aabaf8c25b5)
-
-### 🌙 Dark Mode – Reports & Risk Tracking
-![Dark Mode – Reports & Risk Tracking](https://github.com/user-attachments/assets/266a3688-b091-4210-82c6-14ac26435cf0)
-![Dark Mode – Reports & Risk Tracking (Filter View)](https://github.com/user-attachments/assets/b9b66b31-80ce-4b87-a536-f21eef94e8c1)
-![Dark Mode – Reports & Risk Tracking (List View)](https://github.com/user-attachments/assets/bcae07c3-c39a-414f-9420-e84fb0a86185)
-
-### 🌙 Dark Mode – About & Tech Stack
-![Dark Mode – About & Tech Stack](https://github.com/user-attachments/assets/35829edb-6b98-4726-932f-0e8f312ddbaf)
-
-### ☀️ Light Mode – Dashboard Overview
-![Light Mode – Dashboard Overview](https://github.com/user-attachments/assets/54e69028-60a9-4328-9634-493d2e6fefb7)
-
-### ☀️ Light Mode – Quick Scam Scanner
-![Light Mode – Quick Scam Scanner](https://github.com/user-attachments/assets/32191e56-44f7-4c61-88fb-6f660aa18606)
-
-### ☀️ Light Mode – Landing Page
-![Light Mode – Landing Page](https://github.com/user-attachments/assets/adb0a83e-a78c-4881-af10-a173f9670c1f)
-## Project Resources
-
-| Resource | Description |
-| --- | --- |
-| [GitHub Repository](https://github.com/dee-kshaa/SafeIntern-AI) | Complete source code for SafeIntern-AI, including frontend, backend, OCR extraction pipeline, Gemma/Ollama integration, explainability engine, and documentation. |
-| Demo Video (TBD) | End-to-end walkthrough showing scam analysis, screenshot OCR processing, explainable AI reasoning, and dashboard/report history capabilities. |
-| Live Demo (TBD) | Interactive deployment for trying internship and recruitment scam detection in a real user workflow. |
-| Screenshots section (below) | Visual previews of the analyzer, dashboards, theme modes, and sample scam analysis results for quick project evaluation. |

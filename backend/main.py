@@ -7,7 +7,7 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from analysis_config import REPORTS_FILE
+from analysis_config import API_HOST, API_PORT, CORS_ORIGINS, REPORTS_FILE
 from analysis_pipeline import analyze_text_content, analyze_upload_content
 from reasoning import call_ollama
 
@@ -15,7 +15,7 @@ app = FastAPI(title="SafeIntern AI API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -131,4 +131,4 @@ async def root():
 import uvicorn
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=API_HOST, port=API_PORT)

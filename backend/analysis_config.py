@@ -1,14 +1,25 @@
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
 REPORTS_FILE = os.path.join(os.path.dirname(__file__), "reports.json")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4")
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+API_HOST = os.getenv("API_HOST", "0.0.0.0")
+API_PORT = int(os.getenv("API_PORT", "8000"))
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+    if origin.strip()
+]
 SEMANTIC_MODEL = os.getenv("SEMANTIC_MODEL_NAME", "sentence-transformers/all-MiniLM-L6-v2")
 SEMANTIC_MATCH_THRESHOLD = float(os.getenv("SEMANTIC_MATCH_THRESHOLD", "0.58"))
-MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = 20
-MIN_SEMANTIC_SCORE_BOOST = 12
-MAX_SEMANTIC_SCORE_BOOST = 24
-TOP_K_SEMANTIC_MATCHES = 3
+MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS = int(os.getenv("MIN_TEXT_LENGTH_FOR_SEMANTIC_ANALYSIS", "20"))
+MIN_SEMANTIC_SCORE_BOOST = int(os.getenv("MIN_SEMANTIC_SCORE_BOOST", "12"))
+MAX_SEMANTIC_SCORE_BOOST = int(os.getenv("MAX_SEMANTIC_SCORE_BOOST", "24"))
+TOP_K_SEMANTIC_MATCHES = int(os.getenv("TOP_K_SEMANTIC_MATCHES", "3"))
 
 PERSONAL_EMAIL_DOMAINS = {
     "gmail.com",

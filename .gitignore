@@ -1,1 +1,4 @@
 backend/reports.json
+.env
+.env.*
+!.env.example
