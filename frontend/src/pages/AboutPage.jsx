@@ -45,9 +45,9 @@ export default function AboutPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
         {[
-          { value: '50,000+', label: 'Scams Detected', color: 'var(--fraudulent)' },
-          { value: '98%', label: 'Detection Accuracy', color: 'var(--safe)' },
-          { value: '10,000+', label: 'Students Protected', color: 'var(--color-accent)' },
+          { value: 'Multi-Signal', label: 'Risk Detection', color: 'var(--fraudulent)' },
+          { value: 'Rule + AI', label: 'Hybrid Analysis Engine', color: 'var(--safe)' },
+          { value: 'Student-First', label: 'Safety Guidance', color: 'var(--color-accent)' },
         ].map((stat, i) => (
           <div key={i} className="glass-card p-6 text-center animate-slide-up hover-lift" style={{ animationDelay: `${i * 0.1}s` }}>
             <div className="text-4xl font-black mb-2" style={{ color: stat.color }}>{stat.value}</div>

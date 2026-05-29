@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Shield, Search, Eye, MessageCircle, TrendingUp, ChevronRight, Star, Users, AlertTriangle } from 'lucide-react';
+import { Shield, Search, Eye, MessageCircle, TrendingUp, ChevronRight, FileText, Users, AlertTriangle } from 'lucide-react';
 
 const stats = [
-  { value: '50K+', label: 'Scams Detected', icon: AlertTriangle, color: 'var(--fraudulent)' },
-  { value: '98%', label: 'Accuracy Rate', icon: Star, color: 'var(--suspicious)' },
-  { value: '10K+', label: 'Students Protected', icon: Users, color: 'var(--safe)' },
+  { value: 'Multi-Signal', label: 'Risk Detection', icon: AlertTriangle, color: 'var(--fraudulent)' },
+  { value: 'Transparent', label: 'Risk Explanations', icon: FileText, color: 'var(--suspicious)' },
+  { value: 'Student-First', label: 'Safety Guidance', icon: Users, color: 'var(--safe)' },
 ];
 
 const features = [
-  { icon: Shield, title: 'AI Scam Detection', desc: 'Advanced ML models analyze job postings for scam indicators with 98% accuracy.', color: 'var(--color-primary)' },
+  { icon: Shield, title: 'AI Scam Detection', desc: 'Deterministic checks and AI reasoning analyze job postings for scam indicators with clear justification.', color: 'var(--color-primary)' },
   { icon: Eye, title: 'OCR Analysis', desc: 'Upload screenshots directly. Our OCR engine extracts and analyzes text from images.', color: 'var(--color-accent)' },
   { icon: MessageCircle, title: 'AI Safety Chat', desc: 'Get instant answers about whether a posting is safe from our AI assistant.', color: 'var(--color-primary-light)' },
   { icon: TrendingUp, title: 'Trust Analytics', desc: 'Detailed breakdown of recruiter authenticity, company presence, and language credibility.', color: 'var(--safe)' },
