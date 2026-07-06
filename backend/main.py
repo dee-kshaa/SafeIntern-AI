@@ -9,6 +9,10 @@ from pydantic import BaseModel
 
 from analysis_config import API_HOST, API_PORT, CORS_ORIGINS, REPORTS_FILE
 from analysis_pipeline import analyze_text_content, analyze_upload_content
+from analytics_engine import get_full_analytics
+from cloud_pipeline import pipeline_status as cloud_pipeline_status
+from gemini_advisor import explain_priority
+from gpu_accel import pipeline_status as gpu_pipeline_status
 from reasoning import call_ollama
 
 app = FastAPI(title="SafeIntern AI API")
@@ -36,6 +40,10 @@ class ReportRequest(BaseModel):
     text: str
     analysis: dict
     source: str | None = "text"
+
+
+class RecommendationRequest(BaseModel):
+    internship: dict
 
 
 def load_reports():
@@ -123,6 +131,24 @@ async def delete_report(report_id: str):
     reports = [report for report in reports if report["id"] != report_id]
     save_reports(reports)
     return {"message": "Report deleted"}
+
+
+@app.get("/api/analytics")
+async def get_analytics():
+    return get_full_analytics()
+
+
+@app.get("/api/pipeline-status")
+async def get_pipeline_status():
+    return {
+        "cloud_pipeline": cloud_pipeline_status(),
+        "gpu": gpu_pipeline_status(),
+    }
+
+
+@app.post("/api/analytics/recommend")
+async def get_priority_recommendation(request: RecommendationRequest):
+    return await explain_priority(request.internship)
 
 
 @app.get("/")

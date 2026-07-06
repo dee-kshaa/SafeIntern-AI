@@ -41,4 +41,19 @@ export const deleteReport = async (id) => {
   return response.data;
 };
 
+export const getMarketAnalytics = async () => {
+  const response = await api.get('/api/analytics');
+  return response.data;
+};
+
+export const getPipelineStatus = async () => {
+  const response = await api.get('/api/pipeline-status');
+  return response.data;
+};
+
+export const getPriorityRecommendation = async (internship) => {
+  const response = await api.post('/api/analytics/recommend', { internship });
+  return response.data;
+};
+
 export default api;

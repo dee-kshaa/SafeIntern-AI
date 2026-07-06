@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ScamAnalyzer from './pages/ScamAnalyzer';
 import ReportHistory from './pages/ReportHistory';
 import AboutPage from './pages/AboutPage';
+import MarketIntelligence from './pages/MarketIntelligence';
 import ChatAssistant from './components/ChatAssistant';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/analyzer" element={<ScamAnalyzer />} />
             <Route path="/reports" element={<ReportHistory />} />
+            <Route path="/market-intelligence" element={<MarketIntelligence />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
           <ChatAssistant />

@@ -111,3 +111,35 @@ npm run dev
 - Architecture document: [ARCHITECTURE.md](./ARCHITECTURE.md)
 - Demo script: [DEMO_SCRIPT.md](./DEMO_SCRIPT.md)
 
+## Internship Intelligence Platform Architecture (Hackathon Extension)
+
+### Architecture
+SafeIntern AI now supports an Internship Intelligence pipeline that extends the original scam-analysis product into a market decision-support layer:
+
+Cloud Storage → BigQuery → RAPIDS/cuDF (with pandas fallback) → Gemini-style advisor → Dashboard
+
+### Google Cloud
+- Cloud services are modeled with production-ready interfaces and mock execution for local/dev environments without credentials.
+- The pipeline keeps clear boundaries between mock and production integration points.
+
+### Cloud Storage
+- Internship data ingestion starts from a Cloud Storage-like ingestion stage.
+- If `/backend/data/internships_dataset.csv` is missing, a realistic dataset is generated automatically.
+
+### BigQuery
+- Loaded records flow into a BigQuery-style analytics table abstraction.
+- Query functions expose a stable interface for analytics and future real BigQuery SQL integration.
+
+### Gemini
+- Priority recommendations use a Gemini-style advisor contract.
+- When no LLM service is available, deterministic fallback logic is used so APIs never fail.
+
+### NVIDIA RAPIDS
+- GPU acceleration attempts `cudf.pandas` automatically.
+- The backend falls back to pandas when GPU/RAPIDS is unavailable, so CPU-only environments remain fully functional.
+
+### Future Work
+- Add real GCS connectors and BigQuery SQL query execution with service account auth.
+- Add user profile ingestion to personalize missing-skill recommendations.
+- Add model-grounded explainability traces and confidence calibration for prioritization decisions.
+- Add streaming dashboard refresh and cohort-level filtering for placement cells.
