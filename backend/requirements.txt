@@ -9,5 +9,6 @@ pydantic==2.7.1
 sentence-transformers==3.0.1
 faiss-cpu==1.8.0
 pypdf==5.5.0
+pandas==2.2.2
 # Optional GPU acceleration (install only in CUDA-enabled environments):
 # cudf-cu12

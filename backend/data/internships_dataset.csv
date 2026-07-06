@@ -1,0 +1,601 @@
+id,company,category,stipend_inr,deadline_in_days,trust_score,scam_risk_score,skills_required,listed_date
+1,TCS,Data Science,21681,10,73.57,38.19,"machine learning, python, sql, statistics",2026-03-14
+2,Freshworks,Product Management,16012,22,66.99,39.49,"sql, analytics, communication, stakeholder management",2026-02-22
+3,Zomato,Software Engineering,19664,11,40.83,55.57,"git, react, nodejs, python",2026-05-13
+4,Unacademy,UI/UX Design,15087,10,39.49,54.3,"user research, prototyping, design systems, figma",2026-05-23
+5,Freshworks,Software Engineering,25354,39,56.67,41.94,"java, git, react, python",2026-03-13
+6,Cognizant,Cybersecurity,5000,26,65.45,26.9,"linux, siem, threat analysis, python",2026-03-31
+7,Freshworks,Software Engineering,28307,18,47.03,66.26,"git, java, sql, react",2026-03-04
+8,Swiggy,UI/UX Design,8980,14,77.46,23.7,"wireframing, design systems, prototyping, figma",2026-04-20
+9,BrowserStack,Data Analytics,8578,40,70.76,38.0,"sql, tableau, python, power bi",2026-03-27
+10,Practo,UI/UX Design,22547,13,73.78,14.66,"user research, design systems, figma, prototyping",2026-02-18
+11,Zomato,Cloud Engineering,5000,41,90.4,17.46,"gcp, docker, aws, python",2026-04-24
+12,Zomato,AI/ML,27687,23,87.35,15.61,"python, tensorflow, statistics, llms",2026-07-01
+13,Zoho,Software Engineering,35965,8,81.51,32.83,"java, nodejs, sql, git",2026-06-20
+14,Meesho,Data Analytics,8552,23,89.97,22.9,"communication, excel, power bi, python",2026-06-04
+15,Urban Company,AI/ML,29080,13,54.27,48.38,"pytorch, python, statistics, tensorflow",2026-03-04
+16,Freshworks,Software Engineering,16829,7,84.0,3.13,"nodejs, sql, java, git",2026-02-24
+17,Khatabook,Data Analytics,22398,19,40.53,57.41,"tableau, sql, python, communication",2026-03-12
+18,Deloitte,Cloud Engineering,31045,36,49.17,41.53,"kubernetes, aws, docker, terraform",2026-03-15
+19,Cognizant,Product Management,7101,24,45.13,50.44,"analytics, communication, sql, stakeholder management",2026-02-28
+20,Razorpay,UI/UX Design,27562,40,44.38,40.68,"wireframing, user research, prototyping, design systems",2026-03-03
+21,PhonePe,Data Analytics,15908,25,9.44,83.09,"python, excel, sql, power bi",2026-07-04
+22,Paytm,Data Science,42157,7,73.49,18.57,"sql, pandas, python, numpy",2026-03-05
+23,Postman,Data Science,16324,15,46.64,59.84,"machine learning, pandas, numpy, sql",2026-04-23
+24,Cognizant,AI/ML,13374,3,39.18,52.22,"tensorflow, python, pytorch, mlops",2026-03-13
+25,Zomato,Cybersecurity,12731,15,35.45,74.07,"network security, siem, python, threat analysis",2026-07-01
+26,Byju's,Data Science,25792,11,69.48,37.05,"statistics, numpy, machine learning, pandas",2026-04-29
+27,Google,Software Engineering,12000,6,78.95,25.16,"nodejs, sql, react, git",2026-05-12
+28,Amazon,Software Engineering,10760,7,66.1,43.94,"java, sql, nodejs, python",2026-03-26
+29,KPMG,Cybersecurity,33488,40,46.97,45.51,"threat analysis, python, linux, network security",2026-05-18
+30,Zomato,Product Management,13540,51,85.24,0.5,"stakeholder management, sql, communication, roadmapping",2026-04-02
+31,Zomato,Cybersecurity,22890,40,47.68,61.82,"linux, siem, network security, threat analysis",2026-06-16
+32,Juspay,Product Management,18278,16,90.11,3.26,"sql, stakeholder management, roadmapping, communication",2026-03-05
+33,Paytm,Cybersecurity,5000,5,54.7,53.89,"threat analysis, network security, siem, python",2026-06-07
+34,Wipro,Cybersecurity,10879,31,64.64,44.56,"siem, linux, threat analysis, network security",2026-02-16
+35,IBM,AI/ML,19862,43,52.63,44.62,"tensorflow, statistics, pytorch, python",2026-06-25
+36,PwC,Cloud Engineering,18468,29,70.08,23.94,"gcp, docker, terraform, python",2026-04-01
+37,IBM,Cloud Engineering,13564,12,80.24,33.55,"python, gcp, docker, kubernetes",2026-06-17
+38,Deloitte,Business Operations,23886,8,73.35,18.39,"excel, project management, communication, sql",2026-04-17
+39,Cognizant,Business Operations,5973,25,63.18,29.14,"excel, project management, sql, communication",2026-05-25
+40,Practo,Data Analytics,26610,21,87.3,1.34,"tableau, python, power bi, excel",2026-04-20
+41,BrowserStack,Business Operations,6383,20,77.39,21.85,"sql, reporting, communication, project management",2026-03-28
+42,Myntra,Product Management,29742,20,48.37,46.71,"roadmapping, analytics, communication, stakeholder management",2026-04-30
+43,Swiggy,Cloud Engineering,21211,19,61.56,25.31,"kubernetes, terraform, gcp, docker",2026-07-04
+44,Khatabook,Cloud Engineering,19193,2,52.02,44.68,"kubernetes, terraform, aws, python",2026-05-17
+45,Myntra,Product Management,20213,16,76.28,33.94,"communication, roadmapping, analytics, sql",2026-05-30
+46,CRED,Data Science,22761,10,45.36,47.45,"machine learning, numpy, sql, pandas",2026-06-14
+47,Postman,Cybersecurity,21952,4,37.97,75.59,"network security, threat analysis, python, linux",2026-07-04
+48,TCS,Product Management,25306,27,42.19,62.89,"analytics, sql, stakeholder management, communication",2026-04-18
+49,Zomato,AI/ML,5790,31,63.86,24.68,"mlops, llms, pytorch, python",2026-03-29
+50,Zoho,Business Operations,9279,9,83.47,19.55,"project management, excel, sql, reporting",2026-05-04
+51,Cognizant,AI/ML,14695,39,41.02,72.81,"mlops, pytorch, llms, python",2026-06-21
+52,Myntra,Marketing,21726,27,79.15,19.79,"copywriting, analytics, content strategy, seo",2026-07-03
+53,Myntra,Data Science,26402,21,54.17,45.65,"machine learning, pandas, numpy, sql",2026-05-24
+54,Myntra,AI/ML,17950,41,66.68,33.82,"pytorch, mlops, statistics, tensorflow",2026-04-27
+55,Khatabook,Product Management,16344,35,51.77,45.36,"communication, stakeholder management, analytics, sql",2026-03-11
+56,Byju's,Cloud Engineering,14623,16,50.44,42.1,"aws, docker, gcp, terraform",2026-06-12
+57,Paytm,Marketing,26706,14,69.02,45.4,"analytics, content strategy, social media, seo",2026-06-30
+58,Infosys,Cybersecurity,34230,31,50.64,63.59,"siem, python, network security, linux",2026-03-20
+59,NVIDIA,Business Operations,13537,11,49.39,61.46,"excel, communication, sql, project management",2026-03-01
+60,Accenture,Business Operations,23647,10,39.86,52.59,"communication, sql, reporting, project management",2026-05-04
+61,Urban Company,UI/UX Design,18874,19,69.75,37.45,"prototyping, design systems, wireframing, figma",2026-03-03
+62,Zoho,Data Analytics,32192,11,43.92,53.33,"tableau, power bi, sql, communication",2026-03-07
+63,NVIDIA,Cybersecurity,19437,30,79.91,23.85,"siem, python, network security, linux",2026-04-24
+64,Myntra,Data Analytics,13579,37,38.4,70.38,"python, power bi, tableau, sql",2026-03-06
+65,Intel,UI/UX Design,16058,22,59.95,42.99,"user research, design systems, figma, wireframing",2026-06-22
+66,TCS,Product Management,5000,58,67.85,40.05,"communication, sql, analytics, roadmapping",2026-04-25
+67,CRED,Business Operations,15835,8,58.28,36.36,"sql, reporting, project management, communication",2026-05-16
+68,Juspay,Cybersecurity,15026,37,37.09,50.55,"network security, python, linux, threat analysis",2026-07-06
+69,Groww,Marketing,17590,17,70.65,37.15,"copywriting, content strategy, social media, analytics",2026-06-23
+70,Amazon,UI/UX Design,24673,5,54.76,44.98,"figma, wireframing, design systems, user research",2026-04-18
+71,NVIDIA,UI/UX Design,15615,38,48.89,52.65,"design systems, prototyping, figma, wireframing",2026-06-16
+72,Deloitte,Cloud Engineering,21643,46,50.23,34.85,"terraform, python, kubernetes, gcp",2026-06-25
+73,Unacademy,UI/UX Design,14842,34,60.95,33.7,"prototyping, wireframing, figma, design systems",2026-05-23
+74,IBM,Software Engineering,22706,33,57.01,47.9,"java, sql, python, react",2026-05-24
+75,Deloitte,Marketing,33128,20,86.9,0.0,"content strategy, seo, copywriting, analytics",2026-06-30
+76,Juspay,AI/ML,10104,28,83.58,27.2,"tensorflow, mlops, python, llms",2026-05-11
+77,Zoho,Data Science,9759,57,59.74,28.22,"python, machine learning, pandas, numpy",2026-03-11
+78,TCS,Cybersecurity,8772,6,51.72,44.52,"threat analysis, python, linux, network security",2026-03-02
+79,Paytm,Data Analytics,36233,27,63.37,39.13,"communication, power bi, tableau, excel",2026-04-18
+80,Groww,Software Engineering,29705,43,44.0,54.25,"react, git, sql, nodejs",2026-07-05
+81,Groww,Cybersecurity,25005,18,41.08,55.36,"linux, threat analysis, network security, siem",2026-06-19
+82,Infosys,Cybersecurity,17595,24,86.91,20.45,"linux, siem, threat analysis, python",2026-02-28
+83,PhonePe,Product Management,13269,31,70.81,41.29,"stakeholder management, sql, roadmapping, analytics",2026-03-23
+84,Google,Data Analytics,13709,44,77.61,12.66,"python, power bi, communication, sql",2026-05-10
+85,Khatabook,Cybersecurity,28550,40,61.69,25.56,"siem, python, linux, threat analysis",2026-03-17
+86,Juspay,Data Science,20638,4,42.04,54.01,"numpy, sql, machine learning, statistics",2026-07-03
+87,Microsoft,AI/ML,17890,27,58.26,36.83,"tensorflow, mlops, python, statistics",2026-05-10
+88,Wipro,Software Engineering,13954,15,41.62,50.43,"sql, nodejs, git, react",2026-06-22
+89,Postman,Marketing,11008,41,82.52,20.95,"analytics, seo, copywriting, content strategy",2026-03-13
+90,Urban Company,Product Management,15279,20,83.76,4.22,"communication, stakeholder management, roadmapping, analytics",2026-04-17
+91,PhonePe,Cybersecurity,41129,37,72.78,31.47,"network security, threat analysis, siem, python",2026-03-11
+92,Razorpay,Data Analytics,18126,7,68.42,40.97,"excel, python, sql, communication",2026-04-10
+93,Flipkart,Data Analytics,8134,9,42.51,53.23,"python, power bi, sql, tableau",2026-02-22
+94,Accenture,Cybersecurity,18420,10,64.99,42.38,"linux, network security, siem, python",2026-06-03
+95,Wipro,Business Operations,19505,28,38.29,80.0,"excel, communication, reporting, sql",2026-05-04
+96,Google,Data Science,5000,16,38.74,54.51,"sql, numpy, machine learning, statistics",2026-03-25
+97,NVIDIA,Marketing,11547,9,83.61,20.92,"content strategy, social media, copywriting, seo",2026-03-17
+98,Deloitte,Cloud Engineering,25128,37,58.71,29.14,"python, docker, terraform, gcp",2026-05-29
+99,Cognizant,UI/UX Design,24839,19,81.27,20.42,"design systems, user research, wireframing, figma",2026-05-22
+100,EY,Cloud Engineering,23832,41,84.48,22.15,"terraform, docker, python, gcp",2026-06-04
+101,BrowserStack,Business Operations,24713,13,54.96,46.73,"reporting, sql, communication, excel",2026-03-15
+102,Myntra,Business Operations,33379,5,75.05,19.22,"excel, sql, project management, communication",2026-04-26
+103,Swiggy,Data Science,20787,8,47.26,50.33,"numpy, statistics, sql, machine learning",2026-07-01
+104,Google,Business Operations,5000,41,43.97,59.56,"reporting, communication, project management, sql",2026-03-27
+105,Urban Company,UI/UX Design,17216,22,59.51,33.99,"wireframing, user research, figma, design systems",2026-05-15
+106,Accenture,Cloud Engineering,24862,3,88.88,19.14,"docker, python, gcp, kubernetes",2026-05-04
+107,CRED,UI/UX Design,25522,31,66.85,38.19,"wireframing, figma, prototyping, design systems",2026-06-24
+108,Cognizant,UI/UX Design,28987,40,67.68,38.6,"figma, wireframing, design systems, prototyping",2026-06-05
+109,Groww,Data Analytics,30856,8,48.87,53.8,"tableau, power bi, python, sql",2026-03-15
+110,Zomato,AI/ML,6364,8,65.24,25.57,"tensorflow, pytorch, statistics, python",2026-03-17
+111,Meesho,Data Analytics,25534,33,45.1,63.09,"python, communication, tableau, power bi",2026-03-07
+112,IBM,Business Operations,32274,40,43.6,43.44,"reporting, project management, communication, excel",2026-05-07
+113,BrowserStack,AI/ML,29954,5,82.41,4.9,"python, statistics, mlops, pytorch",2026-05-21
+114,Byju's,Business Operations,26002,48,60.63,48.66,"reporting, communication, project management, excel",2026-02-26
+115,Urban Company,Software Engineering,35637,16,63.76,26.42,"sql, nodejs, java, react",2026-03-09
+116,NVIDIA,AI/ML,32374,18,73.7,12.87,"tensorflow, python, llms, statistics",2026-05-13
+117,PwC,Marketing,19267,28,54.0,48.48,"analytics, copywriting, social media, content strategy",2026-03-26
+118,Google,Data Analytics,34537,15,71.68,23.18,"communication, python, sql, power bi",2026-05-23
+119,BrowserStack,Cloud Engineering,17093,11,54.48,53.51,"aws, python, gcp, terraform",2026-04-11
+120,BrowserStack,Data Science,27794,34,37.15,57.95,"pandas, sql, machine learning, python",2026-06-30
+121,Paytm,Data Analytics,28719,36,76.11,10.2,"communication, excel, tableau, power bi",2026-03-30
+122,Urban Company,Cybersecurity,10017,13,52.64,56.62,"siem, linux, python, threat analysis",2026-04-18
+123,NVIDIA,UI/UX Design,23662,19,81.56,27.47,"user research, figma, design systems, prototyping",2026-03-29
+124,Byju's,AI/ML,12688,46,83.52,10.04,"tensorflow, mlops, pytorch, statistics",2026-06-28
+125,Freshworks,Data Science,28765,45,38.04,62.02,"python, numpy, pandas, statistics",2026-06-02
+126,Microsoft,AI/ML,6812,38,80.11,9.02,"mlops, pytorch, llms, statistics",2026-05-12
+127,Infosys,Business Operations,23300,12,66.28,40.54,"excel, reporting, project management, sql",2026-03-26
+128,Accenture,Data Science,21126,13,38.58,71.52,"sql, python, pandas, numpy",2026-06-13
+129,NVIDIA,Data Analytics,12023,13,45.68,59.37,"power bi, sql, python, excel",2026-06-02
+130,Wipro,UI/UX Design,26752,27,49.46,36.03,"user research, prototyping, design systems, figma",2026-05-22
+131,Deloitte,Business Operations,26986,16,82.33,23.21,"communication, sql, excel, reporting",2026-04-01
+132,Wipro,UI/UX Design,27543,15,80.09,31.48,"user research, wireframing, design systems, prototyping",2026-02-27
+133,Wipro,Cybersecurity,22107,17,84.35,10.61,"linux, python, siem, threat analysis",2026-02-28
+134,Deloitte,Cloud Engineering,16790,51,74.45,21.57,"docker, gcp, kubernetes, terraform",2026-06-23
+135,Paytm,Cloud Engineering,15243,8,52.47,50.61,"python, kubernetes, docker, aws",2026-05-02
+136,EY,Software Engineering,20015,26,50.65,63.75,"python, sql, git, react",2026-06-07
+137,TCS,Data Analytics,28826,35,42.2,49.88,"power bi, tableau, sql, communication",2026-02-24
+138,Urban Company,Data Analytics,30551,47,60.3,27.0,"power bi, tableau, communication, python",2026-05-22
+139,Zoho,Cybersecurity,23777,11,57.06,44.79,"linux, python, network security, siem",2026-06-28
+140,PhonePe,UI/UX Design,21549,9,60.77,51.19,"figma, user research, wireframing, prototyping",2026-03-06
+141,Byju's,Data Science,5733,39,80.24,20.02,"pandas, statistics, sql, machine learning",2026-04-01
+142,KPMG,Software Engineering,17586,24,61.64,52.85,"python, nodejs, git, java",2026-05-21
+143,Practo,UI/UX Design,15045,25,90.43,13.84,"design systems, user research, figma, wireframing",2026-03-20
+144,CRED,Data Analytics,26364,22,82.39,18.15,"excel, power bi, communication, tableau",2026-03-02
+145,NVIDIA,Marketing,25445,27,42.13,51.95,"copywriting, content strategy, analytics, seo",2026-04-27
+146,Deloitte,Data Analytics,16994,38,57.12,33.43,"communication, excel, tableau, power bi",2026-02-26
+147,Druva,Software Engineering,29701,28,62.53,46.61,"git, sql, python, nodejs",2026-05-04
+148,Zomato,Software Engineering,15546,20,61.47,33.73,"nodejs, git, react, java",2026-06-19
+149,KPMG,Data Analytics,18226,13,50.25,42.19,"power bi, tableau, python, sql",2026-03-19
+150,IBM,Data Analytics,21643,46,45.82,43.96,"tableau, communication, power bi, excel",2026-05-07
+151,Google,Software Engineering,30936,50,68.25,18.21,"react, sql, git, nodejs",2026-04-12
+152,Microsoft,Software Engineering,18797,19,76.47,31.45,"sql, python, java, nodejs",2026-04-24
+153,NVIDIA,Marketing,30483,34,82.04,21.65,"content strategy, seo, copywriting, analytics",2026-04-28
+154,Byju's,AI/ML,26224,46,46.35,53.93,"python, llms, pytorch, tensorflow",2026-03-24
+155,Khatabook,AI/ML,17490,42,53.69,49.7,"statistics, tensorflow, llms, mlops",2026-03-23
+156,Unacademy,Marketing,21449,21,62.07,23.43,"seo, social media, analytics, content strategy",2026-05-03
+157,Khatabook,Software Engineering,20861,51,76.12,26.39,"nodejs, react, sql, python",2026-04-15
+158,Wipro,Product Management,33625,25,45.87,52.36,"sql, analytics, communication, stakeholder management",2026-03-16
+159,Flipkart,Software Engineering,11806,57,64.95,29.46,"react, git, nodejs, sql",2026-06-18
+160,Khatabook,Cybersecurity,20797,12,50.9,43.05,"linux, threat analysis, python, network security",2026-04-20
+161,IBM,UI/UX Design,11824,46,51.4,50.8,"wireframing, user research, figma, prototyping",2026-04-27
+162,NVIDIA,Software Engineering,23298,48,54.74,43.53,"sql, java, react, git",2026-03-08
+163,Byju's,Cybersecurity,20557,27,48.82,56.27,"siem, network security, python, threat analysis",2026-04-18
+164,Khatabook,AI/ML,17898,9,35.3,66.22,"mlops, llms, statistics, tensorflow",2026-03-23
+165,NVIDIA,Product Management,17015,43,72.18,19.79,"roadmapping, analytics, sql, communication",2026-03-10
+166,Juspay,Software Engineering,32394,35,88.39,25.48,"python, nodejs, git, sql",2026-04-04
+167,Microsoft,Business Operations,28508,20,64.89,46.79,"project management, communication, sql, excel",2026-07-05
+168,Deloitte,Data Science,18859,11,50.41,59.66,"statistics, pandas, sql, numpy",2026-06-13
+169,CRED,Cloud Engineering,18607,29,90.96,8.37,"gcp, docker, kubernetes, python",2026-04-04
+170,Myntra,UI/UX Design,21673,48,68.2,33.99,"user research, prototyping, figma, design systems",2026-05-04
+171,Intel,UI/UX Design,28543,45,74.35,29.81,"user research, prototyping, figma, design systems",2026-05-06
+172,Swiggy,UI/UX Design,32270,20,58.7,42.77,"design systems, prototyping, figma, user research",2026-05-22
+173,Urban Company,Marketing,14536,44,38.52,62.91,"copywriting, content strategy, seo, social media",2026-03-16
+174,Urban Company,Marketing,20664,9,75.86,23.8,"social media, seo, content strategy, copywriting",2026-04-09
+175,Postman,Marketing,19341,20,76.23,20.65,"content strategy, seo, social media, copywriting",2026-05-05
+176,Cognizant,AI/ML,22739,23,88.27,0.0,"python, tensorflow, mlops, llms",2026-03-03
+177,Postman,Data Analytics,10122,20,56.41,49.07,"python, excel, power bi, sql",2026-05-23
+178,Unacademy,Data Analytics,33958,18,54.91,35.53,"communication, python, tableau, power bi",2026-03-20
+179,Freshworks,Cloud Engineering,22115,14,36.84,67.97,"gcp, aws, terraform, python",2026-03-16
+180,Wipro,Data Science,29373,20,48.95,37.38,"sql, pandas, python, machine learning",2026-02-28
+181,NVIDIA,Marketing,23770,25,48.5,62.78,"copywriting, content strategy, social media, analytics",2026-05-09
+182,Accenture,Cybersecurity,39734,24,70.68,27.13,"linux, python, threat analysis, siem",2026-04-01
+183,Postman,Cloud Engineering,26601,33,48.74,43.03,"aws, kubernetes, gcp, docker",2026-06-17
+184,Postman,Cloud Engineering,28268,24,57.14,35.51,"gcp, kubernetes, docker, python",2026-03-22
+185,PhonePe,Marketing,29380,26,84.8,5.85,"copywriting, content strategy, social media, seo",2026-02-26
+186,Intel,AI/ML,24477,48,47.07,43.63,"llms, mlops, pytorch, tensorflow",2026-02-19
+187,Razorpay,Business Operations,17287,16,56.7,44.31,"reporting, project management, communication, sql",2026-04-29
+188,Microsoft,UI/UX Design,25578,36,78.41,16.19,"user research, wireframing, figma, design systems",2026-06-16
+189,TCS,Data Analytics,20735,25,51.83,39.06,"python, excel, tableau, power bi",2026-06-02
+190,Meesho,AI/ML,40649,34,90.09,14.16,"pytorch, tensorflow, llms, python",2026-06-21
+191,Druva,Marketing,28758,54,46.28,77.58,"seo, social media, copywriting, analytics",2026-03-03
+192,Swiggy,Data Science,37365,3,60.99,25.82,"sql, machine learning, statistics, python",2026-06-25
+193,Unacademy,Software Engineering,20829,23,65.54,28.06,"nodejs, sql, java, python",2026-04-27
+194,Practo,Data Science,21606,10,70.33,22.25,"machine learning, python, numpy, pandas",2026-04-06
+195,Zoho,UI/UX Design,27713,30,72.26,38.48,"figma, wireframing, prototyping, user research",2026-03-08
+196,Khatabook,Marketing,21648,7,75.06,12.42,"analytics, seo, copywriting, social media",2026-02-18
+197,Razorpay,Product Management,31994,24,37.65,49.58,"communication, roadmapping, sql, analytics",2026-04-26
+198,Razorpay,Software Engineering,14860,25,87.95,6.03,"react, sql, git, java",2026-05-28
+199,Google,Data Analytics,5000,6,48.23,39.05,"python, communication, tableau, excel",2026-06-07
+200,Myntra,Software Engineering,21892,35,62.96,32.71,"sql, java, nodejs, python",2026-06-11
+201,NVIDIA,Business Operations,25759,8,56.66,51.86,"communication, reporting, sql, excel",2026-03-27
+202,Infosys,Data Science,9929,47,55.52,37.58,"pandas, machine learning, sql, numpy",2026-06-09
+203,BrowserStack,Marketing,20453,17,69.02,39.51,"seo, analytics, content strategy, social media",2026-03-11
+204,Byju's,Data Science,23008,43,67.6,22.49,"pandas, numpy, sql, statistics",2026-04-19
+205,Swiggy,UI/UX Design,29878,19,79.61,16.22,"wireframing, prototyping, design systems, figma",2026-06-19
+206,Intel,Data Analytics,25307,3,53.94,49.67,"power bi, tableau, communication, excel",2026-05-28
+207,Flipkart,Business Operations,18610,30,52.91,61.03,"reporting, communication, project management, excel",2026-06-18
+208,PwC,AI/ML,32335,14,55.81,57.16,"statistics, pytorch, python, tensorflow",2026-05-27
+209,Razorpay,UI/UX Design,15851,30,73.36,15.82,"user research, prototyping, design systems, wireframing",2026-05-31
+210,Cognizant,Cloud Engineering,24503,20,68.19,32.84,"python, kubernetes, gcp, aws",2026-06-18
+211,Google,Marketing,26671,29,71.88,14.45,"social media, analytics, content strategy, seo",2026-03-30
+212,Microsoft,Software Engineering,25833,14,77.57,24.17,"java, sql, git, nodejs",2026-06-26
+213,BrowserStack,UI/UX Design,38286,21,58.71,55.14,"prototyping, user research, design systems, wireframing",2026-05-02
+214,Razorpay,UI/UX Design,44638,23,62.14,36.0,"user research, figma, prototyping, wireframing",2026-05-16
+215,TCS,Data Science,28746,29,88.01,19.21,"sql, pandas, numpy, machine learning",2026-03-30
+216,Groww,Cloud Engineering,12612,13,70.9,19.7,"kubernetes, gcp, aws, python",2026-05-30
+217,CRED,Business Operations,12430,12,67.91,41.08,"reporting, project management, excel, sql",2026-03-04
+218,Meesho,Data Science,30035,29,65.08,39.09,"sql, machine learning, python, pandas",2026-06-21
+219,Groww,AI/ML,11143,31,87.36,15.34,"tensorflow, python, pytorch, mlops",2026-05-03
+220,Paytm,Data Science,12138,17,64.12,33.43,"machine learning, statistics, pandas, sql",2026-03-24
+221,Paytm,Marketing,13267,10,82.99,20.59,"seo, social media, copywriting, analytics",2026-05-07
+222,Byju's,Cloud Engineering,18861,22,58.32,41.43,"kubernetes, python, aws, gcp",2026-06-22
+223,TCS,Business Operations,23605,5,65.64,24.4,"communication, excel, reporting, project management",2026-04-14
+224,Unacademy,Cybersecurity,16585,37,65.9,41.81,"python, siem, threat analysis, network security",2026-05-20
+225,Intel,Product Management,23446,14,60.03,54.79,"analytics, communication, stakeholder management, sql",2026-03-10
+226,CRED,Business Operations,20550,11,79.74,29.67,"project management, reporting, communication, sql",2026-03-23
+227,Unacademy,Business Operations,32910,15,89.29,11.15,"excel, sql, communication, project management",2026-04-25
+228,Flipkart,Cybersecurity,41376,30,49.23,57.11,"python, threat analysis, network security, siem",2026-03-21
+229,PwC,Cloud Engineering,11174,41,57.96,49.53,"docker, kubernetes, terraform, aws",2026-03-11
+230,Infosys,Business Operations,25368,40,76.66,22.09,"reporting, excel, project management, sql",2026-03-11
+231,CRED,Product Management,26235,16,54.25,48.09,"sql, stakeholder management, communication, roadmapping",2026-04-29
+232,Microsoft,Software Engineering,13667,27,35.93,76.95,"sql, python, nodejs, react",2026-06-13
+233,Intel,Data Analytics,32059,14,49.27,46.88,"excel, sql, tableau, power bi",2026-05-19
+234,Freshworks,Cybersecurity,37629,19,75.11,9.92,"siem, threat analysis, linux, python",2026-03-11
+235,Infosys,Software Engineering,17056,54,74.56,24.77,"python, nodejs, react, java",2026-06-04
+236,Intel,AI/ML,8106,10,46.25,62.19,"pytorch, mlops, tensorflow, statistics",2026-03-22
+237,Swiggy,Product Management,31696,20,39.94,48.07,"communication, sql, analytics, stakeholder management",2026-04-12
+238,Flipkart,AI/ML,16660,13,49.15,53.88,"tensorflow, python, llms, statistics",2026-03-09
+239,BrowserStack,Marketing,24999,28,63.21,25.17,"copywriting, seo, analytics, social media",2026-04-18
+240,IBM,AI/ML,29391,10,55.83,49.66,"python, llms, statistics, mlops",2026-06-03
+241,Razorpay,Cybersecurity,24737,35,51.33,55.05,"python, threat analysis, network security, linux",2026-06-25
+242,Google,Cybersecurity,22699,15,87.49,26.74,"linux, python, threat analysis, network security",2026-06-26
+243,CRED,Cybersecurity,20054,7,87.7,0.78,"network security, linux, python, threat analysis",2026-03-10
+244,Infosys,Data Science,6635,31,44.34,69.25,"statistics, numpy, pandas, machine learning",2026-02-18
+245,Myntra,Data Analytics,21570,43,56.09,42.84,"sql, tableau, python, power bi",2026-05-12
+246,Accenture,AI/ML,18012,22,55.96,36.7,"statistics, python, pytorch, tensorflow",2026-03-30
+247,Infosys,Marketing,37342,13,55.75,56.86,"seo, social media, copywriting, content strategy",2026-06-16
+248,Postman,Product Management,26356,44,50.46,36.87,"communication, roadmapping, sql, stakeholder management",2026-05-08
+249,Wipro,Marketing,24898,21,79.09,15.23,"social media, seo, content strategy, copywriting",2026-04-29
+250,Intel,Cybersecurity,21139,32,61.44,41.31,"siem, threat analysis, network security, linux",2026-04-19
+251,TCS,Cloud Engineering,22786,38,89.21,0.0,"python, docker, gcp, kubernetes",2026-02-18
+252,Zoho,Marketing,29336,19,90.44,0.0,"seo, content strategy, analytics, social media",2026-03-03
+253,Groww,AI/ML,25326,8,71.32,25.51,"python, mlops, pytorch, llms",2026-03-22
+254,Meesho,Cybersecurity,21463,39,74.94,32.12,"linux, siem, network security, threat analysis",2026-05-27
+255,Microsoft,Data Analytics,24684,21,41.88,53.87,"tableau, power bi, communication, excel",2026-05-31
+256,Google,Data Science,25972,11,60.17,56.34,"python, pandas, numpy, sql",2026-05-04
+257,Accenture,Marketing,19256,54,89.27,21.37,"copywriting, content strategy, seo, social media",2026-02-23
+258,Flipkart,Data Science,16428,9,82.33,32.15,"machine learning, numpy, python, sql",2026-03-03
+259,Meesho,Business Operations,24743,57,86.44,11.86,"reporting, excel, communication, sql",2026-04-07
+260,Zomato,Software Engineering,20433,45,61.76,45.26,"java, nodejs, git, react",2026-06-06
+261,Swiggy,UI/UX Design,32853,13,63.44,48.05,"figma, user research, prototyping, design systems",2026-05-02
+262,PhonePe,Cloud Engineering,24401,28,49.2,65.62,"gcp, kubernetes, docker, aws",2026-06-30
+263,Druva,Marketing,16244,16,45.25,49.32,"analytics, seo, content strategy, copywriting",2026-04-26
+264,Freshworks,Business Operations,30580,51,49.13,43.11,"excel, sql, reporting, communication",2026-03-13
+265,Paytm,AI/ML,26800,36,87.1,0.0,"statistics, llms, pytorch, tensorflow",2026-05-18
+266,Druva,Product Management,31584,23,62.95,24.75,"analytics, roadmapping, stakeholder management, communication",2026-04-01
+267,Deloitte,Software Engineering,26667,10,87.37,22.96,"python, java, react, nodejs",2026-04-02
+268,KPMG,Marketing,19352,49,75.16,29.71,"analytics, copywriting, content strategy, seo",2026-05-22
+269,CRED,Data Analytics,27288,28,75.31,26.55,"python, power bi, excel, communication",2026-04-01
+270,Paytm,Business Operations,5000,18,42.26,64.61,"project management, communication, reporting, excel",2026-05-02
+271,IBM,Data Analytics,40420,13,88.39,0.83,"excel, power bi, python, sql",2026-03-14
+272,Deloitte,Data Science,12029,20,46.95,58.84,"python, statistics, sql, pandas",2026-04-24
+273,Postman,UI/UX Design,38311,22,55.02,41.24,"design systems, prototyping, figma, wireframing",2026-05-23
+274,Wipro,Data Science,18792,15,49.88,38.26,"machine learning, pandas, python, numpy",2026-05-08
+275,Deloitte,Data Science,12837,21,59.59,45.02,"machine learning, pandas, python, statistics",2026-02-23
+276,Razorpay,AI/ML,15854,51,74.74,31.92,"tensorflow, llms, statistics, python",2026-05-31
+277,Accenture,Data Science,14097,22,55.57,42.26,"statistics, sql, machine learning, python",2026-03-01
+278,TCS,Data Science,28298,12,90.69,8.51,"machine learning, statistics, sql, numpy",2026-05-01
+279,Google,Cybersecurity,17022,17,56.06,42.32,"python, linux, network security, siem",2026-05-24
+280,Accenture,Business Operations,15837,10,39.89,55.43,"project management, sql, reporting, excel",2026-03-12
+281,Practo,Cloud Engineering,13359,40,67.64,24.42,"kubernetes, gcp, aws, terraform",2026-06-17
+282,Paytm,UI/UX Design,26847,47,90.41,18.84,"wireframing, figma, user research, prototyping",2026-03-30
+283,Swiggy,Product Management,25115,44,39.96,61.73,"stakeholder management, sql, roadmapping, analytics",2026-03-05
+284,Postman,Data Science,16664,10,87.72,14.16,"numpy, sql, statistics, pandas",2026-03-13
+285,PwC,Cybersecurity,16130,21,50.7,38.62,"python, network security, siem, linux",2026-04-01
+286,Accenture,Product Management,13387,33,86.13,0.0,"stakeholder management, communication, analytics, sql",2026-04-25
+287,Freshworks,Data Science,36372,20,50.36,47.15,"pandas, machine learning, statistics, sql",2026-05-09
+288,Practo,UI/UX Design,38176,40,64.37,25.4,"design systems, wireframing, figma, user research",2026-03-02
+289,PhonePe,Data Analytics,25791,7,61.02,51.52,"power bi, communication, tableau, python",2026-02-24
+290,Amazon,Cloud Engineering,18217,29,56.23,46.59,"kubernetes, terraform, docker, aws",2026-04-18
+291,Meesho,Data Analytics,21920,15,37.83,72.78,"excel, communication, python, power bi",2026-05-25
+292,Myntra,Product Management,9775,28,36.14,72.27,"roadmapping, sql, communication, stakeholder management",2026-06-27
+293,Infosys,Business Operations,23797,47,59.16,37.14,"reporting, sql, communication, project management",2026-04-27
+294,Juspay,Marketing,32805,25,64.16,40.71,"analytics, copywriting, content strategy, seo",2026-02-17
+295,Cognizant,UI/UX Design,18679,16,49.89,56.45,"user research, prototyping, figma, design systems",2026-04-27
+296,Juspay,Software Engineering,27513,28,76.11,28.55,"git, sql, react, java",2026-03-23
+297,PhonePe,Software Engineering,15012,30,86.67,18.48,"java, react, nodejs, sql",2026-06-17
+298,Khatabook,Data Science,32541,10,76.34,25.44,"statistics, numpy, python, machine learning",2026-04-23
+299,Freshworks,AI/ML,21750,35,56.19,46.38,"python, mlops, llms, tensorflow",2026-05-11
+300,Cognizant,Business Operations,15152,21,63.53,47.5,"reporting, communication, excel, project management",2026-04-06
+301,PhonePe,Data Analytics,9012,42,43.16,67.71,"sql, tableau, power bi, python",2026-06-13
+302,IBM,Data Analytics,41725,27,60.77,30.51,"python, excel, tableau, sql",2026-02-17
+303,CRED,Data Analytics,16565,50,35.27,65.75,"sql, power bi, excel, communication",2026-05-25
+304,Zoho,Software Engineering,15952,13,52.79,35.29,"git, java, python, sql",2026-05-15
+305,NVIDIA,Cybersecurity,12672,23,85.61,29.25,"python, linux, network security, threat analysis",2026-06-07
+306,TCS,Cloud Engineering,24651,13,47.04,38.62,"gcp, docker, python, aws",2026-03-21
+307,Unacademy,Cybersecurity,14316,6,72.25,13.34,"python, threat analysis, siem, network security",2026-03-15
+308,Meesho,Marketing,14494,21,27.5,85.17,"copywriting, analytics, social media, seo",2026-03-27
+309,Microsoft,Cloud Engineering,10935,14,63.37,39.9,"terraform, aws, docker, kubernetes",2026-03-15
+310,NVIDIA,Cloud Engineering,21193,11,63.29,27.94,"docker, aws, gcp, kubernetes",2026-07-06
+311,Amazon,Data Science,28070,10,79.43,7.82,"numpy, pandas, machine learning, sql",2026-03-11
+312,Groww,Cybersecurity,11768,6,84.83,25.74,"linux, python, threat analysis, network security",2026-04-01
+313,Wipro,Data Science,26358,28,55.38,42.75,"statistics, python, numpy, pandas",2026-05-11
+314,Amazon,Data Analytics,22265,18,50.49,46.08,"tableau, excel, sql, communication",2026-06-12
+315,Zomato,Software Engineering,35998,21,45.33,51.06,"python, java, sql, react",2026-06-08
+316,Postman,Data Science,32678,20,49.91,44.52,"statistics, sql, pandas, numpy",2026-03-04
+317,Practo,AI/ML,9706,8,62.47,42.44,"pytorch, statistics, python, mlops",2026-04-20
+318,BrowserStack,Data Analytics,20202,39,84.56,2.69,"excel, power bi, python, sql",2026-06-22
+319,Freshworks,Marketing,14585,37,61.17,47.87,"social media, copywriting, content strategy, seo",2026-03-08
+320,TCS,UI/UX Design,19565,9,37.04,64.43,"design systems, user research, wireframing, figma",2026-06-01
+321,Deloitte,UI/UX Design,20253,13,53.92,54.1,"user research, wireframing, figma, design systems",2026-06-12
+322,Infosys,Product Management,24023,16,66.22,30.0,"analytics, sql, roadmapping, communication",2026-05-01
+323,Meesho,Data Science,18044,45,47.29,62.45,"numpy, python, machine learning, sql",2026-05-27
+324,Amazon,Business Operations,18692,34,61.07,41.61,"communication, excel, reporting, project management",2026-06-11
+325,CRED,Marketing,26865,22,74.43,15.78,"seo, social media, analytics, content strategy",2026-04-02
+326,PwC,Marketing,14205,19,50.59,63.31,"social media, content strategy, seo, copywriting",2026-04-20
+327,BrowserStack,Business Operations,18236,40,46.45,57.27,"reporting, sql, project management, excel",2026-04-12
+328,Unacademy,Marketing,33856,30,75.49,32.33,"copywriting, social media, analytics, content strategy",2026-05-09
+329,Infosys,Cloud Engineering,20208,10,46.39,61.11,"docker, python, aws, gcp",2026-03-02
+330,Razorpay,Cybersecurity,21742,33,55.44,43.13,"threat analysis, siem, linux, python",2026-02-24
+331,BrowserStack,Product Management,25064,15,87.81,8.82,"stakeholder management, roadmapping, sql, analytics",2026-02-28
+332,Urban Company,Product Management,8004,38,78.04,23.36,"analytics, stakeholder management, communication, roadmapping",2026-05-21
+333,Paytm,Data Science,34678,9,59.42,42.27,"sql, numpy, python, pandas",2026-02-26
+334,Swiggy,UI/UX Design,18954,6,69.02,39.19,"user research, wireframing, design systems, prototyping",2026-05-09
+335,IBM,Data Science,5000,23,44.08,57.21,"numpy, pandas, sql, statistics",2026-06-25
+336,Deloitte,AI/ML,18811,17,89.17,14.38,"statistics, python, llms, tensorflow",2026-04-12
+337,Urban Company,AI/ML,22695,44,89.66,15.82,"python, mlops, tensorflow, statistics",2026-04-19
+338,TCS,Cybersecurity,33449,44,64.32,35.95,"linux, siem, python, network security",2026-05-22
+339,Zomato,Data Science,35564,23,47.01,56.87,"statistics, machine learning, python, sql",2026-03-04
+340,CRED,Marketing,19555,28,77.57,12.04,"analytics, seo, social media, copywriting",2026-03-06
+341,Paytm,Software Engineering,24803,25,86.93,10.3,"sql, nodejs, git, python",2026-04-15
+342,Amazon,Cloud Engineering,12168,23,78.09,24.48,"gcp, docker, python, aws",2026-03-04
+343,Google,Cybersecurity,18401,18,62.02,38.99,"python, linux, threat analysis, network security",2026-02-23
+344,KPMG,Cybersecurity,39931,49,66.55,35.1,"network security, python, linux, threat analysis",2026-02-18
+345,Razorpay,Cybersecurity,21814,16,86.62,23.92,"siem, threat analysis, linux, python",2026-06-01
+346,Amazon,Product Management,5000,11,83.53,29.44,"sql, roadmapping, analytics, communication",2026-03-01
+347,Microsoft,Cybersecurity,25421,48,42.31,62.36,"threat analysis, network security, python, siem",2026-05-18
+348,Urban Company,UI/UX Design,31975,16,74.53,15.04,"user research, wireframing, figma, design systems",2026-05-05
+349,Zoho,AI/ML,24805,28,82.89,6.14,"mlops, llms, statistics, pytorch",2026-04-27
+350,Druva,Cybersecurity,9689,24,71.8,15.66,"siem, threat analysis, python, network security",2026-04-01
+351,TCS,Data Science,28621,36,50.12,36.45,"sql, machine learning, pandas, statistics",2026-05-30
+352,Freshworks,Cloud Engineering,12835,42,42.63,57.4,"docker, terraform, gcp, python",2026-05-01
+353,Zomato,Product Management,22199,11,76.95,22.56,"analytics, sql, roadmapping, stakeholder management",2026-03-25
+354,KPMG,Cybersecurity,17604,13,64.52,44.22,"python, network security, threat analysis, siem",2026-04-09
+355,Practo,Data Science,17727,32,67.5,28.8,"sql, python, numpy, pandas",2026-07-05
+356,Practo,Product Management,17241,18,62.75,36.71,"communication, analytics, sql, roadmapping",2026-05-15
+357,Cognizant,Product Management,15531,10,55.65,50.87,"analytics, sql, communication, roadmapping",2026-03-28
+358,Khatabook,UI/UX Design,21407,21,71.89,25.43,"prototyping, design systems, figma, user research",2026-03-29
+359,Swiggy,Business Operations,27806,11,43.22,63.54,"reporting, excel, communication, sql",2026-05-30
+360,Khatabook,Business Operations,24128,40,47.5,49.82,"project management, sql, reporting, communication",2026-03-31
+361,Deloitte,Data Analytics,31521,7,56.97,31.29,"python, tableau, excel, power bi",2026-05-23
+362,Paytm,Data Science,16947,21,85.03,15.91,"python, machine learning, pandas, numpy",2026-02-25
+363,Infosys,Marketing,33020,28,58.98,52.27,"social media, content strategy, copywriting, analytics",2026-06-29
+364,Microsoft,AI/ML,13668,19,62.2,29.78,"tensorflow, statistics, mlops, pytorch",2026-04-22
+365,Infosys,Product Management,18415,25,64.63,31.62,"stakeholder management, sql, analytics, roadmapping",2026-03-18
+366,CRED,Data Analytics,8341,28,49.89,51.19,"python, power bi, tableau, sql",2026-04-21
+367,Byju's,Cloud Engineering,23934,17,49.47,44.73,"python, kubernetes, aws, docker",2026-06-19
+368,Freshworks,Data Science,13024,20,40.72,59.53,"sql, statistics, python, machine learning",2026-03-29
+369,Infosys,Cloud Engineering,26989,21,40.02,52.87,"terraform, gcp, kubernetes, aws",2026-06-07
+370,Practo,Business Operations,7966,15,88.91,20.7,"communication, excel, project management, sql",2026-03-02
+371,Wipro,Product Management,24025,30,73.42,22.37,"analytics, roadmapping, communication, stakeholder management",2026-03-31
+372,Juspay,AI/ML,12653,18,43.1,63.95,"statistics, llms, tensorflow, pytorch",2026-04-08
+373,Freshworks,Cybersecurity,17869,45,49.88,47.33,"network security, linux, siem, threat analysis",2026-02-17
+374,Meesho,Marketing,18739,41,74.57,39.41,"content strategy, analytics, copywriting, social media",2026-04-21
+375,TCS,Business Operations,15861,18,73.58,18.31,"reporting, excel, project management, sql",2026-04-13
+376,NVIDIA,Product Management,22698,8,39.33,73.61,"stakeholder management, analytics, communication, sql",2026-05-14
+377,PhonePe,Data Analytics,16660,32,46.79,44.3,"python, power bi, excel, sql",2026-04-24
+378,Google,Data Science,22033,29,69.99,37.94,"python, machine learning, numpy, sql",2026-06-22
+379,Druva,AI/ML,35238,25,62.98,51.56,"tensorflow, mlops, pytorch, llms",2026-04-27
+380,Accenture,Data Analytics,12141,23,62.26,38.96,"tableau, excel, communication, sql",2026-06-04
+381,Groww,Marketing,21582,29,68.12,26.65,"analytics, content strategy, copywriting, social media",2026-05-24
+382,Myntra,Product Management,22953,21,55.86,44.11,"stakeholder management, communication, analytics, sql",2026-05-14
+383,Paytm,UI/UX Design,5000,30,76.09,33.04,"wireframing, prototyping, figma, user research",2026-03-13
+384,Infosys,UI/UX Design,12337,11,42.66,69.13,"design systems, user research, prototyping, wireframing",2026-06-23
+385,Byju's,Cybersecurity,23576,9,38.42,70.99,"network security, python, linux, siem",2026-03-29
+386,KPMG,Cybersecurity,20057,17,54.62,42.74,"threat analysis, siem, linux, network security",2026-04-22
+387,EY,Cybersecurity,17654,34,85.71,10.72,"siem, threat analysis, linux, python",2026-06-10
+388,Juspay,Cloud Engineering,30517,39,39.51,55.8,"python, docker, terraform, kubernetes",2026-03-06
+389,Myntra,Cloud Engineering,32612,46,90.03,7.38,"gcp, aws, terraform, docker",2026-06-29
+390,Google,Cybersecurity,12958,12,40.87,46.04,"threat analysis, network security, python, siem",2026-05-28
+391,Google,Marketing,30816,8,52.63,39.79,"content strategy, copywriting, analytics, seo",2026-05-26
+392,Wipro,Software Engineering,28744,29,84.26,14.75,"git, react, sql, python",2026-05-10
+393,Paytm,Marketing,14565,33,64.84,39.35,"analytics, social media, copywriting, seo",2026-06-07
+394,Urban Company,Data Science,17227,15,21.63,76.53,"numpy, statistics, machine learning, sql",2026-06-01
+395,Druva,Software Engineering,30608,3,80.48,22.43,"react, git, java, sql",2026-06-06
+396,CRED,Marketing,19019,18,75.75,28.63,"content strategy, analytics, seo, copywriting",2026-03-29
+397,Practo,Product Management,23601,36,51.23,56.06,"sql, analytics, roadmapping, stakeholder management",2026-04-26
+398,NVIDIA,Data Analytics,5000,9,70.21,22.95,"excel, power bi, sql, tableau",2026-06-12
+399,Unacademy,Software Engineering,43222,14,75.77,31.05,"java, python, sql, react",2026-03-20
+400,Postman,AI/ML,24970,15,91.88,7.03,"tensorflow, python, pytorch, statistics",2026-06-23
+401,Juspay,Cybersecurity,30124,12,81.58,28.26,"siem, python, threat analysis, network security",2026-04-21
+402,PhonePe,Software Engineering,25909,20,64.7,49.76,"nodejs, git, react, python",2026-03-12
+403,Byju's,Software Engineering,15938,28,55.54,31.02,"python, java, sql, react",2026-04-07
+404,Zomato,Software Engineering,21198,35,57.56,34.73,"react, sql, java, nodejs",2026-03-18
+405,Zoho,Data Science,23919,27,38.41,65.93,"python, pandas, machine learning, statistics",2026-03-03
+406,Byju's,AI/ML,24929,35,80.91,17.25,"llms, mlops, tensorflow, statistics",2026-05-15
+407,Meesho,Data Analytics,29413,20,65.94,33.77,"python, power bi, communication, tableau",2026-05-02
+408,Myntra,UI/UX Design,16517,40,38.93,50.72,"user research, design systems, prototyping, figma",2026-03-29
+409,PwC,Marketing,20301,27,79.23,12.93,"copywriting, social media, seo, content strategy",2026-05-20
+410,Swiggy,Marketing,5517,26,58.36,36.3,"seo, copywriting, social media, analytics",2026-05-09
+411,PhonePe,Software Engineering,26081,5,72.5,28.27,"git, python, nodejs, react",2026-05-26
+412,Cognizant,Business Operations,25251,3,72.38,40.47,"communication, excel, sql, reporting",2026-04-10
+413,Accenture,AI/ML,24807,6,82.56,4.77,"statistics, python, llms, tensorflow",2026-03-06
+414,Unacademy,Product Management,16372,18,64.99,27.47,"analytics, sql, stakeholder management, roadmapping",2026-04-06
+415,EY,Business Operations,16308,19,44.51,45.9,"reporting, sql, project management, communication",2026-03-14
+416,IBM,AI/ML,10917,24,83.16,14.21,"llms, tensorflow, pytorch, statistics",2026-05-10
+417,Razorpay,Marketing,14846,33,89.81,8.61,"seo, analytics, social media, copywriting",2026-05-19
+418,Flipkart,Marketing,29148,55,35.37,79.16,"analytics, seo, copywriting, content strategy",2026-05-04
+419,BrowserStack,Marketing,5000,11,61.24,28.44,"copywriting, content strategy, seo, social media",2026-02-25
+420,Google,Cybersecurity,15674,25,76.85,29.85,"siem, python, linux, network security",2026-04-12
+421,Intel,Business Operations,36142,18,87.55,7.49,"communication, project management, excel, reporting",2026-03-02
+422,Infosys,Business Operations,25383,27,38.09,62.65,"project management, sql, communication, excel",2026-05-24
+423,Accenture,Data Analytics,9271,50,40.13,57.82,"excel, communication, power bi, sql",2026-06-25
+424,Accenture,UI/UX Design,5000,24,39.85,60.21,"prototyping, design systems, wireframing, figma",2026-04-24
+425,Juspay,UI/UX Design,18953,27,49.04,38.11,"user research, figma, wireframing, prototyping",2026-06-30
+426,KPMG,Cloud Engineering,17680,17,54.64,50.02,"aws, docker, kubernetes, terraform",2026-05-09
+427,Urban Company,Data Analytics,36188,12,43.89,62.96,"communication, sql, excel, power bi",2026-05-22
+428,NVIDIA,Data Analytics,26110,3,52.39,46.74,"communication, python, excel, sql",2026-03-16
+429,Practo,Marketing,22022,27,74.62,30.43,"copywriting, seo, content strategy, social media",2026-03-24
+430,NVIDIA,Software Engineering,11907,12,16.77,92.45,"nodejs, git, python, sql",2026-04-26
+431,PwC,Cybersecurity,22924,51,86.52,13.02,"network security, siem, threat analysis, python",2026-03-13
+432,TCS,Marketing,29776,6,52.38,47.32,"seo, analytics, social media, content strategy",2026-07-01
+433,Intel,AI/ML,23916,22,70.67,40.69,"python, statistics, tensorflow, llms",2026-03-03
+434,Deloitte,Data Analytics,44052,42,40.0,56.46,"python, excel, tableau, sql",2026-03-23
+435,Swiggy,Business Operations,15802,26,65.91,25.3,"project management, sql, excel, communication",2026-06-10
+436,Flipkart,Marketing,25086,19,72.41,29.54,"seo, copywriting, social media, content strategy",2026-03-25
+437,TCS,Data Analytics,23595,19,52.29,55.08,"communication, power bi, excel, sql",2026-06-01
+438,Flipkart,Data Science,5599,11,69.52,33.85,"pandas, python, numpy, sql",2026-04-25
+439,Flipkart,UI/UX Design,11101,31,45.49,51.14,"prototyping, design systems, figma, user research",2026-05-22
+440,Infosys,Cloud Engineering,21840,45,47.69,57.45,"aws, gcp, python, kubernetes",2026-06-01
+441,Druva,Business Operations,15886,42,58.08,28.18,"communication, reporting, sql, excel",2026-06-05
+442,Microsoft,Marketing,7145,20,85.03,7.34,"seo, social media, analytics, copywriting",2026-02-26
+443,NVIDIA,Product Management,6565,34,61.3,36.38,"roadmapping, analytics, sql, stakeholder management",2026-04-30
+444,BrowserStack,Data Science,28160,9,42.71,54.69,"pandas, machine learning, statistics, sql",2026-07-05
+445,Meesho,Data Science,16807,31,75.95,12.76,"machine learning, numpy, python, sql",2026-03-29
+446,BrowserStack,Cloud Engineering,32339,26,56.58,39.83,"docker, terraform, aws, gcp",2026-03-28
+447,Paytm,Data Analytics,22311,15,51.46,38.96,"excel, sql, power bi, python",2026-06-10
+448,Druva,UI/UX Design,19422,39,81.02,22.21,"prototyping, wireframing, design systems, user research",2026-07-05
+449,Google,UI/UX Design,21260,41,70.33,31.4,"figma, prototyping, design systems, user research",2026-04-28
+450,Wipro,AI/ML,21454,10,73.02,37.12,"python, llms, statistics, pytorch",2026-02-24
+451,Zomato,Data Analytics,16830,30,90.08,17.4,"sql, communication, power bi, excel",2026-04-02
+452,PwC,AI/ML,12296,37,83.07,3.88,"python, tensorflow, statistics, mlops",2026-06-05
+453,Practo,Cloud Engineering,23367,7,91.27,8.24,"python, docker, kubernetes, terraform",2026-07-01
+454,Meesho,AI/ML,27305,23,87.85,15.58,"llms, mlops, statistics, python",2026-05-17
+455,Freshworks,Business Operations,16269,2,61.5,47.4,"sql, communication, project management, excel",2026-02-22
+456,EY,AI/ML,5000,24,35.64,55.39,"python, tensorflow, statistics, mlops",2026-04-11
+457,IBM,Marketing,22420,16,54.32,49.82,"analytics, social media, content strategy, seo",2026-05-28
+458,Khatabook,Data Analytics,18089,11,85.85,15.26,"tableau, sql, power bi, communication",2026-06-13
+459,Byju's,AI/ML,16671,30,38.77,50.71,"tensorflow, mlops, pytorch, llms",2026-05-17
+460,PwC,Business Operations,20777,12,84.28,23.26,"reporting, excel, sql, project management",2026-03-17
+461,Druva,Data Science,27522,38,47.32,46.75,"python, pandas, statistics, sql",2026-05-04
+462,TCS,Marketing,16617,36,43.78,51.42,"copywriting, analytics, content strategy, seo",2026-06-24
+463,Practo,Data Science,20102,32,57.09,53.85,"numpy, python, sql, pandas",2026-06-13
+464,Wipro,UI/UX Design,18175,9,36.28,71.47,"prototyping, user research, figma, wireframing",2026-05-06
+465,Myntra,Cybersecurity,8509,29,19.34,79.04,"siem, linux, python, threat analysis",2026-04-26
+466,Swiggy,Cybersecurity,19226,47,67.72,22.42,"linux, python, network security, threat analysis",2026-04-29
+467,Khatabook,Software Engineering,24113,18,59.31,31.06,"react, sql, git, java",2026-03-10
+468,PhonePe,AI/ML,20530,31,39.48,73.21,"statistics, pytorch, python, tensorflow",2026-07-02
+469,Microsoft,UI/UX Design,10318,31,61.82,51.6,"design systems, user research, prototyping, wireframing",2026-06-15
+470,Deloitte,Data Analytics,25347,35,60.84,25.07,"power bi, tableau, python, sql",2026-05-10
+471,EY,Cybersecurity,18690,9,53.57,50.91,"threat analysis, python, siem, linux",2026-03-15
+472,Zoho,Product Management,19451,24,56.88,38.34,"communication, sql, analytics, stakeholder management",2026-06-19
+473,Zoho,Marketing,27532,32,41.52,61.37,"seo, social media, copywriting, content strategy",2026-06-20
+474,Cognizant,Cloud Engineering,32542,26,34.0,73.95,"terraform, gcp, aws, docker",2026-05-24
+475,Urban Company,Data Analytics,14198,25,46.72,64.6,"communication, power bi, tableau, python",2026-04-07
+476,Google,AI/ML,20447,25,58.04,30.79,"tensorflow, statistics, python, mlops",2026-06-26
+477,EY,Marketing,27027,5,75.03,21.8,"social media, copywriting, content strategy, analytics",2026-06-06
+478,Razorpay,Marketing,26143,29,42.93,58.74,"analytics, social media, seo, content strategy",2026-06-17
+479,Flipkart,Data Analytics,33536,10,72.5,41.75,"excel, tableau, python, power bi",2026-06-20
+480,CRED,Business Operations,22842,27,64.04,37.52,"reporting, sql, excel, communication",2026-06-12
+481,Infosys,Business Operations,8325,13,50.35,62.45,"excel, project management, reporting, sql",2026-06-24
+482,Amazon,AI/ML,14711,25,43.1,63.84,"tensorflow, mlops, python, llms",2026-03-08
+483,Google,Business Operations,22338,29,73.99,27.18,"project management, excel, sql, communication",2026-03-07
+484,Groww,UI/UX Design,33286,22,67.72,27.23,"user research, design systems, figma, wireframing",2026-06-16
+485,Intel,Business Operations,20514,7,67.95,34.23,"reporting, excel, sql, project management",2026-06-17
+486,Flipkart,Data Science,11803,22,49.37,54.11,"numpy, python, sql, statistics",2026-04-28
+487,Swiggy,Data Analytics,17846,11,62.64,46.34,"power bi, sql, excel, communication",2026-04-17
+488,Druva,Data Analytics,15531,33,78.91,13.23,"communication, excel, python, power bi",2026-06-01
+489,Accenture,AI/ML,13589,9,61.45,37.84,"statistics, pytorch, mlops, tensorflow",2026-03-30
+490,Khatabook,Cloud Engineering,11533,14,84.61,0.75,"kubernetes, python, docker, terraform",2026-07-01
+491,Microsoft,Software Engineering,31906,48,69.8,34.76,"git, nodejs, python, java",2026-06-06
+492,Juspay,Business Operations,16367,20,76.86,25.81,"reporting, sql, communication, excel",2026-04-18
+493,Cognizant,Software Engineering,25617,9,55.04,51.72,"python, nodejs, react, sql",2026-06-10
+494,Razorpay,Business Operations,22272,48,75.36,13.24,"sql, communication, reporting, excel",2026-03-19
+495,Paytm,Data Science,21811,46,87.59,5.7,"statistics, numpy, sql, python",2026-06-12
+496,Myntra,Data Science,30971,34,57.15,57.73,"numpy, pandas, machine learning, python",2026-05-24
+497,PhonePe,UI/UX Design,18141,22,65.82,32.12,"figma, wireframing, user research, prototyping",2026-03-24
+498,Wipro,Data Science,18795,7,79.3,6.26,"statistics, python, sql, numpy",2026-04-21
+499,Myntra,Cloud Engineering,26148,18,64.38,48.82,"kubernetes, python, gcp, docker",2026-02-16
+500,Infosys,Product Management,27832,18,41.91,59.15,"stakeholder management, communication, analytics, roadmapping",2026-06-19
+501,KPMG,Data Science,5000,8,78.35,15.35,"sql, python, machine learning, numpy",2026-06-13
+502,Intel,Product Management,17602,30,70.95,24.83,"sql, analytics, roadmapping, stakeholder management",2026-03-15
+503,TCS,Product Management,19972,21,80.19,24.12,"sql, roadmapping, communication, analytics",2026-03-04
+504,Deloitte,Software Engineering,11467,35,58.11,33.24,"react, sql, java, git",2026-02-26
+505,Freshworks,Business Operations,23952,10,42.29,81.2,"sql, excel, project management, communication",2026-02-20
+506,Zomato,UI/UX Design,21002,38,81.61,6.58,"design systems, prototyping, figma, user research",2026-03-04
+507,Deloitte,Cloud Engineering,30560,29,41.89,63.64,"docker, aws, gcp, python",2026-05-10
+508,Deloitte,Data Analytics,5000,7,43.05,54.4,"python, excel, tableau, sql",2026-04-27
+509,Wipro,Business Operations,31470,27,79.33,6.14,"excel, project management, communication, reporting",2026-05-23
+510,NVIDIA,Business Operations,32522,19,74.46,16.72,"project management, communication, sql, excel",2026-06-17
+511,Wipro,Data Analytics,11541,26,70.75,37.73,"sql, python, excel, communication",2026-03-10
+512,Practo,Data Science,14769,51,84.18,30.43,"machine learning, pandas, numpy, python",2026-05-19
+513,Amazon,Product Management,25511,50,63.36,26.43,"roadmapping, stakeholder management, analytics, communication",2026-06-17
+514,Meesho,Cloud Engineering,10353,16,37.47,69.74,"aws, python, gcp, terraform",2026-06-12
+515,Amazon,Marketing,27288,20,58.89,48.53,"content strategy, seo, copywriting, social media",2026-05-10
+516,Zoho,Data Science,24523,32,56.41,35.21,"machine learning, python, statistics, sql",2026-04-08
+517,Groww,Product Management,25379,20,71.03,43.24,"analytics, roadmapping, stakeholder management, sql",2026-04-06
+518,Flipkart,Cybersecurity,28959,9,61.14,29.0,"linux, siem, threat analysis, network security",2026-06-15
+519,Byju's,Business Operations,24085,39,84.15,7.35,"communication, reporting, excel, sql",2026-06-21
+520,Zoho,Product Management,19311,16,85.83,16.92,"communication, roadmapping, analytics, sql",2026-04-13
+521,Khatabook,Software Engineering,21017,19,62.32,46.62,"sql, nodejs, java, python",2026-05-27
+522,Infosys,Marketing,12574,30,89.15,0.0,"seo, copywriting, content strategy, analytics",2026-05-31
+523,Groww,Data Analytics,30323,4,61.43,27.72,"excel, power bi, tableau, python",2026-06-12
+524,Cognizant,Software Engineering,11666,18,65.26,28.64,"nodejs, react, java, git",2026-05-12
+525,Deloitte,Data Science,21759,47,85.61,2.71,"sql, python, numpy, pandas",2026-05-20
+526,Byju's,Data Analytics,19324,31,42.89,52.16,"communication, tableau, excel, power bi",2026-04-09
+527,IBM,Product Management,18204,29,38.1,58.08,"communication, roadmapping, analytics, stakeholder management",2026-04-27
+528,KPMG,UI/UX Design,27041,36,45.74,65.78,"wireframing, prototyping, design systems, figma",2026-03-04
+529,Zomato,Data Science,19993,22,64.68,39.14,"statistics, sql, pandas, machine learning",2026-04-09
+530,Postman,AI/ML,34200,20,51.62,35.27,"pytorch, statistics, tensorflow, llms",2026-02-21
+531,Deloitte,Business Operations,14149,21,82.99,15.37,"sql, reporting, excel, project management",2026-07-01
+532,Khatabook,Product Management,10328,17,78.88,7.54,"sql, analytics, stakeholder management, roadmapping",2026-04-30
+533,NVIDIA,Marketing,24050,31,44.19,44.32,"copywriting, content strategy, social media, analytics",2026-03-27
+534,Paytm,AI/ML,26524,12,72.94,41.4,"mlops, statistics, pytorch, tensorflow",2026-02-24
+535,Amazon,Cybersecurity,29149,22,89.02,23.81,"threat analysis, linux, python, siem",2026-03-25
+536,NVIDIA,UI/UX Design,18094,50,80.58,26.28,"user research, figma, design systems, prototyping",2026-03-25
+537,Flipkart,Software Engineering,20256,5,35.42,56.97,"java, git, nodejs, python",2026-04-13
+538,Unacademy,Data Science,18412,39,90.62,6.21,"sql, statistics, python, numpy",2026-03-10
+539,Juspay,AI/ML,31384,17,35.69,59.65,"mlops, statistics, python, llms",2026-05-22
+540,Postman,UI/UX Design,34571,36,44.34,62.5,"wireframing, prototyping, user research, figma",2026-04-30
+541,Razorpay,Data Analytics,14161,23,38.77,75.03,"sql, communication, tableau, power bi",2026-05-12
+542,Postman,Cybersecurity,44557,11,75.48,32.17,"siem, python, threat analysis, linux",2026-06-14
+543,Intel,Software Engineering,25451,24,47.8,60.94,"git, sql, python, nodejs",2026-06-14
+544,Postman,Cybersecurity,16129,11,36.62,71.32,"network security, linux, python, siem",2026-04-19
+545,CRED,Business Operations,29615,21,31.29,74.61,"sql, reporting, project management, excel",2026-03-18
+546,Zomato,AI/ML,13719,6,58.91,53.45,"tensorflow, llms, python, statistics",2026-05-19
+547,Paytm,Product Management,22996,11,84.73,25.08,"stakeholder management, communication, sql, analytics",2026-05-09
+548,Unacademy,Data Science,11234,25,35.74,64.81,"machine learning, statistics, numpy, python",2026-03-24
+549,Razorpay,Data Science,25191,12,83.23,23.15,"python, machine learning, sql, statistics",2026-06-30
+550,Flipkart,Data Science,26668,45,54.85,50.88,"machine learning, sql, numpy, python",2026-06-18
+551,TCS,Cybersecurity,21860,10,74.22,20.0,"network security, python, linux, threat analysis",2026-03-24
+552,TCS,Data Science,17982,34,37.42,50.81,"sql, statistics, python, pandas",2026-06-06
+553,Meesho,Data Science,28529,3,79.6,33.01,"pandas, statistics, numpy, python",2026-03-12
+554,Swiggy,Data Science,23820,39,89.08,6.35,"sql, statistics, pandas, numpy",2026-04-28
+555,Cognizant,Business Operations,30537,4,75.8,38.13,"project management, excel, reporting, communication",2026-04-12
+556,BrowserStack,Product Management,28130,39,55.89,46.79,"roadmapping, analytics, sql, stakeholder management",2026-06-17
+557,Razorpay,Cloud Engineering,13846,34,42.05,46.26,"docker, python, gcp, kubernetes",2026-05-07
+558,Druva,AI/ML,21267,9,61.05,46.04,"mlops, pytorch, llms, statistics",2026-04-29
+559,PhonePe,Cloud Engineering,32553,36,45.22,69.74,"gcp, kubernetes, terraform, docker",2026-05-21
+560,Amazon,Data Science,8703,10,74.62,39.71,"pandas, python, numpy, sql",2026-05-29
+561,PhonePe,AI/ML,5000,9,76.34,17.02,"statistics, llms, tensorflow, mlops",2026-06-04
+562,EY,Cloud Engineering,8257,21,91.29,9.05,"kubernetes, gcp, terraform, aws",2026-05-30
+563,Druva,UI/UX Design,24297,5,57.07,40.3,"user research, prototyping, wireframing, figma",2026-03-01
+564,Practo,Data Science,40975,34,46.51,58.35,"numpy, sql, statistics, machine learning",2026-06-15
+565,TCS,Marketing,23937,19,56.87,37.57,"social media, seo, copywriting, analytics",2026-03-18
+566,Intel,Marketing,21404,41,63.01,26.02,"social media, seo, analytics, content strategy",2026-03-30
+567,Unacademy,Marketing,13826,39,38.18,54.72,"social media, analytics, content strategy, copywriting",2026-06-25
+568,TCS,Software Engineering,18014,25,82.71,12.76,"python, git, sql, nodejs",2026-03-20
+569,EY,Cloud Engineering,30233,7,49.11,55.33,"python, gcp, docker, terraform",2026-04-19
+570,Zomato,AI/ML,21582,4,37.13,67.6,"statistics, mlops, tensorflow, python",2026-05-10
+571,TCS,UI/UX Design,29761,18,81.07,6.93,"user research, wireframing, design systems, prototyping",2026-03-13
+572,Intel,Data Analytics,21303,17,46.5,57.56,"sql, python, excel, tableau",2026-06-07
+573,Accenture,Cybersecurity,18940,36,75.91,26.44,"linux, network security, threat analysis, siem",2026-03-11
+574,Razorpay,Cloud Engineering,31985,17,72.14,21.92,"kubernetes, terraform, docker, gcp",2026-03-07
+575,Juspay,Cloud Engineering,21923,29,45.29,40.26,"aws, terraform, kubernetes, gcp",2026-07-06
+576,Myntra,UI/UX Design,31628,46,81.11,29.47,"design systems, figma, user research, wireframing",2026-07-02
+577,Groww,AI/ML,24737,30,83.11,14.19,"python, pytorch, mlops, statistics",2026-05-03
+578,Zomato,Cybersecurity,25657,14,58.13,30.27,"siem, linux, threat analysis, python",2026-04-17
+579,CRED,Marketing,6661,12,42.78,49.98,"copywriting, content strategy, analytics, seo",2026-04-26
+580,TCS,UI/UX Design,30180,6,24.13,75.37,"figma, wireframing, user research, design systems",2026-03-09
+581,Amazon,Product Management,13498,9,49.35,62.18,"roadmapping, stakeholder management, analytics, sql",2026-06-30
+582,CRED,Product Management,17935,12,44.98,69.11,"stakeholder management, roadmapping, analytics, communication",2026-03-15
+583,IBM,Data Science,13292,13,85.13,27.98,"statistics, numpy, sql, python",2026-04-28
+584,Wipro,Business Operations,19426,38,74.37,34.3,"project management, communication, sql, reporting",2026-03-01
+585,Unacademy,Data Science,32591,18,87.87,24.67,"pandas, numpy, statistics, python",2026-05-27
+586,IBM,UI/UX Design,10279,41,79.99,13.23,"wireframing, design systems, user research, prototyping",2026-05-31
+587,CRED,AI/ML,32595,37,63.86,31.69,"statistics, tensorflow, mlops, llms",2026-04-23
+588,Accenture,Software Engineering,11636,28,70.92,37.81,"sql, java, git, react",2026-04-04
+589,Google,Business Operations,26651,31,83.28,22.3,"reporting, communication, sql, excel",2026-03-21
+590,Paytm,Cybersecurity,25888,30,80.57,10.39,"siem, python, threat analysis, network security",2026-05-10
+591,TCS,Software Engineering,32225,27,90.53,0.42,"java, python, sql, git",2026-03-10
+592,Meesho,Cloud Engineering,16636,10,17.42,85.21,"kubernetes, python, gcp, terraform",2026-05-21
+593,PhonePe,Product Management,35825,14,56.78,41.16,"analytics, stakeholder management, sql, roadmapping",2026-06-22
+594,Paytm,Cloud Engineering,17125,19,36.64,77.64,"kubernetes, aws, docker, python",2026-03-25
+595,Google,UI/UX Design,26268,16,74.15,32.25,"design systems, user research, figma, wireframing",2026-05-28
+596,Accenture,Marketing,22277,6,61.84,33.79,"copywriting, seo, social media, content strategy",2026-04-17
+597,PwC,Marketing,19403,17,68.09,24.72,"analytics, social media, seo, copywriting",2026-02-26
+598,Practo,AI/ML,29583,19,41.66,44.66,"tensorflow, llms, mlops, pytorch",2026-04-23
+599,Meesho,Cybersecurity,13489,11,78.53,11.01,"python, network security, threat analysis, linux",2026-06-21
+600,Freshworks,Software Engineering,21088,11,49.83,56.35,"sql, python, nodejs, java",2026-06-16
